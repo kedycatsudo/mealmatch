@@ -1,0 +1,45 @@
+/* Base styles for all buttons */
+.btn {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+/* Variants */
+.btn-primary {
+  width: 100px;
+  height: 30px;
+  background-color: #005d1c; /* blue-600 */
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #1d4ed8; /* blue-700 */
+}
+
+.btn-secondary {
+  background-color: #e5e7eb; /* gray-200 */
+  color: #1f2937; /* gray-800 */
+}
+.btn-secondary:hover {
+  background-color: #d1d5db; /* gray-300 */
+}
+
+.btn-danger {
+  background-color: #dc2626; /* red-600 */
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #b91c1c; /* red-700 */
+}
+
+.btn-outline {
+  border: 1px solid #9ca3af; /* gray-400 */
+  color: #1f2937; /* gray-800 */
+  background-color: transparent;
+}
+.btn-outline:hover {
+  background-color: #f3f4f6; /* gray-100 */
+}
