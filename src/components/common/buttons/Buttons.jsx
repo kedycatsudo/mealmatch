@@ -4,11 +4,12 @@ export default function Button({
   variant = 'primary ',
   children,
   className = '',
+  text,
   ...props
 }) {
   return (
     <button className={`btn btn-${variant} ${className}`} {...props}>
-      Button
+      {text}
     </button>
   )
 }
