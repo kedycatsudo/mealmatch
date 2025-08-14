@@ -1,0 +1,33 @@
+.container {
+  padding: 20px 0;
+  border: none;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  background-color: #c3e3a3;
+}
+.container__slogan {
+  font-weight: 300;
+  text-align: center;
+  margin: 0;
+  font-size: 100px;
+  white-space: normal;
+}
+.container__sloganbtns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container__buttons {
+  gap: 20px;
+  display: flex;
+}
+.container__introduction {
+  font-size: 25px;
+  display: flex;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

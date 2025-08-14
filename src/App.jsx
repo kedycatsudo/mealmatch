@@ -1,16 +1,18 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
+import HomePage from './pages/home/Home'
 import './App.css'
-import Button from './components/common/buttons/Buttons'
-import PageHeader from './components/layout/pageHeader/PageHeader'
+import HomePageHeader from './components/layout/pageHeaders/homepageHeader/HomePageHeader'
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className="page">
-      <div className="page__content">
-        <PageHeader></PageHeader>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage></HomePage>}></Route>
+        <Route path="/home" element={<HomePage></HomePage>}></Route>
+      </Routes>
+    </Router>
   )
 }
 

@@ -1,0 +1,15 @@
+.container__seperation {
+  border: none;
+  border-radius: 12px;
+  background-color: #005d1c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container__seperation-text {
+  text-align: center;
+  color: white;
+  font-size: 60px;
+  margin: 0;
+  font-weight: 100;
+}
