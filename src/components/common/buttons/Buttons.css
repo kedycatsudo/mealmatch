@@ -2,10 +2,10 @@
 .btn {
   background-color: #005d1c; /* blue-600 */
   color: white;
-  font-size: 16px;
-  width: 125px;
+  font-size: 25px;
+  width: fit-content;
   height: 75px;
-  padding: 8px 16px;
+  padding: 10px;
   border-radius: 12px;
   cursor: pointer;
   border: none;
@@ -29,6 +29,7 @@
   height: 50px;
 }
 .btn-secondary:hover {
+  color: black;
   background-color: #d1d5db; /* gray-300 */
 }
 

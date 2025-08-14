@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import HomePage from './pages/home/Home'
 import './App.css'
-import HomePageHeader from './components/layout/pageHeaders/homepageHeader/HomePageHeader'
 function App() {
   const [count, setCount] = useState(0)
 
