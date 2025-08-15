@@ -1,0 +1,6 @@
+export { default as SearchIcon } from './Search.svg'
+export { default as CheckIcon } from './check.svg'
+export { default as Dollar } from './dollar.svg'
+export { default as Globe } from './Globe.svg'
+export { default as ChefSvg } from '../images/chef.svg'
+export { default as ArrowRight } from './ArrowRight.svg'

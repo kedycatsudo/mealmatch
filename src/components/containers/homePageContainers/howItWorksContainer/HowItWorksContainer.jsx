@@ -1,10 +1,13 @@
 import './HowItWorksContainer.css'
-import SearchIcon from '../../../../assets/icons/Search.svg'
-import CheckIcon from '../../../../assets/icons/check.svg'
-import Dollar from '../../../../assets/icons/dollar.svg'
-import Globe from '../../../../assets/icons/Globe.svg'
+import {
+  SearchIcon,
+  CheckIcon,
+  Dollar,
+  Globe,
+  ChefSvg,
+} from '../../../../assets/icons/index'
 import Button from '../../../common/buttons/Buttons'
-import ChefSvg from '../../../../assets/images/chef.svg'
+
 const HowItWorksContainer = ({}) => (
   <div className="howItWorks__container">
     <ul className="howItWorks__container_cards-list">

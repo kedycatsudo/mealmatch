@@ -14,10 +14,7 @@ const HomePageHeader = ({
       <img className="meal__match-logo" src={logo}></img>
       <div className="header__buttons">
         <Button text={'Login/Register'} variant="secondary"></Button>
-        <Button
-          text={'Become A Partner with Karm'}
-          variant="karm__adds"
-        ></Button>
+        <Button text={'Become A Participant'} variant="karm__adds"></Button>
       </div>
     </div>
   </header>

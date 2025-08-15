@@ -4,7 +4,7 @@ export default function Button({
   variant = 'primary ',
   children,
   className = '',
-  text,
+  text = '',
   ...props
 }) {
   return (
