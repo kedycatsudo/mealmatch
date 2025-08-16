@@ -1,0 +1,18 @@
+.participantsContainer__container {
+  display: grid;
+  background-color: #c3e3a3;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+}
+.participantsContainer__container_list {
+  list-style-type: none;
+  display: flex;
+  gap: 50px;
+  justify-content: flex-start;
+  align-items: center;
+}
+.participantsContainer__container_list-item-participant {
+  font-size: 50px;
+  margin: 0;
+  padding: 0;
+}
