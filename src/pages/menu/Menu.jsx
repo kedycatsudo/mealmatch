@@ -1,0 +1,16 @@
+import Button from '../../components/common/buttons/Buttons'
+import { menuButtons } from './MenuButtons'
+import './Menu.css'
+const Menu = ({}) => (
+  <div className="menu__container">
+    {menuButtons.map((btn) => (
+      <Button
+        text={btn.text}
+        key={btn.id}
+        variant={btn.variant}
+        onClick={btn.onClick}
+      ></Button>
+    ))}
+  </div>
+)
+export default Menu

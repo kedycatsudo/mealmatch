@@ -5,6 +5,8 @@ export default function Button({
   children,
   className = '',
   text = '',
+  onClick = {},
+  karmDonor = false,
   ...props
 }) {
   return (

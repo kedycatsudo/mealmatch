@@ -3,6 +3,7 @@ import HowItWorkContainer from '../../../containers/homePageContainers/howItWork
 import TestimonialCardsContainer from '../../../containers/homePageContainers/testimonialCardsContainer/TestimonialCarsContainer'
 import IntroContainer from '../../../containers/homePageContainers/introContainer/IntroContainer'
 import ParticipantsContainer from '../../../containers/homePageContainers/participantsContainer/ParticipantsContainer'
+import HomePageFooter from '../../pageFooters/homePageFooter/HomePageFooter'
 const HomePageMain = ({}) => (
   <>
     <IntroContainer></IntroContainer>
@@ -12,6 +13,7 @@ const HomePageMain = ({}) => (
     <TestimonialCardsContainer></TestimonialCardsContainer>
     <ContainerSeperation text={`Participants`}></ContainerSeperation>
     <ParticipantsContainer></ParticipantsContainer>
+    <HomePageFooter></HomePageFooter>
   </>
 )
 export default HomePageMain

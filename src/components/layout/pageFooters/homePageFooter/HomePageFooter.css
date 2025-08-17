@@ -1,0 +1,29 @@
+.homefooter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 25px;
+}
+.homefooter__social {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 0;
+  margin: 0;
+}
+.homefoote__paragraph {
+  font-size: 30px;
+}
+.homefooter__logos {
+  display: flex;
+  flex-direction: column;
+}
+.homefooter__list {
+}
+.homefooter__list-item {
+}
+.homefooter__logo {
+  width: 150px;
+  height: 150px;
+}

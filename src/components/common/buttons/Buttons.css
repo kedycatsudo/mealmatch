@@ -20,9 +20,18 @@
 }
 .btn-primary:hover {
 }
-.btn-karm__adds {
-  background-color: #ffb005;
-  opacity: 1;
+.btn-menu__button {
+  background-color: #d9d9d9;
+  color: black;
+  width: 100%;
+  height: 100%;
+}
+.btn-menu__button:hover {
+  background-color: #008345;
+  color: white;
+}
+.btn-menu-item {
+  min-width: auto;
 }
 
 .btn-secondary {
