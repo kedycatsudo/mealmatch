@@ -2,6 +2,7 @@ import './HomePageHeader.css'
 import Button from '../../../common/buttons/Buttons'
 import logo from '../../../../assets/logos/logo.png'
 import { useNavigate } from 'react-router-dom'
+import About from '../../../../pages/about/About'
 
 const HomePageHeader = ({
   //defaults
@@ -12,7 +13,7 @@ const HomePageHeader = ({
   ...props
 }) => {
   const navigate = useNavigate()
-  const navigateLogin = ({}) => navigate('/login')
+  const navigatePages = (index) => navigate(`/${index}`)
 
   return (
     <header className="homepage__header">
@@ -20,12 +21,12 @@ const HomePageHeader = ({
         <img className="meal__match-logo" src={logo}></img>
         <div className="header__buttons">
           <Button
-            onClick={navigateLogin}
+            onClick={() => navigatePages('login')}
             text={'Login/Register'}
             variant="secondary"
           ></Button>
           <Button
-            onClick={navigateLogin}
+            onClick={() => navigatePages('about')}
             text={'About Meal Match'}
             variant="secondary"
           ></Button>

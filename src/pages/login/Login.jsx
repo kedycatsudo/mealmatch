@@ -2,11 +2,21 @@ import './Login.css'
 import React, { useState } from 'react'
 import Input from '../../components/common/inputs/Inputs'
 import Button from '../../components/common/buttons/Buttons'
+import Checkbox from '../../components/common/checbox/Checkbox'
+import { FaLessThan } from 'react-icons/fa'
 
 function Login() {
-  const [formData, setFormData] = useState({ userName: '', password: '' })
+  const [formData, setFormData] = useState({
+    userName: '',
+    password: '',
+    rememberMe: false,
+  })
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value })
+    const { id, value, type, checked } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [id]: type === 'checkbox' ? checked : value,
+    }))
   }
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -18,6 +28,7 @@ function Login() {
       body: JSON.stringify({
         username: formData.userName,
         password: formData.password,
+        rememberMe: formData.rememberMe,
       }),
     })
       .then((res) => {
@@ -71,14 +82,14 @@ function Login() {
             type="submit"
           ></Button>
         </div>
-        <div className="login__container-rememberme">
-          <span className="login__container-span">Remember me</span>
-          <input
-            type="checkbox"
+        <div className="login__container-rememberme-container">
+          <Checkbox
             id="rememberMe"
-            //checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-          ></input>
+            onChange={handleChange}
+            checked={formData.rememberMe}
+            text="Remember me"
+            type="checkbox"
+          ></Checkbox>
         </div>
       </form>
     </div>
