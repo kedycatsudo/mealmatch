@@ -30,11 +30,11 @@
 }
 .forgot-password-link {
   text-decoration: none;
-  color: white;
+  color: #005d1c;
   font-size: 20px;
 }
 .forgot-password-link:hover {
-  color: #005d1c;
+  color: white;
 }
 .login__button-container-usernamepasswd {
   display: flex;

@@ -7,8 +7,9 @@ const bestFourParticipant = participants.slice(-4)
 const ParticipantsContainer = ({ participantName }) => (
   <div className="participantsContainer__container">
     <ul className="participantsContainer__container_list">
-      {bestFourParticipant.map((participant) => (
+      {bestFourParticipant.map((participant, idx) => (
         <ParticipantContainerItem
+          key={idx}
           participantName={participant.profileInfo.basic.name}
         ></ParticipantContainerItem>
       ))}

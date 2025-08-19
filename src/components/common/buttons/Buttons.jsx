@@ -5,7 +5,7 @@ export default function Button({
   children,
   className = '',
   text = '',
-  onClick = {},
+  onClick,
   karmDonor = false,
   type = '',
   ...props
@@ -14,6 +14,7 @@ export default function Button({
     <button
       type={type}
       className={`btn btn-${variant} ${className}`}
+      onClick={onClick}
       {...props}
     >
       {text}
