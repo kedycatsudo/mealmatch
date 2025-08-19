@@ -4,12 +4,16 @@
   color: white;
   font-size: 25px;
   width: fit-content;
-  height: 75px;
+  text-align: center;
+  height: 50px;
   padding: 10px;
   border-radius: 12px;
   cursor: pointer;
   border: none;
   transition: background-color 0.2s ease;
+}
+.btn__text {
+  font-size: 75px;
 }
 
 /* Variants */
@@ -30,9 +34,6 @@
   background-color: #008345;
   color: white;
 }
-.btn-menu-item {
-  min-width: auto;
-}
 
 .btn-secondary {
   height: 50px;
@@ -42,19 +43,21 @@
   background-color: #d1d5db; /* gray-300 */
 }
 
-.btn-danger {
-  background-color: #dc2626; /* red-600 */
+.btn-login__button-container-submit {
+  font-size: 25px;
+  margin: 0 auto;
   color: white;
+  width: 350px;
+  text-align: center;
+  border-radius: 12px;
 }
-.btn-danger:hover {
-  background-color: #b91c1c; /* red-700 */
+.btn-login__button-container-submit:hover {
+  background-color: #d9d9d9;
+  color: #005d1c;
 }
-
-.btn-outline {
-  border: 1px solid #9ca3af; /* gray-400 */
-  color: #1f2937; /* gray-800 */
-  background-color: transparent;
+.btn-login__button-container-forgot {
 }
-.btn-outline:hover {
-  background-color: #f3f4f6; /* gray-100 */
+.btn-login__button:hover {
+  background-color: #d9d9d9;
+  color: 005d1c;
 }

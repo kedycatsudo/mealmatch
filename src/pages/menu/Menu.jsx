@@ -8,7 +8,7 @@ const Menu = ({}) => (
         text={btn.text}
         key={btn.id}
         variant={btn.variant}
-        onClick={btn.onClick}
+        onClick={btn.onclick}
       ></Button>
     ))}
   </div>

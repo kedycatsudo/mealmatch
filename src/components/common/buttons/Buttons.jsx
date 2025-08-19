@@ -7,10 +7,15 @@ export default function Button({
   text = '',
   onClick = {},
   karmDonor = false,
+  type = '',
   ...props
 }) {
   return (
-    <button className={`btn btn-${variant} ${className}`} {...props}>
+    <button
+      type={type}
+      className={`btn btn-${variant} ${className}`}
+      {...props}
+    >
       {text}
     </button>
   )

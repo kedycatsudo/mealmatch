@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
+import Login from './pages/login/Login'
 import Menu from './pages/menu/Menu'
 import HomePage from './pages/home/Home'
 import './App.css'
@@ -10,7 +11,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage></HomePage>}></Route>
+
           <Route path="/home" element={<HomePage></HomePage>}></Route>
+          <Route path="/login" element={<Login></Login>}></Route>
+
           <Route path="/menu" element={<Menu></Menu>}></Route>
         </Routes>
       </Router>
