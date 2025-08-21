@@ -3,7 +3,7 @@ import Input from '../inputs/Inputs'
 import Button from '../buttons/Buttons'
 const SearchBox = ({}) => {
   return (
-    <>
+    <div className="search__box-container">
       <div className="container__searchBox">
         <Input
           id="seachBox"
@@ -22,7 +22,7 @@ const SearchBox = ({}) => {
         <Button text="Portion Size" variant="allergy__tags"></Button>
         <Button text="useBy" variant="allergy__tags"></Button>
       </div>
-    </>
+    </div>
   )
 }
 export default SearchBox
