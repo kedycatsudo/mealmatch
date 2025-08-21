@@ -5,9 +5,9 @@ export const ParticipantProvider = ({ children }) => {
   const participantsData = [
     {
       id: 1,
-      username: 'bluefox12',
-      email: 'bluefox12@example.com',
-      karm: false,
+      username: 'Doruk Kocasta',
+      email: 'dkocausta@example.com',
+      karm: true,
       image: '../../assets/images/chef.svg',
       phone: '5552345671',
       country: 'USA',

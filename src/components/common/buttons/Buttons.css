@@ -18,8 +18,8 @@
 
 /* Variants */
 .btn-primary {
-  width: 100px;
-  height: 30px;
+  width: fit-content;
+  height: fit-content;
   color: white;
 }
 .btn-primary:hover {
@@ -60,4 +60,11 @@
 .btn-login__button:hover {
   background-color: #d9d9d9;
   color: 005d1c;
+}
+
+.btn-burger__menu {
+  background-image: url('../../../assets//icons/MenuIcon.svg');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding-right: 50px;
 }

@@ -1,6 +1,5 @@
 .profile__page-header {
   padding: 10px;
-  width: 100%;
   background-color: #d9d9d9;
   display: flex;
   flex-direction: column;
@@ -9,14 +8,19 @@
   align-items: center;
 }
 .header__container {
-  background-color: #ab2a2a;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.header__container-header {
+.header__container-title {
   font-size: 100px;
   font-weight: 100;
   margin: 0;
   padding: 0;
+}
+.header__container-paragraph {
+  font-size: 30px;
+}
+.header__container-btn {
+  margin-left: auto;
 }
