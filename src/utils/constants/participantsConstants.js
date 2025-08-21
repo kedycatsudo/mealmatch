@@ -6,7 +6,6 @@ export const participants = [
         Karm: false,
         username: 'kedycat',
         name: 'Kefi',
-        karmDonor: true,
         image: '../../assets/images/chef.svg',
       },
       contact: { phone: '845956515', email: 'kefi@gmail.com' },
