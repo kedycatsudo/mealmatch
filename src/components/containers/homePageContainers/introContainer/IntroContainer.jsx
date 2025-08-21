@@ -10,12 +10,12 @@ const IntroContainer = ({}) => (
       </div>
     </div>
     <p className="Intro__container__ntroduction">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum
-      blandit risus vel condimentum. Donec fermentum lorem quis nibh lacinia
-      volutpat. Pellentesque condimentum accumsan magna id interdum. Vestibulum
-      ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-      curae; Pellentesque habitant morbi tristique senectus et netus et
-      malesuada fames.
+      Every day, individuals, catering companies, and bulk kitchens throw away
+      perfectly good food due to lack of an easy way to give it away before it
+      expires. Meanwhile, many people in the same communities go hungry or
+      struggle to afford groceries. MealMatch creates a local sharing economy
+      for surplus meals, groceries, and ingredients — reducing waste and helping
+      those in need.
     </p>
   </div>
 )

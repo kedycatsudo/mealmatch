@@ -1,11 +1,16 @@
 import './Login.css'
 import React, { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import Input from '../../components/common/inputs/Inputs'
 import Button from '../../components/common/buttons/Buttons'
 import Checkbox from '../../components/common/checbox/Checkbox'
 import { FaLessThan } from 'react-icons/fa'
 
 function Login() {
+  const navigate = useNavigate()
+  const navigateTo = (index) => {
+    navigate(`/${index}`)
+  }
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
@@ -36,11 +41,13 @@ function Login() {
           throw new Error('Newtwork response was not ok')
         } else {
           setFormData({ userName: '', password: '' })
+          navigateTo('menu')
           return res.json()
         }
       })
       .catch((e) => {
         console.error('Login Failed', e.message)
+        navigateTo('register')
       })
   }
   return (

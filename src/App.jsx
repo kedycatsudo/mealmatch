@@ -9,6 +9,7 @@ import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import Menu from './pages/menu/Menu'
 import Profile from './pages/profile/Profile'
+import NotFound from './pages/notFound/NotFound'
 
 import { ParticipantProvider } from './context/ParticipantContext'
 
@@ -23,8 +24,9 @@ function App() {
           <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/register" element={<Register></Register>}></Route>
           <Route path="/menu" element={<Menu></Menu>}></Route>
-          <Route path="/profile" element={<Profile></Profile>}></Route>
           <Route path="/about" element={<About></About>}></Route>
+          <Route path="/profile" element={<Profile></Profile>}></Route>
+          <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>
       </Router>
     </ParticipantProvider>

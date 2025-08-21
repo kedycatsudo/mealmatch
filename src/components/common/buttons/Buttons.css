@@ -5,7 +5,8 @@
   font-size: 25px;
   width: fit-content;
   text-align: center;
-  height: 50px;
+  width: fit-content;
+  height: fit-content;
   padding: 10px;
   border-radius: 12px;
   cursor: pointer;
@@ -18,9 +19,6 @@
 
 /* Variants */
 .btn-primary {
-  width: fit-content;
-  height: fit-content;
-  color: white;
 }
 .btn-primary:hover {
 }
@@ -59,12 +57,16 @@
 }
 .btn-login__button:hover {
   background-color: #d9d9d9;
-  color: 005d1c;
+  color: #000000;
 }
 
 .btn-burger__menu {
-  background-image: url('../../../assets//icons/MenuIcon.svg');
+  background-image: url('../../../assets/icons/MenuIcon.svg');
   background-repeat: no-repeat;
   background-color: transparent;
   padding-right: 50px;
+  height: 50px;
+}
+.btn-allergy__tags {
+  width: 150px;
 }
