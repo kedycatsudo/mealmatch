@@ -1,0 +1,17 @@
+.list__item-container {
+  background-color: #d9d9d9;
+  border-bottom: 10px solid #009951;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 100px;
+}
+.list__item-property {
+  margin: 0;
+  padding: 15px;
+  font-size: 25px;
+}
+.list__item-icon {
+  display: block;
+  margin: 0 auto;
+}

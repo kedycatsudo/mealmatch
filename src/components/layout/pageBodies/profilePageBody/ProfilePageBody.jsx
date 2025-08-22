@@ -1,9 +1,15 @@
 import './ProfilePageBody.css'
-import PostadDonationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/PostedDonationsContainer'
+import donationsData from '../../../../constants/donationsData'
+import { useState } from 'react'
+import PostedDonationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/PostedDonationsContainer'
 const ProfilePageMain = ({}) => {
+  const [donations, setDonations] = useState(donationsData)
   return (
     <>
-      <PostadDonationsContainer></PostadDonationsContainer>
+      <PostedDonationsContainer
+        donations={donations}
+        setDonations={setDonations}
+      ></PostedDonationsContainer>
     </>
   )
 }
