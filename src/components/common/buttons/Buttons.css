@@ -20,6 +20,9 @@
 /* Variants */
 .btn-primary {
 }
+.btn-hidden {
+  visibility: hidden;
+}
 .btn-primary:hover {
 }
 .btn-menu__button {
@@ -69,4 +72,7 @@
 }
 .btn-allergy__tags {
   width: 150px;
+}
+.btn-card__edit {
+  width: 100px;
 }

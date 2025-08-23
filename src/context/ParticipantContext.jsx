@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
-
-const ParticipantContext = createContext()
+import donationsData from '../constants/donationsData'
+const ParticipantContext = createContext({ participantsData: [] })
 export const ParticipantProvider = ({ children }) => {
   const participantsData = [
     {
@@ -18,6 +18,7 @@ export const ParticipantProvider = ({ children }) => {
       totalWeightDonation: 120,
       recentDonation: 30,
       totalPersonHelped: 95,
+      donationsList: donationsData,
     },
     {
       id: 2,

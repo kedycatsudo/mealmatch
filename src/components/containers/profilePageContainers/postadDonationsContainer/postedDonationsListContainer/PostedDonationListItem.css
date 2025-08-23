@@ -1,0 +1,46 @@
+.list__item-container {
+  background-color: #d9d9d9;
+  border-bottom: 10px solid #009951;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  height: 100px;
+}
+.selected-item {
+  background-color: white;
+}
+
+.list__item-icon {
+  display: block;
+  margin: 0 auto;
+}
+/* Chrome, Edge, Safari */
+.posted__donations-list-container::-webkit-scrollbar {
+  width: 10px;
+  background: #f0f0f0;
+}
+
+.posted__donations-list-container::-webkit-scrollbar-thumb {
+  background: #bada55;
+  border-radius: 8px;
+}
+
+.posted__donation-spam {
+  text-align: center;
+  margin: auto auto;
+  font-size: 20px;
+}
+
+.posted__donations-list-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+.karm__check-icon {
+  margin: auto auto;
+}
+
+/* Firefox */
+.posted__donations-list-container {
+  scrollbar-width: thin;
+  scrollbar-color: #f3f3f3 #d9d9d9;
+}

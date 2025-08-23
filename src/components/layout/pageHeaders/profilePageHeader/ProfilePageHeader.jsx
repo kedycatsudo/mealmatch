@@ -7,7 +7,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 const ProfilePageHeader = ({}) => {
   const navigate = useNavigate()
   const navigateToMenu = () => navigate(`/menu`)
-  const { participantsData } = useParticipant()
+  const { participantsData = [] } = useParticipant() || {}
   return (
     <header className="profile__page-header">
       <div className="header__container">

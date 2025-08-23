@@ -1,0 +1,9 @@
+.list__item-property {
+  margin: 0;
+  padding: 15px;
+  font-size: 25px;
+  text-align: center;
+}
+.not-active {
+  border-bottom: 10px solid red;
+}

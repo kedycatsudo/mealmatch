@@ -6,6 +6,7 @@ const donationsData = [
     postDate: '2025-08-15',
     portionSize: '2 servings',
     useBy: '2025-08-20',
+    live: true,
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const donationsData = [
     postDate: '2025-08-14',
     portionSize: '1 large bowl',
     useBy: '2025-08-18',
+    live: false,
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ const donationsData = [
     postDate: '2025-08-16',
     portionSize: '4 servings',
     useBy: '2025-08-21',
+    live: false,
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ const donationsData = [
     postDate: '2025-08-12',
     portionSize: '3 servings',
     useBy: '2025-08-17',
+    live: true,
   },
   {
     id: 5,
@@ -38,6 +42,7 @@ const donationsData = [
     postDate: '2025-08-13',
     portionSize: '2 fillets',
     useBy: '2025-08-19',
+    live: false,
   },
   {
     id: 6,
@@ -46,22 +51,25 @@ const donationsData = [
     postDate: '2025-08-15',
     portionSize: '6 tacos',
     useBy: '2025-08-20',
+    live: true,
   },
   {
     id: 7,
-    mealName: 'Miso Soup',
+    mealName: 'Misos Soup',
     allergens: ['Soy'],
     postDate: '2025-08-11',
     portionSize: '3 bowls',
     useBy: '2025-08-15',
+    live: false,
   },
   {
     id: 8,
-    mealName: 'Lentil Stew',
+    mealName: 'Lentil Stsew',
     allergens: [],
     postDate: '2025-08-10',
     portionSize: '5 servings',
     useBy: '2025-08-14',
+    live: false,
   },
   {
     id: 9,
@@ -70,6 +78,7 @@ const donationsData = [
     postDate: '2025-08-09',
     portionSize: '3 portions',
     useBy: '2025-08-13',
+    live: false,
   },
   {
     id: 10,
@@ -78,6 +87,7 @@ const donationsData = [
     postDate: '2025-08-17',
     portionSize: '1 tray',
     useBy: '2025-08-22',
+    live: false,
   },
 ]
 

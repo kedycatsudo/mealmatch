@@ -4,6 +4,7 @@ import { useState } from 'react'
 import PostedDonationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/PostedDonationsContainer'
 const ProfilePageMain = ({}) => {
   const [donations, setDonations] = useState(donationsData)
+
   return (
     <>
       <PostedDonationsContainer
