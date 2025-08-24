@@ -4,6 +4,7 @@ const ParticipantContext = createContext({ participantsData: [] })
 export const ParticipantProvider = ({ children }) => {
   const participantsData = [
     {
+      //change all the properties with this one
       id: 1,
       username: 'Doruk Kocasta',
       email: 'dkocausta@example.com',
@@ -15,9 +16,12 @@ export const ParticipantProvider = ({ children }) => {
       city: 'San Diego',
       adress: '42 Ocean Breeze Ave',
       zipCode: '92107',
+      totalDonationCount: 25,
+      currentDonations: 3,
       totalWeightDonation: 120,
       recentDonation: 30,
       totalPersonHelped: 95,
+      totalNetTaxBack: 350,
       donationsList: donationsData,
     },
     {

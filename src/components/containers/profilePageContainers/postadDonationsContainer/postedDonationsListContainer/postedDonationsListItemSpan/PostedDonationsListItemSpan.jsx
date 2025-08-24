@@ -1,7 +1,6 @@
 import { KarmCheckIcon } from '../../../../../../assets/icons/index'
 import { CancelIcon } from '../../../../../../assets/icons/index'
 const PostedDonationsListItemSpan = ({ donationsData }) => {
-  console.log(donationsData)
   return (
     <>
       <span className="posted__donation-spam">{donationsData.allergens}</span>
