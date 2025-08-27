@@ -5,7 +5,7 @@ const PostedDonationsListItemSpan = ({ donationsData }) => {
     <>
       <span className="posted__donation-spam">{donationsData.allergens}</span>
       <span className="posted__donation-spam">{donationsData.postDate}</span>
-      <span className="posted__donation-spam">{donationsData.portionSize}</span>
+      <span className="posted__donation-spam">{donationsData.servings}</span>
       <img
         alt={donationsData.mealName}
         src={donationsData.karm ? KarmCheckIcon : CancelIcon}

@@ -12,9 +12,7 @@ const PostedDonationsContainer = ({ donations }) => {
   const [sortOrder, setSortOrder] = useState('asc')
 
   const handleSortByPostedDate = () => {
-    setSortOrder((prev) => {
-      prev === 'asc' ? 'desc' : 'asc'
-    })
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
   }
 
   const filteredDonations = donations.filter((donation) => {
@@ -23,8 +21,8 @@ const PostedDonationsContainer = ({ donations }) => {
       .some((value) => value.toLowerCase().includes(searchTerm.toLowerCase()))
   })
   const sortedDonations = [...filteredDonations].sort((a, b) => {
-    const dateA = new Date(a.postedDate)
-    const dateB = new Date(b.postedDate)
+    const dateA = new Date(a.postDate)
+    const dateB = new Date(b.postDate)
     return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
   })
   return (
@@ -38,13 +36,13 @@ const PostedDonationsContainer = ({ donations }) => {
         <ul className="posted__donations-list-container">
           <DonationsListTitle></DonationsListTitle>
           {sortedDonations && sortedDonations.length > 0
-            ? sortedDonations.map((filteredDonation, idx) => (
+            ? sortedDonations.map((sortedDonation, idx) => (
                 <PostedDonationListItem
                   onClick={() => {
-                    setSelectedMeal(filteredDonation)
+                    setSelectedMeal(sortedDonation)
                   }}
-                  key={filteredDonation.id || idx}
-                  donation={filteredDonation}
+                  key={sortedDonation.id || idx}
+                  donation={sortedDonation}
                   selectedMeal={selectedMeal}
                 />
               ))

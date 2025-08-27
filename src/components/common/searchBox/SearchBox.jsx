@@ -21,7 +21,7 @@ const SearchBox = ({ onSearchChange, onSortByPostedDate, sortOrder }) => {
           variant="allergy__tags"
           onClick={onSortByPostedDate}
         />
-        <Button text="Portion Size" variant="allergy__tags"></Button>
+        <Button text="Servings" variant="allergy__tags"></Button>
         <Button text="useBy" variant="allergy__tags"></Button>
       </div>
     </div>

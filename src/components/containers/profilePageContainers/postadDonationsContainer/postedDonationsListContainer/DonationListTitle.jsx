@@ -5,7 +5,7 @@ const DonationListTitle = ({}) => (
     </span>
 
     <span className="posted__donations-list-categories">Posted Date</span>
-    <span className="posted__donations-list-categories">Portion Size</span>
+    <span className="posted__donations-list-categories">Servings</span>
     <span className="posted__donations-list-categories">Karm</span>
     <span className="posted__donations-list-categories">Use By</span>
     <span className="posted__donations-list-categories">Meal Name</span>
