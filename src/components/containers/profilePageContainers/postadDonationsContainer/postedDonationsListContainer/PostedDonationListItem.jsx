@@ -1,11 +1,19 @@
 import PostedDonationsListItemSpan from './postedDonationsListItemSpan/PostedDonationsListItemSpan'
 import './PostedDonationListItem.css'
-const PostedDonationListItem = ({ donations }) => {
+const PostedDonationListItem = ({ donation, onClick }) => {
+  if (donation.live) {
+    return (
+      <li onClick={onClick} className="list__item-container">
+        <PostedDonationsListItemSpan
+          donationsData={donation}
+        ></PostedDonationsListItemSpan>
+      </li>
+    )
+  }
   return (
-    <li className="list__item-container">
-      {}
+    <li onClick={onClick} className="list__item-container not-active">
       <PostedDonationsListItemSpan
-        donationsData={donations}
+        donationsData={donation}
       ></PostedDonationsListItemSpan>
     </li>
   )

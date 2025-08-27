@@ -7,7 +7,7 @@ const Profile = ({}) => {
     <div className="page">
       <div className="page__content">
         <ProfilePageHeader></ProfilePageHeader>
-        <ContainerSeperation text={'Postad Donations'}></ContainerSeperation>
+        <ContainerSeperation text={'Posted Donations'}></ContainerSeperation>
         <ProfilePageBody></ProfilePageBody>
         <ProfilePageFooter></ProfilePageFooter>
       </div>

@@ -5,6 +5,13 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   height: 100px;
+  cursor: pointer;
+}
+.not-active {
+  border-bottom: 10px solid red;
+}
+.list__item-container {
+  background-color: #f3f3f3;
 }
 .selected-item {
   background-color: white;

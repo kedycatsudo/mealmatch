@@ -1,30 +1,31 @@
 import './PostedDonationCardInfo.css'
-const PostedDonationCardInfo = ({ donationsData }) => {
+const PostedDonationCardInfo = ({ selectedMeal }) => {
   return (
     <>
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
-          Use By: {donationsData[0].useBy}
+          Use By: {selectedMeal.useBy}
         </p>
       </div>
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
-          Karm donation N/A{/* make it dynamic  */}
+          {selectedMeal.karm ? 'Karm donation' : 'Karm donation is N/A'}
+          {/* make it dynamic  */}
         </p>
       </div>
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
-          PortionSize: {donationsData[0].portionSize}
+          PortionSize: {selectedMeal.portionSize}
         </p>
       </div>
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
-          Posted Date: {donationsData[0].postDate}
+          Posted Date: {selectedMeal.postDate}
         </p>
       </div>
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
-          Including Allergens: {donationsData[0].allergens}
+          Including Allergens: {selectedMeal.allergens}
         </p>
       </div>
     </>

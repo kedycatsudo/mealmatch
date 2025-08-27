@@ -6,6 +6,7 @@ const donationsData = [
     postDate: '2025-08-15',
     portionSize: '2 servings',
     useBy: '2025-08-20',
+    karm: true,
     live: true,
   },
   {
@@ -25,6 +26,7 @@ const donationsData = [
     portionSize: '4 servings',
     useBy: '2025-08-21',
     live: false,
+    karm: true,
   },
   {
     id: 4,
@@ -52,6 +54,7 @@ const donationsData = [
     portionSize: '6 tacos',
     useBy: '2025-08-20',
     live: true,
+    karm: true,
   },
   {
     id: 7,

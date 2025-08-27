@@ -1,3 +1,4 @@
+import '../../../common/searchBox/SearchBox.css'
 import './ProfilePageBody.css'
 import donationsData from '../../../../constants/donationsData'
 import { useState } from 'react'

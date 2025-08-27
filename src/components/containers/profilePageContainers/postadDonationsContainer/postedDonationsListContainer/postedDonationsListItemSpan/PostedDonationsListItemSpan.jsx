@@ -8,7 +8,7 @@ const PostedDonationsListItemSpan = ({ donationsData }) => {
       <span className="posted__donation-spam">{donationsData.portionSize}</span>
       <img
         alt={donationsData.mealName}
-        src={donationsData.live ? KarmCheckIcon : CancelIcon}
+        src={donationsData.karm ? KarmCheckIcon : CancelIcon}
         className="karm__check-icon"
       ></img>
 

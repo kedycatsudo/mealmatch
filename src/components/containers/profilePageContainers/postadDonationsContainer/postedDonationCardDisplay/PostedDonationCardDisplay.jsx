@@ -3,24 +3,25 @@ import PostedDonationCardInfo from './postedDonationCardInfo/PostedDonationCardI
 import './PostedDonationCardDisplay.css'
 import PostedDonationCardDisplayFooter from './postedDonationCardDisplayFooter/PostedDonationCardDisplayFooter'
 import donationsData from '../../../../../constants/donationsData'
-const PostedDonationCardDisplay = ({}) => {
+const PostedDonationCardDisplay = ({ selectedMeal }) => {
   return (
     <div className="posted__donation_card_display-container">
       <h3 className="posted__donation_card_display-container-title">
-        {donationsData[0].mealName}
+        {selectedMeal.mealName}
       </h3>
+
       <div className="posted__donation_card-btns">
         <Button variant="card__edit" text="Edit"></Button>
         <Button variant="card__edit" text="Delete"></Button>
       </div>
       <div className="posted__donation-card-infos">
         <PostedDonationCardInfo
-          donationsData={donationsData}
+          selectedMeal={selectedMeal}
         ></PostedDonationCardInfo>
       </div>
 
       <PostedDonationCardDisplayFooter
-        donationsData={donationsData}
+        selectedMeal={selectedMeal}
       ></PostedDonationCardDisplayFooter>
     </div>
   )
