@@ -15,7 +15,7 @@ const PostedDonationCardInfo = ({ selectedMeal }) => {
       </div>
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
-          PortionSize: {selectedMeal.portionSize}
+          PortionSize: {selectedMeal.servings}
         </p>
       </div>
       <div className="posted_donation-card-info-container">

@@ -3,11 +3,14 @@ import { MenuIcon } from '../../../../assets/icons'
 import './ProfilePageHeader.css'
 import { useParticipant } from '../../../../context/ParticipantContext'
 import Button from '../../../common/buttons/Buttons'
+import EditProfileModal from '../../../common/modals/editProfileModal/EditProfileModal'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 const ProfilePageHeader = ({}) => {
   const navigate = useNavigate()
   const navigateToMenu = () => navigate(`/menu`)
   const { participantsData = [] } = useParticipant() || {}
+  const [showModal, setShowModal] = useState(false)
   return (
     <header className="profile__page-header">
       <div className="header__container">
@@ -25,13 +28,22 @@ const ProfilePageHeader = ({}) => {
           {participantsData[0].username}
         </p>
         <p className="header__container-paragraph">
-          {participantsData[0].karm === true ? 'Karm eligible' : ''}
+          {participantsData[0].karm === true ? 'Karm Donor' : ''}
         </p>
       </div>
 
-      <Button text="Edit Profile" className="header__container-btn">
+      <Button
+        onClick={() => setShowModal(true)}
+        text="Edit Profile"
+        className="header__container-btn"
+      >
         <img alt="logo.svg" src={MenuIcon}></img>
       </Button>
+      {showModal && (
+        <div className="modal-overlay">
+          <EditProfileModal></EditProfileModal>
+        </div>
+      )}
     </header>
   )
 }
