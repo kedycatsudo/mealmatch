@@ -10,6 +10,7 @@ const ProfilePageHeader = ({}) => {
   const navigate = useNavigate()
   const navigateToMenu = () => navigate(`/menu`)
   const { participantsData = [] } = useParticipant() || {}
+  const { toggleKarm } = useParticipant()
   const [showModal, setShowModal] = useState(false)
   return (
     <header className="profile__page-header">
@@ -25,7 +26,7 @@ const ProfilePageHeader = ({}) => {
         <img alt="user avatar"></img>
 
         <p className="header__container-paragraph">
-          {participantsData[0].username}
+          {participantsData[0].userName}
         </p>
         <p className="header__container-paragraph">
           {participantsData[0].karm === true ? 'Karm Donor' : ''}
@@ -41,7 +42,10 @@ const ProfilePageHeader = ({}) => {
       </Button>
       {showModal && (
         <div className="modal-overlay">
-          <EditProfileModal></EditProfileModal>
+          <EditProfileModal
+            toggleKarm={toggleKarm}
+            participantData={participantsData[0]}
+          ></EditProfileModal>
         </div>
       )}
     </header>

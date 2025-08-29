@@ -6,6 +6,9 @@
   margin: 0;
   padding: 0;
 }
+.edit__modal-form {
+  padding: 25px;
+}
 .edit__modal-header {
   font-size: 75px;
   margin: 0;

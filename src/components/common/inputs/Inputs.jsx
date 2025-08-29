@@ -1,11 +1,12 @@
 import './Inputs.css'
 export default function Input({
+  checked = true,
   variant = 'primary',
   children,
   className = '',
   id = '',
   placeholder = '',
-  type = '',
+  type = 'text',
   value,
   onChange,
   required = false,
@@ -21,10 +22,11 @@ export default function Input({
         id={id}
         placeholder={placeholder}
         type={type}
-        value={value}
-        onChange={onChange}
+        checked={type === 'checkbox' ? checked : undefined}
+        value={type !== 'checkbox' ? value : undefined} // text uses value        onChange={onChange}
         required={required}
         autoComplete={autoComplete}
+        onChange={onChange}
         {...pr}
       ></input>
     </div>

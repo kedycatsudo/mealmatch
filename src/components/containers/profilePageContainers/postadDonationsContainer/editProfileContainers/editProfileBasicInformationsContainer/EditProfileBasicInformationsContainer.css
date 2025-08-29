@@ -1,0 +1,30 @@
+.edit__modal-basic-container-avatar {
+  border-radius: 12px;
+  width: 200px;
+  height: 200px;
+}
+.edit__modal-basic-container {
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.edit__modal-input {
+  width: 100%;
+}
+.checkbox {
+  margin: 0;
+  padding: 0;
+}
+.edit__modal-basic-container-small {
+  display: flex;
+  align-items: center;
+}
+.edit__modal-basic-container-p {
+  padding: 20px 20px 0 0;
+  font-size: 30px;
+}
+.edit__modal-basic-container-logo {
+  padding: 20px 0 0 20px;
+  margin: 0;
+}

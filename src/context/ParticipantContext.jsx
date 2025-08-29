@@ -6,7 +6,8 @@ export const ParticipantProvider = ({ children }) => {
     {
       //change all the properties with this one
       id: 1,
-      username: 'Doruk Kocasta',
+      printName: 'Doruk Kocausta',
+      userName: 'Dkocausta34',
       email: 'dkocausta@example.com',
       karm: true,
       image: '../../assets/images/chef.svg',
