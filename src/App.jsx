@@ -16,19 +16,17 @@ import { ParticipantProvider } from './context/ParticipantContext'
 function App() {
   return (
     <ParticipantProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage></HomePage>}></Route>
+      <Routes>
+        <Route path="/" element={<HomePage></HomePage>}></Route>
 
-          <Route path="/home" element={<HomePage></HomePage>}></Route>
-          <Route path="/login" element={<Login></Login>}></Route>
-          <Route path="/register" element={<Register></Register>}></Route>
-          <Route path="/menu" element={<Menu></Menu>}></Route>
-          <Route path="/about" element={<About></About>}></Route>
-          <Route path="/profile" element={<Profile></Profile>}></Route>
-          <Route path="*" element={<NotFound></NotFound>}></Route>
-        </Routes>
-      </Router>
+        <Route path="/home" element={<HomePage></HomePage>}></Route>
+        <Route path="/login" element={<Login></Login>}></Route>
+        <Route path="/register" element={<Register></Register>}></Route>
+        <Route path="/menu" element={<Menu></Menu>}></Route>
+        <Route path="/about" element={<About></About>}></Route>
+        <Route path="/profile" element={<Profile></Profile>}></Route>
+        <Route path="*" element={<NotFound></NotFound>}></Route>
+      </Routes>
     </ParticipantProvider>
   )
 }
