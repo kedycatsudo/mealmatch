@@ -6,12 +6,12 @@ import { useParticipant } from '../../../../context/ParticipantContext'
 import PostedDonationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/PostedDonationsContainer'
 const ProfilePageMain = ({}) => {
   const [donations, setDonations] = useState(donationsData)
-  const { participantsData = [] } = useParticipant() || {}
+  const { participant, toggleKarm } = useParticipant()
 
   return (
     <main className="body">
       <PostedDonationsContainer
-        donations={participantsData[0].donationsList}
+        donations={participant.donationsList}
         setDonations={setDonations}
       ></PostedDonationsContainer>
     </main>

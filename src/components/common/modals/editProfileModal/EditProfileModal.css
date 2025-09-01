@@ -1,27 +1,41 @@
 .edit__modal {
+  display: flex;
+  border-radius: 12px;
+  flex-direction: column;
   background-color: #c3e3a3;
-  height: 100vh;
   width: 100%;
   position: fixed;
   margin: 0;
   padding: 0;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 .edit__modal-form {
   padding: 25px;
+  display: flex;
+  flex-direction: column;
 }
 .edit__modal-header {
   font-size: 75px;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   border-radius: 12px;
   background-color: #d9d9d9;
-  height: 100px;
 }
 .edit__modal-basic {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+.edit__modal-contacts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.edit__modal-address {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

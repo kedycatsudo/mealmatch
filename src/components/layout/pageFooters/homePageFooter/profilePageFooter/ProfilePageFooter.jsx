@@ -3,35 +3,36 @@ import DonationStatusListItem from './donationStatusListItem/DonationStatusListI
 import './ProfilePageFooter.css'
 import ContainerSeperation from '../../../../common/containerSeperation/ContainerSeperation'
 const ProfilePageFooter = ({}) => {
-  const { participantsData = [] } = useParticipant() || {}
+  const { participant, toggleKarm } = useParticipant()
+
   return (
     <footer className="profile__footer">
       <ContainerSeperation text={'Donation Status'}></ContainerSeperation>
       <ul className="profile__footer-status-list">
         <DonationStatusListItem
           text={'Total Donations'}
-          participantsDataCategory={participantsData[0].totalDonationCount}
+          participantsDataCategory={participant.totalDonationCount}
         ></DonationStatusListItem>
         <DonationStatusListItem
           text={'Total Donated Weight'}
-          participantsDataCategory={participantsData[0].totalWeightDonation}
+          participantsDataCategory={participant.totalWeightDonation}
         ></DonationStatusListItem>
         <DonationStatusListItem
           text={'Available Donations'}
-          participantsDataCategory={participantsData[0].currentDonations}
+          participantsDataCategory={participant.currentDonations}
         ></DonationStatusListItem>
 
         <DonationStatusListItem
           text={'Total Donated Person'}
-          participantsDataCategory={participantsData[0].totalPersonHelped}
+          participantsDataCategory={participant.totalPersonHelped}
         ></DonationStatusListItem>
         <DonationStatusListItem
           text={'Total Net Tax Back'}
-          participantsDataCategory={participantsData[0].totalNetTaxBack}
+          participantsDataCategory={participant.totalNetTaxBack}
         ></DonationStatusListItem>
         <DonationStatusListItem
           text={'Karm Donor'}
-          participantsDataCategory={participantsData[0].karm}
+          participantsDataCategory={participant.karm}
         ></DonationStatusListItem>
       </ul>
     </footer>

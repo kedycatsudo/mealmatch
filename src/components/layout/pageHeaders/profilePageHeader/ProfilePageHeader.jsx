@@ -5,13 +5,22 @@ import { useParticipant } from '../../../../context/ParticipantContext'
 import Button from '../../../common/buttons/Buttons'
 import EditProfileModal from '../../../common/modals/editProfileModal/EditProfileModal'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 const ProfilePageHeader = ({}) => {
   const navigate = useNavigate()
   const navigateToMenu = () => navigate(`/menu`)
-  const { participantsData = [] } = useParticipant() || {}
-  const { toggleKarm } = useParticipant()
+  const { participant, toggleKarm } = useParticipant() || {}
   const [showModal, setShowModal] = useState(false)
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showModal])
   return (
     <header className="profile__page-header">
       <div className="header__container">
@@ -25,11 +34,9 @@ const ProfilePageHeader = ({}) => {
       <div className="header__container">
         <img alt="user avatar"></img>
 
+        <p className="header__container-paragraph">{participant.userName}</p>
         <p className="header__container-paragraph">
-          {participantsData[0].userName}
-        </p>
-        <p className="header__container-paragraph">
-          {participantsData[0].karm === true ? 'Karm Donor' : ''}
+          {participant.karm === true ? 'Karm Donor' : ''}
         </p>
       </div>
 
@@ -44,7 +51,7 @@ const ProfilePageHeader = ({}) => {
         <div className="modal-overlay">
           <EditProfileModal
             toggleKarm={toggleKarm}
-            participantData={participantsData[0]}
+            participantData={participant}
           ></EditProfileModal>
         </div>
       )}

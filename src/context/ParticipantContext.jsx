@@ -180,7 +180,7 @@ export const ParticipantProvider = ({ children }) => {
   }
   return (
     <ParticipantContext
-      value={{ participantsData, setParticipant, toggleKarm }}
+      value={{ participant, participantsData, setParticipant, toggleKarm }}
     >
       {children}
     </ParticipantContext>

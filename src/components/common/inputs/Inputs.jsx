@@ -1,25 +1,30 @@
+import { useId } from 'react'
 import './Inputs.css'
 export default function Input({
   checked = true,
   variant = 'primary',
   children,
   className = '',
-  id = '',
+  id,
   placeholder = '',
   type = 'text',
   value,
   onChange,
   required = false,
   autoComplete = 'current-password',
-
+  text = '',
   ...pr
 }) {
+  const autoId = useId()
+  const inputId = id || autoId
   return (
-    <div>
-      <label className={`label label-${variant}`} htmlFor={id}></label>
+    <>
+      <label className={`label label-${variant}`} htmlFor={inputId}>
+        {text}
+      </label>
       <input
         className={`input input-${variant} ${className}`}
-        id={id}
+        id={inputId}
         placeholder={placeholder}
         type={type}
         checked={type === 'checkbox' ? checked : undefined}
@@ -29,6 +34,6 @@ export default function Input({
         onChange={onChange}
         {...pr}
       ></input>
-    </div>
+    </>
   )
 }

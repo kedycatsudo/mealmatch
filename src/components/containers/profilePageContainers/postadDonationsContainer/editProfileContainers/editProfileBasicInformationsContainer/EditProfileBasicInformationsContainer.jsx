@@ -4,11 +4,13 @@ import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
 import { KarmCheckIcon } from '../../../../../../assets/icons'
 import { CancelIcon } from '../../../../../../assets/icons'
-const EditProfileBasicInformationsContainer = ({
-  participantData,
-  toggleKarm,
-}) => {
-  console.log(participantData.karm)
+import { useParticipant } from '../../../../../../context/ParticipantContext'
+const EditProfileBasicInformationsContainer = ({}) => {
+  const { participant, toggleKarm } = useParticipant()
+  if (!participant) {
+    console.log(participant)
+  }
+
   return (
     <>
       <div className="edit__modal-basic-container">
@@ -17,12 +19,16 @@ const EditProfileBasicInformationsContainer = ({
         <Button text="Change Password"></Button>
       </div>
       <Input
-        placeholder={participantData.printName}
+        variant="text"
+        text={'Print Name'}
+        placeholder={participant.printName}
         className="edit__modal-input"
       ></Input>
 
       <Input
-        placeholder={participantData.userName}
+        variant="text"
+        text={'User Name'}
+        placeholder={participant.userName}
         className="edit__modal-input"
       ></Input>
       <div className="edit__modal-basic-container-small">
@@ -30,12 +36,12 @@ const EditProfileBasicInformationsContainer = ({
         <Input
           className="checkbox"
           type="checkbox"
-          checked={participantData.karm}
+          checked={participant.karm}
           onChange={toggleKarm}
         ></Input>
         <img
           className="edit__modal-basic-container-logo"
-          src={participantData.karm ? KarmCheckIcon : CancelIcon}
+          src={participant.karm ? KarmCheckIcon : CancelIcon}
         ></img>
       </div>
     </>
