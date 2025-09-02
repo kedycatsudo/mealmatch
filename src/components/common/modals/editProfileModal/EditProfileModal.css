@@ -11,6 +11,7 @@
   overflow-y: auto;
 }
 .edit__modal-form {
+  gap: 15px;
   padding: 25px;
   display: flex;
   flex-direction: column;

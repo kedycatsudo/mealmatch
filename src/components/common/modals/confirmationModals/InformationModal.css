@@ -1,0 +1,12 @@
+.information__modal-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  height: 25%;
+  background-color: #c3e3a3;
+}
+.information__modal-container-p {
+  font-size: 25px;
+}

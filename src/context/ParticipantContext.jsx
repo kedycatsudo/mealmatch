@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react'
+import Avatar from '../assets/images/avatar.jpg'
 import donationsData from '../constants/donationsData'
 const ParticipantContext = createContext({ participantsData: [] })
 export const ParticipantProvider = ({ children }) => {
@@ -6,8 +7,10 @@ export const ParticipantProvider = ({ children }) => {
     {
       //change all the properties with this one
       id: 1,
+      avatar: Avatar,
       printName: 'Doruk Kocausta',
       userName: 'Dkocausta34',
+      password: 'old_password',
       email: 'dkocausta@example.com',
       karm: true,
       image: '../../assets/images/chef.svg',

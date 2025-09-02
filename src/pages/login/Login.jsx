@@ -26,7 +26,6 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault()
     //Handle the logic
-    console.log(`Email:${formData.userName} Password: ${formData.password}`)
     fetch('https://jsonplaceholder.typicode.com/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/jason' },

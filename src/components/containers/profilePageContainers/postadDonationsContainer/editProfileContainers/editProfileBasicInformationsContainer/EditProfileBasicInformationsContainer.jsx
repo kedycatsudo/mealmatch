@@ -1,24 +1,81 @@
 import Button from '../../../../../common/buttons/Buttons'
-import Avatar from '../../../../../../assets/images/avatar.jpg'
 import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
 import { KarmCheckIcon } from '../../../../../../assets/icons'
 import { CancelIcon } from '../../../../../../assets/icons'
 import { useParticipant } from '../../../../../../context/ParticipantContext'
+import handleChangEditFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
+import { useRef } from 'react'
+import { useEffect, useState } from 'react'
+import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
 const EditProfileBasicInformationsContainer = ({}) => {
-  const { participant, toggleKarm } = useParticipant()
+  const fileInputRef = useRef()
+  const { participant, toggleKarm, setParticipant } = useParticipant()
+  const [showModal, setShowModal] = useState(false)
+  const onChange = handleChangEditFormInput(setParticipant)
+
+  const onClick = ({}) => {
+    return
+  }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const imageUrl = URL.createObjectURL(file)
+      setParticipant((prev) => ({ ...prev, avatar: imageUrl }))
+    }
+  }
+  useEffect(() => {
+    if (!showModal) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showModal])
   if (!participant) {
-    console.log(participant)
+    return null
   }
 
   return (
     <>
       <div className="edit__modal-basic-container">
-        <Button text="Upload Picture"></Button>
-        <img className="edit__modal-basic-container-avatar" src={Avatar}></img>
-        <Button text="Change Password"></Button>
+        <Button
+          type="button"
+          onClick={() => fileInputRef.current.click()}
+          text="Upload Picture"
+        ></Button>
+        <Input
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+        ></Input>
+        <img
+          className="edit__modal-basic-container-avatar"
+          src={participant.avatar}
+        ></img>
+        <Button
+          type="button"
+          variant="edit__modal-change-password"
+          text="Change Password"
+          onClick={() => {
+            setShowModal(true)
+          }}
+        ></Button>
+        {showModal && (
+          <div className="modal-overlay">
+            <ChangePasswordModal
+              onClose={() => setShowModal(false)}
+            ></ChangePasswordModal>
+          </div>
+        )}
       </div>
       <Input
+        name="printName"
+        onChange={onChange}
         variant="text"
         text={'Print Name'}
         placeholder={participant.printName}
@@ -26,6 +83,8 @@ const EditProfileBasicInformationsContainer = ({}) => {
       ></Input>
 
       <Input
+        name="userName"
+        onChange={onChange}
         variant="text"
         text={'User Name'}
         placeholder={participant.userName}

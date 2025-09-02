@@ -50,8 +50,7 @@ const ProfilePageHeader = ({}) => {
       {showModal && (
         <div className="modal-overlay">
           <EditProfileModal
-            toggleKarm={toggleKarm}
-            participantData={participant}
+            onClose={() => setShowModal(false)}
           ></EditProfileModal>
         </div>
       )}

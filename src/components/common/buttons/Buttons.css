@@ -13,6 +13,10 @@
   border: none;
   transition: background-color 0.2s ease;
 }
+.btn:hover {
+  background-color: transparent;
+  color: black;
+}
 .btn__text {
   font-size: 75px;
 }
@@ -75,4 +79,20 @@
 }
 .btn-card__edit {
   width: 100px;
+}
+
+.btn-modal__close-btn {
+  position: absolute;
+  top: 35px;
+  right: 45px;
+}
+.btn-edit__modal-change-password {
+  background-image: url('../../../assets/icons/lock.svg');
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 50px;
+}
+
+.btn-delete__account {
+  background-color: rgb(192, 0, 0);
 }
