@@ -4,12 +4,20 @@ import EditProfileBasicInformationsContainer from '../../../containers/profilePa
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import EditProfileAddressesContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileAdressesContainer/EditProfileAdressesContainer'
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
+import { useState } from 'react'
+import DeleteAccountModal from './deleteAccountModal/DeleteAccountModal'
+import InformationModal from '../confirmationModals/InformationModal'
 const EditProfileModal = ({ onClose }) => {
-  const handleSubmitEditForm = ({}) => {
+  const [showModalDelete, setShowModalDelete] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+
+  const handleSubmitEditForm = (e) => {
     e.preventDefault()
+    setShowModal(true)
 
     return
   }
+
   const onClick = ({}) => {}
   return (
     <div className="edit__modal">
@@ -32,13 +40,31 @@ const EditProfileModal = ({ onClose }) => {
           <EditProfileAddressesContainer></EditProfileAddressesContainer>
         </div>
         <Button
+          type="button"
+          onClick={handleSubmitEditForm}
           variant="login__button-container-submit"
           text="Save Changes"
         ></Button>
+        {showModal && (
+          <div className="modal-overlay">
+            <InformationModal
+              onClose={() => setShowModal(false)}
+            ></InformationModal>
+          </div>
+        )}
         <Button
+          type="button"
+          onClick={() => setShowModalDelete(true)}
           variant="login__button-container-submit"
           text="Delete Account"
         ></Button>
+        {showModalDelete && (
+          <div className="modal-overlay">
+            <DeleteAccountModal
+              onClose={() => setShowModalDelete(false)}
+            ></DeleteAccountModal>
+          </div>
+        )}
       </form>
     </div>
   )

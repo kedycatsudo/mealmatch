@@ -12,6 +12,8 @@ const EditProfileAddressesContainer = ({}) => {
   return (
     <>
       <Input
+        name="country"
+        value={participant.country}
         type="text"
         onChange={onChange}
         variant="text"
@@ -20,6 +22,8 @@ const EditProfileAddressesContainer = ({}) => {
         placeholder={participant.country}
       ></Input>
       <Input
+        name="city"
+        value={participant.city}
         type="text"
         onChange={onChange}
         variant="text"
@@ -28,6 +32,8 @@ const EditProfileAddressesContainer = ({}) => {
         placeholder={participant.city}
       ></Input>
       <Input
+        name="state/province/area"
+        value={participant.state}
         type="text"
         onChange={onChange}
         variant="text"
@@ -36,6 +42,8 @@ const EditProfileAddressesContainer = ({}) => {
         placeholder={participant.state}
       ></Input>
       <Input
+        name="address"
+        value={participant.address}
         type="text"
         onChange={onChange}
         variant="text"
@@ -44,6 +52,8 @@ const EditProfileAddressesContainer = ({}) => {
         placeholder={participant.adress}
       ></Input>
       <Input
+        name="zipCode"
+        value={participant.zipCode}
         type="number"
         onChange={onChange}
         variant="text"

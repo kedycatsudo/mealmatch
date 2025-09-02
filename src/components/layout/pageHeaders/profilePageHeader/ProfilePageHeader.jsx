@@ -5,22 +5,14 @@ import { useParticipant } from '../../../../context/ParticipantContext'
 import Button from '../../../common/buttons/Buttons'
 import EditProfileModal from '../../../common/modals/editProfileModal/EditProfileModal'
 import { Navigate, useNavigate } from 'react-router-dom'
+import UseEffectShowModal from '../../../../utils/helpers/useEffectShowModal'
 import { useEffect, useState } from 'react'
 const ProfilePageHeader = ({}) => {
   const navigate = useNavigate()
   const navigateToMenu = () => navigate(`/menu`)
   const { participant, toggleKarm } = useParticipant() || {}
   const [showModal, setShowModal] = useState(false)
-  useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [showModal])
+  UseEffectShowModal(showModal)
   return (
     <header className="profile__page-header">
       <div className="header__container">

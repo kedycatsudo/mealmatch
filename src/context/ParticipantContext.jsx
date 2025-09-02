@@ -18,7 +18,7 @@ export const ParticipantProvider = ({ children }) => {
       country: 'USA',
       state: 'California',
       city: 'San Diego',
-      adress: '42 Ocean Breeze Ave',
+      address: '42 Ocean Breeze Ave',
       zipCode: '92107',
       totalDonationCount: 25,
       currentDonations: 3,

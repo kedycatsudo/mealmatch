@@ -1,0 +1,20 @@
+.delete__account-modal-container {
+  position: relative;
+  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  height: 25%;
+  background-color: #c3e3a3;
+}
+.delete__account-modal-container-p {
+  margin: 0;
+  padding: 0;
+  font-size: 25px;
+}
+.modal__btns {
+  gap: 50px;
+  display: flex;
+}

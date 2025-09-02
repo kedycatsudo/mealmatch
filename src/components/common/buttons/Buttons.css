@@ -83,8 +83,8 @@
 
 .btn-modal__close-btn {
   position: absolute;
-  top: 35px;
-  right: 45px;
+  top: 10px;
+  right: 10px;
 }
 .btn-edit__modal-change-password {
   background-image: url('../../../assets/icons/lock.svg');

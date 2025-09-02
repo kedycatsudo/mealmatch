@@ -1,12 +1,11 @@
 import Button from '../../../../../common/buttons/Buttons'
 import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
-import { KarmCheckIcon } from '../../../../../../assets/icons'
-import { CancelIcon } from '../../../../../../assets/icons'
+import { KarmCheckIcon, CancelIcon } from '../../../../../../assets/icons'
 import { useParticipant } from '../../../../../../context/ParticipantContext'
 import handleChangEditFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
-import { useRef } from 'react'
-import { useEffect, useState } from 'react'
+import { useState, useRef } from 'react'
+import UseEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
 import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
 const EditProfileBasicInformationsContainer = ({}) => {
   const fileInputRef = useRef()
@@ -24,16 +23,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
       setParticipant((prev) => ({ ...prev, avatar: imageUrl }))
     }
   }
-  useEffect(() => {
-    if (!showModal) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [showModal])
+  UseEffectShowModal(showModal)
   if (!participant) {
     return null
   }
@@ -75,6 +65,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
       </div>
       <Input
         name="printName"
+        value={participant.printName}
         onChange={onChange}
         variant="text"
         text={'Print Name'}
@@ -83,6 +74,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
       ></Input>
 
       <Input
+        value={participant.userName}
         name="userName"
         onChange={onChange}
         variant="text"

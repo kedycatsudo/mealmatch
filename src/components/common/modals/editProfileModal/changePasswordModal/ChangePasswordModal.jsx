@@ -3,22 +3,14 @@ import Input from '../../../inputs/Inputs'
 import Button from '../../../buttons/Buttons'
 import { useState, useEffect } from 'react'
 import { useParticipant } from '../../../../../context/ParticipantContext'
+import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
 import InformationModal from '../../confirmationModals/InformationModal'
 const ChangePasswordModal = ({ onClose }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const { participant, toggleKarm, setParticipant } = useParticipant()
   const [showModal, setShowModal] = useState(false)
-  useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [showModal])
+  UseEffectShowModal(showModal)
   const handleChangePassword = ({}) => {
     if (password !== confirmPassword) {
       alert(`Password do not match`)
@@ -35,6 +27,8 @@ const ChangePasswordModal = ({ onClose }) => {
         onClick={onClose}
       ></Button>
       <Input
+        name="password"
+        value={participant.password}
         type="password"
         variant="text"
         className="change__password-container-input"
@@ -43,6 +37,7 @@ const ChangePasswordModal = ({ onClose }) => {
         readOnly
       ></Input>
       <Input
+        name="newPassword"
         type="password"
         variant="text"
         value={password}
@@ -51,6 +46,7 @@ const ChangePasswordModal = ({ onClose }) => {
         text="New Password"
       ></Input>
       <Input
+        name="confirmPassword"
         type="password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}

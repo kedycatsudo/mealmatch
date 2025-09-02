@@ -12,6 +12,8 @@ const EditProfileContactsContainer = ({}) => {
   return (
     <>
       <Input
+        name="phone"
+        value={participant.phone}
         type="number"
         onChange={onChange}
         variant="text"
@@ -20,6 +22,8 @@ const EditProfileContactsContainer = ({}) => {
         className="edit__modal-contacts-input"
       ></Input>
       <Input
+        name="email"
+        value={participant.email}
         type="email"
         onChange={onChange}
         variant="text"
