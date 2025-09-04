@@ -175,11 +175,25 @@ export const ParticipantProvider = ({ children }) => {
   ]
 
   const [participant, setParticipant] = useState(participantsData[0])
-  const toggleKarm = () => {
-    setParticipant((prev) => ({
-      ...prev,
-      karm: !prev.karm,
-    }))
+  const toggleKarm = (target = 'participant') => {
+    setParticipant((prev) => {
+      if (target === 'donation') {
+        const updatedDonationsList = [...prev.donationsList]
+        updatedDonationsList[0] = {
+          ...updatedDonationsList[0],
+          karm: !updatedDonationsList[0].karm,
+        }
+        return {
+          ...prev,
+          donationsList: updatedDonationsList,
+        }
+      } else {
+        return {
+          ...prev,
+          karm: !prev.karm,
+        }
+      }
+    })
   }
   return (
     <ParticipantContext

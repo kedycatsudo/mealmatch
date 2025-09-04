@@ -3,7 +3,7 @@ import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
 import { KarmCheckIcon, CancelIcon } from '../../../../../../assets/icons'
 import { useParticipant } from '../../../../../../context/ParticipantContext'
-import handleChangEditFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
+import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
 import { useState, useRef } from 'react'
 import UseEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
 import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
@@ -11,7 +11,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
   const fileInputRef = useRef()
   const { participant, toggleKarm, setParticipant } = useParticipant()
   const [showModal, setShowModal] = useState(false)
-  const onChange = handleChangEditFormInput(setParticipant)
+  const onChange = handleFormInput(setParticipant)
 
   const onClick = ({}) => {
     return

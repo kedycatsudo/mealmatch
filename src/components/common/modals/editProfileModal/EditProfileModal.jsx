@@ -48,6 +48,7 @@ const EditProfileModal = ({ onClose }) => {
         {showModal && (
           <div className="modal-overlay">
             <InformationModal
+              text={'Changes saved succesfully.'}
               onClose={() => setShowModal(false)}
             ></InformationModal>
           </div>

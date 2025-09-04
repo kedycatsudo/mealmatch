@@ -8,6 +8,8 @@ const donationsData = [
     useBy: '2025-08-20',
     karm: true,
     live: true,
+    pickUpLoc: '152 street knoxville',
+    contactPhone: '865 307 3143',
   },
   {
     id: 2,

@@ -1,11 +1,11 @@
 import './EditProfileAdressesContainer.css'
 import { useParticipant } from '../../../../../../context/ParticipantContext'
-import handleChangEditFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
+import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
 import Input from '../../../../../common/inputs/Inputs'
 
 const EditProfileAddressesContainer = ({}) => {
   const { participant, toggleKarm, setParticipant } = useParticipant()
-  const onChange = handleChangEditFormInput(setParticipant)
+  const onChange = handleFormInput(setParticipant)
   if (!participant) {
     return null
   }
