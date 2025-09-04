@@ -12,7 +12,7 @@ const Menu = ({}) => {
           text={btn.text}
           key={btn.id}
           variant={btn.variant}
-          onClick={() => navigatePages(`${btn.text}`)}
+          onClick={() => navigatePages(`${btn.path}`)}
         ></Button>
       ))}
     </div>

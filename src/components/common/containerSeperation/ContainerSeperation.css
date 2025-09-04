@@ -8,6 +8,8 @@
   margin: 10px 0;
 }
 .container__seperation-text {
+  margin: 0;
+  padding: 0;
   text-align: center;
   color: white;
   font-size: 60px;
