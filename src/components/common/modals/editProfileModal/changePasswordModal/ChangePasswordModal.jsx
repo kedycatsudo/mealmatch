@@ -4,7 +4,7 @@ import Button from '../../../buttons/Buttons'
 import { useState, useEffect } from 'react'
 import { useParticipant } from '../../../../../context/ParticipantContext'
 import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
-import InformationModal from '../../confirmationModals/InformationModal'
+import InformationModal from '../../informationModals/InformationModal'
 const ChangePasswordModal = ({ onClose }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -61,7 +61,6 @@ const ChangePasswordModal = ({ onClose }) => {
           variant="edit__modal-change-password"
           text="Save Changes"
         ></Button>
-        <Button variant="delete__account" text="Delete Account"></Button>
       </div>
       {showModal && (
         <div className="modal-overlay">

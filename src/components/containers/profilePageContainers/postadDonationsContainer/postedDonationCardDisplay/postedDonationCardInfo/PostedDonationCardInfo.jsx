@@ -10,7 +10,6 @@ const PostedDonationCardInfo = ({ selectedMeal }) => {
       <div className="posted_donation-card-info-container">
         <p className="posted_donation-card-info">
           {selectedMeal.karm ? 'Karm donation' : 'Karm donation is N/A'}
-          {/* make it dynamic  */}
         </p>
       </div>
       <div className="posted_donation-card-info-container">

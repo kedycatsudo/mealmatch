@@ -1,16 +1,25 @@
 import './EditProfileModal.css'
 import Button from '../../buttons/Buttons'
+import { useNavigate, Navigate } from 'react-router-dom'
+
+import ConfirmationModal from '../confirmationModal/ConfirmationModal'
 import EditProfileBasicInformationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileBasicInformationsContainer/EditProfileBasicInformationsContainer'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import EditProfileAddressesContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileAdressesContainer/EditProfileAdressesContainer'
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
 import { useState } from 'react'
 import DeleteAccountModal from './deleteAccountModal/DeleteAccountModal'
-import InformationModal from '../confirmationModals/InformationModal'
+import InformationModal from '../informationModals/InformationModal'
 const EditProfileModal = ({ onClose }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
   const [showModal, setShowModal] = useState(false)
-
+  const navigate = useNavigate()
+  const navigatePages = (index) => {
+    navigate(`/${index}`)
+  }
+  const deleteAccount = ({}) => {
+    navigatePages('home')
+  }
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
     setShowModal(true)
@@ -18,7 +27,6 @@ const EditProfileModal = ({ onClose }) => {
     return
   }
 
-  const onClick = ({}) => {}
   return (
     <div className="edit__modal">
       <Button variant="modal__close-btn" text="X" onClick={onClose}></Button>
@@ -61,9 +69,13 @@ const EditProfileModal = ({ onClose }) => {
         ></Button>
         {showModalDelete && (
           <div className="modal-overlay">
-            <DeleteAccountModal
+            <ConfirmationModal
+              confirmation={
+                'Confirm that your Meal Match Account will be deleted.'
+              }
               onClose={() => setShowModalDelete(false)}
-            ></DeleteAccountModal>
+              onClick={deleteAccount}
+            ></ConfirmationModal>
           </div>
         )}
       </form>

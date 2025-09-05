@@ -1,7 +1,6 @@
 .input {
   font-size: 25px;
   border-radius: 12px;
-  width: 350px;
   height: 40px;
   justify-content: center;
   align-items: center;
@@ -23,5 +22,5 @@
   width: 100%;
 }
 .input-text {
-  width: 100%;
+  width: auto;
 }

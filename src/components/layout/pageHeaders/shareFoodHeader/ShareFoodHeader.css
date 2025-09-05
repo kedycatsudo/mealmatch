@@ -16,3 +16,8 @@
 .share__food-header-p {
   font-size: 100px;
 }
+.menu__btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

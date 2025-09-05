@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Input from '../../common/inputs/Inputs'
 import Button from '../../common/buttons/Buttons'
 import handleFormInput from '../../../utils/helpers/handleChangEditFormInput'
-import InformationModal from '../../common/modals/confirmationModals/InformationModal'
+import InformationModal from '../../common/modals/informationModals/InformationModal'
 const ShareFoodForm = ({}) => {
   const { participant, toggleKarm, setParticipant } = useParticipant()
   const [showModal, setShowModal] = useState(false)

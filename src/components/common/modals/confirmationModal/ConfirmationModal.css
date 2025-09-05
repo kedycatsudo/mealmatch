@@ -1,4 +1,4 @@
-.delete__account-modal-container {
+.confirmation__modal-container {
   border-radius: 12px;
   position: relative;
   gap: 50px;
@@ -10,12 +10,12 @@
   height: 25%;
   background-color: #c3e3a3;
 }
-.delete__account-modal-container-p {
+.confirmation__modal-btns {
+  gap: 50px;
+  display: flex;
+}
+.confirmation__modal-container-p {
   margin: 0;
   padding: 0;
   font-size: 25px;
-}
-.modal__btns {
-  gap: 50px;
-  display: flex;
 }

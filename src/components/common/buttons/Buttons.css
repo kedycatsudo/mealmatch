@@ -3,7 +3,6 @@
   background-color: #005d1c; /* blue-600 */
   color: white;
   font-size: 25px;
-  width: fit-content;
   text-align: center;
   width: fit-content;
   height: fit-content;
@@ -83,7 +82,7 @@
 
 .btn-modal__close-btn {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 10px;
 }
 .btn-edit__modal-change-password {
