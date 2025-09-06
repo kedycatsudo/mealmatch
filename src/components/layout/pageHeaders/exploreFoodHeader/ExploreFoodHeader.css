@@ -1,0 +1,18 @@
+.header__container {
+  width: 100%;
+  display: flex;
+}
+.logo {
+  width: 100px;
+  height: 100px;
+}
+.header__container-head {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.header__container-h {
+  font-weight: 500;
+  font-size: 75px;
+  text-align: center;
+}

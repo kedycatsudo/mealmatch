@@ -15,17 +15,18 @@ export const menuButtons = [
     variant: 'menu__button',
     karmDonor: false,
   },
+
   {
     id: 3,
-    path: 'testimonials',
-    text: 'TESTIMONIALS',
+    path: 'exploreFood',
+    text: 'EXPLORE FOOD',
     variant: 'menu__button',
     karmDonor: false,
   },
   {
     id: 4,
-    path: 'expolerFood',
-    text: 'EXPLORE FOOD',
+    path: 'testimonials',
+    text: 'TESTIMONIALS',
     variant: 'menu__button',
     karmDonor: false,
   },

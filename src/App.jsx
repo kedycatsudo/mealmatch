@@ -11,7 +11,7 @@ import Menu from './pages/menu/Menu'
 import Profile from './pages/profile/Profile'
 import NotFound from './pages/notFound/NotFound'
 import PostFood from './pages/postFood/PostFood'
-
+import ExploreFood from './pages/exploreFood/ExploreFood'
 import { ParticipantProvider } from './context/ParticipantContext'
 
 function App() {
@@ -27,6 +27,11 @@ function App() {
         <Route path="/about" element={<About></About>}></Route>
         <Route path="/profile" element={<Profile></Profile>}></Route>
         <Route path="/shareFood" element={<PostFood></PostFood>}></Route>
+        <Route
+          path="/exploreFood"
+          element={<ExploreFood></ExploreFood>}
+        ></Route>
+
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
     </ParticipantProvider>

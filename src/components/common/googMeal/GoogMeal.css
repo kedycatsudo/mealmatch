@@ -1,0 +1,13 @@
+.googMeal__container {
+  display: flex;
+  flex-direction: column;
+}
+.googMeal__container-list-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.googMeal__container-list {
+}
+.googMeal__container-card {
+}

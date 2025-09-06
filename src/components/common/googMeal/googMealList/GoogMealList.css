@@ -1,0 +1,19 @@
+.googMeal__container-list-cards {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  height: 650px;
+  gap: 20px;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.googMeal__donations-list {
+  border-radius: 12px;
+  direction: rtl;
+  overflow-y: auto;
+  scrollbar-color: #d9d9d9;
+  margin: 0;
+  padding: 0 0 0 10px;
+  list-style-type: none;
+  width: 100%;
+}
