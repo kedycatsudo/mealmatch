@@ -12,6 +12,8 @@ import Profile from './pages/profile/Profile'
 import NotFound from './pages/notFound/NotFound'
 import PostFood from './pages/postFood/PostFood'
 import ExploreFood from './pages/exploreFood/ExploreFood'
+import Testimonial from './pages/testimonial/Testimonial'
+
 import { ParticipantProvider } from './context/ParticipantContext'
 
 function App() {
@@ -31,7 +33,10 @@ function App() {
           path="/exploreFood"
           element={<ExploreFood></ExploreFood>}
         ></Route>
-
+        <Route
+          path="/testimonials"
+          element={<Testimonial></Testimonial>}
+        ></Route>
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
     </ParticipantProvider>

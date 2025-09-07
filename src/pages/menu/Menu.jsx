@@ -1,5 +1,6 @@
 import Button from '../../components/common/buttons/Buttons'
 import { menuButtons } from './menuButton'
+import { Logout } from '../../assets/icons'
 import './Menu.css'
 import { useNavigate } from 'react-router-dom'
 const Menu = ({}) => {
@@ -15,6 +16,11 @@ const Menu = ({}) => {
           onClick={() => navigatePages(`${btn.path}`)}
         ></Button>
       ))}
+      <Button
+      className='logout__btn'
+        onClick={() => navigatePages('home')}
+        variant="logout_btn"
+      ></Button>
     </div>
   )
 }

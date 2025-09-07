@@ -1,5 +1,11 @@
 .menu__container {
+  position: relative;
   display: grid;
   grid-auto-rows: 1fr;
   height: 100vh;
+}
+.logout__btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }

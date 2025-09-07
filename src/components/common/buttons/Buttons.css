@@ -95,3 +95,15 @@
 .btn-delete__account {
   background-color: rgb(192, 0, 0);
 }
+.btn-logout_btn {
+  display: block;
+  width: 75px;
+  height: 75px;
+  background-image: url('../../../assets/icons/logout.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+.btn-logout_btn:hover {
+  background-color: red;
+}

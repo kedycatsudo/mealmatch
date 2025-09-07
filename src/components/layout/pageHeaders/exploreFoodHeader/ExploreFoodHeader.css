@@ -7,12 +7,15 @@
   height: 100px;
 }
 .header__container-head {
+  position: relative;
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
 }
 .header__container-h {
   font-weight: 500;
   font-size: 75px;
   text-align: center;
+}
+.logo {
+  position: absolute;
+  border-radius: 12px;
 }

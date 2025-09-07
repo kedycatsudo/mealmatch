@@ -1,6 +1,12 @@
+import {
+  ParticipantProvider,
+  useParticipant,
+} from '../context/ParticipantContext'
+
 const activeDonations = [
   {
     id: 1,
+    ownerId: 1,
     hold: false,
     mealName: 'Spaghetti Bolognese',
     allergens: ['Gluten', 'Dairy'],
@@ -13,7 +19,7 @@ const activeDonations = [
   {
     id: 2,
     hold: true,
-
+    ownerId: 2,
     mealName: 'Vegan Buddha Bowl',
     allergens: [],
     postDate: '2025-08-14',
@@ -25,7 +31,7 @@ const activeDonations = [
   {
     id: 3,
     hold: true,
-
+    ownerId: 3,
     mealName: 'Chicken Curry',
     allergens: ['Peanuts'],
     postDate: '2025-08-16',
@@ -36,7 +42,7 @@ const activeDonations = [
   {
     id: 4,
     hold: false,
-
+    ownerId: 4,
     mealName: 'Quinoa Salad',
     allergens: ['Sesame'],
     postDate: '2025-08-12',
@@ -46,7 +52,7 @@ const activeDonations = [
   {
     id: 5,
     hold: true,
-
+    ownerId: 5,
     mealName: 'Grilled Salmon',
     allergens: ['Fish'],
     postDate: '2025-08-13',
@@ -56,7 +62,7 @@ const activeDonations = [
   {
     id: 6,
     hold: true,
-
+    ownerId: 6,
     mealName: 'Beef Tacos',
     allergens: ['Gluten'],
     postDate: '2025-08-15',
@@ -66,7 +72,7 @@ const activeDonations = [
   {
     id: 7,
     hold: false,
-
+    ownerId: 7,
     mealName: 'Misos Soup',
     allergens: ['Soy'],
     postDate: '2025-08-11',
@@ -76,7 +82,7 @@ const activeDonations = [
   {
     id: 8,
     hold: true,
-
+    ownerId: 8,
     mealName: 'Lentil Stsew',
     allergens: [],
     postDate: '2025-08-10',
@@ -86,7 +92,7 @@ const activeDonations = [
   {
     id: 9,
     hold: true,
-
+    ownerId: 9,
     mealName: 'Shrimp Fried Rice',
     allergens: ['Shellfish', 'Eggs'],
     postDate: '2025-08-09',
@@ -96,7 +102,7 @@ const activeDonations = [
   {
     id: 10,
     hold: true,
-
+    ownerId: 10,
     mealName: 'Vegetable Lasagna',
     allergens: ['Dairy', 'Gluten'],
     postDate: '2025-08-17',

@@ -1,0 +1,10 @@
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.header__container-h {
+  font-weight: 500;
+  font-size: 75px;
+  text-align: center;
+}

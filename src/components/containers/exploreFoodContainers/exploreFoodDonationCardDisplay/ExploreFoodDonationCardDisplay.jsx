@@ -1,11 +1,13 @@
 import Button from '../../../common/buttons/Buttons'
-import PostedDonationCardInfo from '../../profilePageContainers/postadDonationsContainer/postedDonationCardDisplay/postedDonationCardInfo/PostedDonationCardInfo'
+import ConfirmationModal from '../../../common/modals/confirmationModal/ConfirmationModal'
 import './ExploreFoodDonationCardDisplay.css'
 import ExploreFoodDonationCardInfo from './exploreFoodDonationCardInfo/ExploreFoodDonationCardInfo'
-import PostedDonationCardDisplayFooter from '../../profilePageContainers/postadDonationsContainer/postedDonationCardDisplay/postedDonationCardDisplayFooter/PostedDonationCardDisplayFooter'
 import { useState } from 'react'
-const ExploreFoodDonationCardDisplay = ({ selectedMeal }) => {
-  const [showModal, setShowModal] = useState(false)
+const ExploreFoodDonationCardDisplay = ({ selectedMeal, setShowMapModal }) => {
+  const [showModalAcceptDonation, setShowModalAcceptDonation] = useState(false)
+
+  const onClose = () => setShowModalAcceptDonation(false)
+
   const cardDeleteBtn = () => {}
   return (
     <div className="explore__donation_card_display-container">
@@ -14,11 +16,29 @@ const ExploreFoodDonationCardDisplay = ({ selectedMeal }) => {
       </h3>
 
       <div className="explore__donation_card-btns">
-        <Button
-          onClick={() => setShowModal(true)}
-          variant="card__edit"
-          text="Accept"
-        ></Button>
+        {selectedMeal.hold ? null : (
+          <Button
+            type="button"
+            onClick={() => setShowModalAcceptDonation(true)}
+            variant="card__edit"
+            text="Accept"
+          ></Button>
+        )}
+
+        {showModalAcceptDonation && (
+          <div className="modal-overlay">
+            <ConfirmationModal
+              confirmation={
+                'Confirm that you are requesting to pick up the donation.'
+              }
+              onClick={() => {
+                setShowMapModal(true)
+                setShowModalAcceptDonation(false)
+              }}
+              onClose={() => setShowModalAcceptDonation(false)}
+            ></ConfirmationModal>
+          </div>
+        )}
       </div>
       <div className="explore__donation-card-infos">
         <ExploreFoodDonationCardInfo
