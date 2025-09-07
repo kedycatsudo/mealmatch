@@ -1,5 +1,5 @@
 .list__item-container {
-  background-color: #d9d9d9;
+  background-color: white;
   border-bottom: 10px solid #009951;
   border-radius: 12px;
   display: grid;
@@ -10,9 +10,7 @@
 .not-active {
   border-bottom: 10px solid red;
 }
-.list__item-container {
-  background-color: #f3f3f3;
-}
+
 .selected-item {
   background-color: white;
 }

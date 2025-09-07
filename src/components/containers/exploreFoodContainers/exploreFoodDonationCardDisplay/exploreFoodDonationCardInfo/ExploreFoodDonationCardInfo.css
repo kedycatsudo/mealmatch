@@ -1,0 +1,9 @@
+.explore_donation-card-info-container {
+  text-align: center;
+  width: 100%;
+  border-bottom: 10px solid #009951;
+  border-radius: 12px;
+}
+.explore_donation-card-info {
+  font-size: 25px;
+}

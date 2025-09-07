@@ -1,11 +1,80 @@
 import './ExploreFoodBody.css'
-import GoogMeal from '../../../common/googMeal/GoogMeal'
+import PostedDonationCardDisplay from '../../../containers/profilePageContainers/postadDonationsContainer/postedDonationCardDisplay/PostedDonationCardDisplay'
+import ExploreDonationsListItem from '../../../containers/exploreFoodContainers/exploreFoodDonationsListItem/ExploreDonationsListItem'
+import ExploreDonationListTitle from '../../../containers/exploreFoodContainers/exploreFoodDonationsListTitle/ExploreFoodDonationsListTitle'
 import SearchBox from '../../../common/searchBox/SearchBox'
-const ExploreFoodBody = ({}) => {
+import ExploreFoodDonationCardDisplay from '../../../containers/exploreFoodContainers/exploreFoodDonationCardDisplay/ExploreFoodDonationCardDisplay'
+import { useState } from 'react'
+
+const ExploreFoodBody = ({ activeDonations }) => {
+  const handleSortByPostedDate = () => {
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    setSortSelection('SortByPostedDate')
+  }
+  const handleSortByUseBy = () => {
+    setSortOrderUseBy((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    setSortSelection('SortByUseBy')
+  }
+
+  const handeSortByServingSize = () => {
+    setSortSize((prev) => (prev === 'big' ? 'small' : 'big'))
+    setSortSelection('SortByServingSize')
+  }
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedMeal, setSelectedMeal] = useState({})
+  const [sortOrder, setSortOrder] = useState('')
+  const [sortSize, setSortSize] = useState('')
+  const [sortSelection, setSortSelection] = useState('')
+  const [sortOrderUseBy, setSortOrderUseBy] = useState('')
+  const filteredDonations = activeDonations.filter((donation) => {
+    return Object.values(donation)
+      .filter((value) => typeof value === 'string')
+      .some((value) => value.toLowerCase().includes(searchTerm.toLowerCase()))
+  })
+  const sortedDonations = [...filteredDonations].sort((a, b) => {
+    if (sortSelection === 'SortByServingSize') {
+      const sizeA = a.servings || 0
+      const sizeB = b.servings || 0
+      return sortSize === 'big' ? sizeB - sizeA : sizeA - sizeB
+    } else if (sortSelection === 'SortByPostedDate') {
+      const dateA = new Date(a.postDate)
+      const dateB = new Date(b.postDate)
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
+    } else if (sortSelection === 'SortByUseBy') {
+      const useByA = new Date(a.useBy)
+      const useByB = new Date(b.useBy)
+      return sortOrderUseBy === 'asc' ? useByA - useByB : useByB - useByA
+    }
+  })
   return (
-    <div className="body__content">
-      <GoogMeal></GoogMeal>
-      {/* add map api here as a second elemend of the body */}
+    <div className="posted__donations-container">
+      <SearchBox
+        onSearchChange={setSearchTerm}
+        sortOrder={sortOrder}
+        onSortByPostedDate={handleSortByPostedDate}
+        sortSize={sortSize}
+        onSortByServingSize={handeSortByServingSize}
+        sortOrderUseBy={sortOrderUseBy}
+        onSortByUseBy={handleSortByUseBy}
+      ></SearchBox>
+      <div className="posted__donations-list-cards">
+        <ul className="posted__donations-list-container">
+          <ExploreDonationListTitle text={'asd'}></ExploreDonationListTitle>
+          {sortedDonations && sortedDonations.length > 0
+            ? sortedDonations.map((sortedDonation, idx) => (
+                <ExploreDonationsListItem
+                  onClick={() => {
+                    setSelectedMeal(sortedDonation)
+                  }}
+                  key={sortedDonation.id || idx}
+                  donation={sortedDonation}
+                  selectedMeal={selectedMeal}
+                />
+              ))
+            : null}
+        </ul>
+        <ExploreFoodDonationCardDisplay selectedMeal={selectedMeal} />
+      </div>
     </div>
   )
 }

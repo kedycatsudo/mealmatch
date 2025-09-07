@@ -1,0 +1,29 @@
+.explore__donation_card_display-container {
+  border-radius: 12px;
+  background-color: #f3f3f3;
+  display: flex;
+  flex-direction: column;
+}
+.explore__donation_card_display-container-title {
+  height: 35px;
+  width: 100%;
+  background-color: #009951;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 10px 0 0;
+  font-size: 25px;
+}
+.explore__donation_card-btns {
+  padding: 20px 0 0;
+  display: flex;
+  justify-content: space-around;
+}
+.posted__donation-card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  padding: 20px 0 0;
+}

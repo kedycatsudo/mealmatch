@@ -1,0 +1,14 @@
+.explore__donations-list-title {
+  width: 100%;
+  border-radius: 12px;
+  height: fit-content;
+  background-color: #009951;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.explore__donations-list-categories {
+  color: white;
+  padding: 10px 0;
+  font-size: 25px;
+  text-align: center;
+}
