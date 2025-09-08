@@ -3,7 +3,11 @@ import ConfirmationModal from '../../../common/modals/confirmationModal/Confirma
 import './ExploreFoodDonationCardDisplay.css'
 import ExploreFoodDonationCardInfo from './exploreFoodDonationCardInfo/ExploreFoodDonationCardInfo'
 import { useState } from 'react'
-const ExploreFoodDonationCardDisplay = ({ selectedMeal, setShowMapModal }) => {
+const ExploreFoodDonationCardDisplay = ({
+  selectedMeal,
+  onConfirmAccept,
+  onClick,
+}) => {
   const [showModalAcceptDonation, setShowModalAcceptDonation] = useState(false)
 
   const onClose = () => setShowModalAcceptDonation(false)
@@ -28,14 +32,15 @@ const ExploreFoodDonationCardDisplay = ({ selectedMeal, setShowMapModal }) => {
         {showModalAcceptDonation && (
           <div className="modal-overlay">
             <ConfirmationModal
+              onClick={() => {
+                if (onConfirmAccept) onConfirmAccept()
+                setShowModalAcceptDonation(false)
+                onClick()
+              }}
               confirmation={
                 'Confirm that you are requesting to pick up the donation.'
               }
-              onClick={() => {
-                setShowMapModal(true)
-                setShowModalAcceptDonation(false)
-              }}
-              onClose={() => setShowModalAcceptDonation(false)}
+              onClose={onClose}
             ></ConfirmationModal>
           </div>
         )}

@@ -9,3 +9,4 @@ const buildAddress = (participant) => {
     .replace(/\s+,/g, '')
     .trim()
 }
+export default buildAddress
