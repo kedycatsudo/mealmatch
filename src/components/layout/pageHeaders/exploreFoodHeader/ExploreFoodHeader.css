@@ -1,6 +1,7 @@
 .header__container {
   width: 100%;
   display: flex;
+  position: relative;
 }
 .logo {
   width: 100px;
@@ -18,4 +19,7 @@
 .logo {
   position: absolute;
   border-radius: 12px;
+}
+.menu__btn {
+  position: absolute;
 }

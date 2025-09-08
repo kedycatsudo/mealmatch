@@ -65,6 +65,7 @@ const ChangePasswordModal = ({ onClose }) => {
       {showModal && (
         <div className="modal-overlay">
           <InformationModal
+            text={'Password changed succesfully'}
             onClose={() => {
               onClose()
               setShowModal(false)

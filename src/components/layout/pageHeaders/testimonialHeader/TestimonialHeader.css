@@ -8,3 +8,6 @@
   font-size: 75px;
   text-align: center;
 }
+.menu__btn {
+  position: absolute;
+}
