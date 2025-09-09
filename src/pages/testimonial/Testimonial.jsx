@@ -10,7 +10,7 @@ const Testimonial = ({}) => {
           <TestimonialHeader></TestimonialHeader>
         </header>
         <ContainerSeperation
-          text={'Donation Meal Testimonials'}
+          text={'KARM Donation Testimonials'}
         ></ContainerSeperation>
         <main className="testimonail__body">
           <TestimonialBody></TestimonialBody>

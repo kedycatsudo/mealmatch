@@ -1,6 +1,7 @@
 import './ShareFoodForm.css'
 import { useNavigate } from 'react-router-dom'
 import { useParticipant } from '../../../context/ParticipantContext'
+import { useRecentDonation } from '../../../context/RecentDonationsContext'
 import { useState } from 'react'
 import Input from '../../common/inputs/Inputs'
 import Button from '../../common/buttons/Buttons'
@@ -8,16 +9,21 @@ import handleFormInput from '../../../utils/helpers/handleChangEditFormInput'
 import InformationModal from '../../common/modals/informationModals/InformationModal'
 const ShareFoodForm = ({}) => {
   const { participant, toggleKarm, setParticipant } = useParticipant()
+  const { addRecentDonation, recentDonationStack, setRecentDonationStack } =
+    useRecentDonation()
   const [showModal, setShowModal] = useState(false)
   const onChange = handleFormInput(setParticipant)
   const navigate = useNavigate()
   const navigateTo = (index) => navigate(`/${index}`)
   const handleSubmitForm = (e) => {
     e.preventDefault()
+    if (participant.donationsList[0].karm) {
+      addRecentDonation(participant.donationsList[0])
+    }
     setShowModal(true)
   }
   return (
-    <form className="food__form">
+    <form className="food__form" onSubmit={handleSubmitForm}>
       <div className="food__form-inputs-container">
         <div className="food__form-inputs">
           <Input
@@ -86,7 +92,7 @@ const ShareFoodForm = ({}) => {
       </div>
 
       <Button
-        onClick={() => setShowModal(true)}
+        onClick={handleSubmitForm}
         variant="login__button-container-submit"
         text="Donate"
         type="button"

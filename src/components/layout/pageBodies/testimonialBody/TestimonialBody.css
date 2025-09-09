@@ -1,0 +1,27 @@
+.testimonials__list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  height: 500px;
+  overflow-y: auto; /* enables vertical scrolling */
+  /* Firefox custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #f0f0f0 #d9d9d9;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scroll-padding-left: 50px;
+}
+
+/* Chrome, Edge, Safari custom scrollbar */
+.testimonials__list-container::-webkit-scrollbar {
+  width: 10px;
+  background: #f0f0f0;
+}
+
+.testimonials__list-container::-webkit-scrollbar-thumb {
+  background: #bada55;
+}
+
+.testimonials__list-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
