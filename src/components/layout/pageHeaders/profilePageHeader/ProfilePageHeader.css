@@ -6,6 +6,9 @@
   justify-content: center;
   align-items: center;
 }
+.profile__header-avatar {
+  width: 200px;
+}
 .header__container {
   width: 100%;
   display: flex;
@@ -16,6 +19,9 @@
   font-weight: 100;
   margin: 0;
   padding: 0;
+}
+.meal__match-logo {
+  background-color: transparent;
 }
 .header__container-paragraph {
   font-size: 30px;

@@ -24,7 +24,11 @@ const ProfilePageHeader = ({}) => {
         ></Button>
       </div>
       <div className="header__container">
-        <img alt="user avatar"></img>
+        <img
+          className="profile__header-avatar"
+          src={participant.avatar}
+          alt="user avatar"
+        ></img>
 
         <p className="header__container-paragraph">{participant.userName}</p>
         <p className="header__container-paragraph">
