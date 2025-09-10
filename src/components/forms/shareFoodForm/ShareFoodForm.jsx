@@ -1,4 +1,5 @@
 import './ShareFoodForm.css'
+import donationsData from '../../../constants/donationsData'
 import { useNavigate } from 'react-router-dom'
 import { useParticipant } from '../../../context/ParticipantContext'
 import { useRecentDonation } from '../../../context/RecentDonationsContext'
@@ -9,16 +10,17 @@ import handleFormInput from '../../../utils/helpers/handleChangEditFormInput'
 import InformationModal from '../../common/modals/informationModals/InformationModal'
 const ShareFoodForm = ({}) => {
   const { participant, toggleKarm, setParticipant } = useParticipant()
-  const { addRecentDonation, recentDonationStack, setRecentDonationStack } =
-    useRecentDonation()
+  const { addRecentDonation } = useRecentDonation()
   const [showModal, setShowModal] = useState(false)
   const onChange = handleFormInput(setParticipant)
   const navigate = useNavigate()
   const navigateTo = (index) => navigate(`/${index}`)
   const handleSubmitForm = (e) => {
+    console.log('Adding donation:', participant.donationsList[0])
     e.preventDefault()
     if (participant.donationsList[0].karm) {
       addRecentDonation(participant.donationsList[0])
+    } else {
     }
     setShowModal(true)
   }

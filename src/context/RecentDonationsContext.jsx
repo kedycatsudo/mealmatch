@@ -1,5 +1,5 @@
-import { useParticipant } from './ParticipantContext'
 import { createContext, useContext, useState } from 'react'
+import { useEffect } from 'react'
 const RecentDonationContext = createContext({})
 
 export const RecentDonationProvider = ({ children }) => {

@@ -1,23 +1,39 @@
 import './TestimonialCardsContainer.css'
-import { ArrowRight } from '../../../../assets/icons/index'
+import { useRecentDonation } from '../../../../context/RecentDonationsContext'
 import TestimonialCardsListItem from './TestimonialCardsListItem'
-//import testimonialCards from './testimonialCards' use after create donationCounter context
-import { testimonialCards } from '../../../../utils/constants/homePageConstants/testimonialCardConstants'
-const lastFourTestimonials = testimonialCards.slice(-4)
+import { ArrowRight } from '../../../../assets/icons/index'
+const TestimonialCardsContainer = ({}) => {
+  const { recentDonationStack } = useRecentDonation()
+  console.log(recentDonationStack)
+  if (!recentDonationStack || recentDonationStack.length === 0) {
+    return (
+      <div className="testimonial__container">
+        <div className="testimonial__no-donation">
+          There is no donation to display
+        </div>
+      </div>
+    )
+  }
 
-const TestimonialCardsContainer = ({}) => (
-  <div className="testimonial__container">
-    <ul className="testimonail__container_cards">
-      {lastFourTestimonials.map((testimonial) => (
-        <TestimonialCardsListItem
-          participantName={testimonial.participantName}
-          recentDonation={testimonial.recentDonation}
-          key={testimonial.id}
-        ></TestimonialCardsListItem>
-      ))}
-    </ul>
-    <img className="testimonial__container_cards-skip" src={ArrowRight}></img>
-  </div>
-)
+  const itemsToShow =
+    recentDonationStack.length > 4
+      ? recentDonationStack.slice(-4)
+      : recentDonationStack
+
+  return (
+    <div className="testimonial__container">
+      <ul className="testimonail__container_cards">
+        {itemsToShow.map((donation, idx) => (
+          <TestimonialCardsListItem key={idx} donation={donation} />
+        ))}
+      </ul>
+      <img
+        className="testimonial__container_cards-skip"
+        src={ArrowRight}
+        alt="Next"
+      />
+    </div>
+  )
+}
 
 export default TestimonialCardsContainer

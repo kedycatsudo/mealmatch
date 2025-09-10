@@ -1,0 +1,16 @@
+.testimonial__page_footer-list-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  padding: 20px 5px;
+  height: 500px;
+  overflow-y: auto; /* enables vertical scrolling */
+  /* Firefox custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #f0f0f0 #d9d9d9;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scroll-padding-left: 50px;
+}
