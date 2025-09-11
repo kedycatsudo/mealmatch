@@ -1,15 +1,13 @@
 import Button from '../../../../common/buttons/Buttons'
 import PostedDonationCardInfo from './postedDonationCardInfo/PostedDonationCardInfo'
 import './PostedDonationCardDisplay.css'
-import EditMealCardModal from '../../../../common/modals/editMealCardModal/EditMealCardModal'
+import EditMealCardModalForm from '../../../../common/modals/editMealCardModal/EditMealCardModal'
 import PostedDonationCardDisplayFooter from './postedDonationCardDisplayFooter/PostedDonationCardDisplayFooter'
 import { useState } from 'react'
-const PostedDonationCardDisplay = ({ selectedMeal }) => {
+const PostedDonationCardDisplay = ({ selectedMeal, onSave }) => {
   const [showEditMealCardModal, setShowEditMealCardModal] = useState(false)
   const cardDeleteBtn = () => {}
-  const onClickEdit = () => {
-    setShowEditMealCardModal(true)
-  }
+
   return (
     <div className="posted__donation_card_display-container">
       <h3 className="posted__donation_card_display-container-title">
@@ -20,16 +18,18 @@ const PostedDonationCardDisplay = ({ selectedMeal }) => {
         {selectedMeal.live ? (
           <>
             <Button
-              onClick={onClickEdit}
+              onClick={() => setShowEditMealCardModal(true)}
               variant="card__edit"
               text="Edit"
             ></Button>
             <Button variant="card__edit" text="Delete"></Button>
             {showEditMealCardModal && (
               <div className="modal__overlay">
-                <EditMealCardModal
+                <EditMealCardModalForm
+                  onClose={() => setShowEditMealCardModal(false)}
+                  onSave={onSave}
                   selectedMeal={selectedMeal}
-                ></EditMealCardModal>
+                ></EditMealCardModalForm>
               </div>
             )}
           </>

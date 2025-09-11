@@ -1,5 +1,4 @@
 import './ShareFoodForm.css'
-import donationsData from '../../../constants/donationsData'
 import { useNavigate } from 'react-router-dom'
 import { useParticipant } from '../../../context/ParticipantContext'
 import { useRecentDonation } from '../../../context/RecentDonationsContext'

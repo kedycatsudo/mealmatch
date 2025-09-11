@@ -4,7 +4,6 @@ import TestimonialCardsListItem from './TestimonialCardsListItem'
 import { ArrowRight } from '../../../../assets/icons/index'
 const TestimonialCardsContainer = ({}) => {
   const { recentDonationStack } = useRecentDonation()
-  console.log(recentDonationStack)
   if (!recentDonationStack || recentDonationStack.length === 0) {
     return (
       <div className="testimonial__container">

@@ -1,12 +1,14 @@
 import './PostedDonationsContainer.css'
+import donationsData from '../../../../constants/donationsData.js'
 import DonationsListTitle from './postedDonationsListContainer/DonationListTitle.jsx'
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-const PostedDonationsContainer = ({ donations }) => {
+const PostedDonationsContainer = ({}) => {
+  const [donations, setDonations] = useState(donationsData)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMeal, setSelectedMeal] = useState({})
   const [sortOrder, setSortOrder] = useState('')
@@ -14,6 +16,15 @@ const PostedDonationsContainer = ({ donations }) => {
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
 
+  const onSave = (updatedMeal) => {
+    setDonations((prev) => {
+      const updated = prev.map((d) =>
+        d.id === updatedMeal.id ? { ...d, ...updatedMeal } : d
+      )
+      return updated
+    })
+    setSelectedMeal(updatedMeal) // keeps display in sync
+  }
   const handleSortByPostedDate = () => {
     setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
     setSortSelection('SortByPostedDate')
@@ -75,7 +86,11 @@ const PostedDonationsContainer = ({ donations }) => {
               ))
             : null}
         </ul>
-        <PostedDonationCardDisplay selectedMeal={selectedMeal} />
+        <PostedDonationCardDisplay
+          setSelectedMeal={setSelectedMeal}
+          selectedMeal={selectedMeal}
+          onSave={onSave} // Pass the save handler to the display/modal
+        />
       </div>
     </div>
   )

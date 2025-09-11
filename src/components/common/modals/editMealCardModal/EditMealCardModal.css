@@ -1,0 +1,24 @@
+.edit__meal_modal-container {
+  position: relative;
+  border-radius: 12px;
+  min-width: 750px;
+
+  background-color: #d9d9d9;
+}
+.container__seperation {
+  margin: 0;
+}
+.edit__meal_modal-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.edit__meal-modal-input {
+  border: 5px solid #009951;
+}
+.edit__modal_save-changes-btn {
+  margin-bottom: 10px;
+}
+.edit__meal-modal-input-karm {
+  display: flex;
+}
