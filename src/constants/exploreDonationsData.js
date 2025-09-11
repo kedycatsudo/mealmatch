@@ -18,7 +18,7 @@ const activeDonations = [
   },
   {
     id: 2,
-    hold: true,
+    hold: false,
     ownerId: 2,
     mealName: 'Vegan Buddha Bowl',
     allergens: [],
@@ -30,7 +30,7 @@ const activeDonations = [
   },
   {
     id: 3,
-    hold: true,
+    hold: false,
     ownerId: 3,
     mealName: 'Chicken Curry',
     allergens: ['Peanuts'],
@@ -51,7 +51,7 @@ const activeDonations = [
   },
   {
     id: 5,
-    hold: true,
+    hold: false,
     ownerId: 5,
     mealName: 'Grilled Salmon',
     allergens: ['Fish'],
@@ -61,7 +61,7 @@ const activeDonations = [
   },
   {
     id: 6,
-    hold: true,
+    hold: false,
     ownerId: 6,
     mealName: 'Beef Tacos',
     allergens: ['Gluten'],
@@ -81,7 +81,7 @@ const activeDonations = [
   },
   {
     id: 8,
-    hold: true,
+    hold: false,
     ownerId: 8,
     mealName: 'Lentil Stsew',
     allergens: [],
@@ -91,7 +91,7 @@ const activeDonations = [
   },
   {
     id: 9,
-    hold: true,
+    hold: false,
     ownerId: 9,
     mealName: 'Shrimp Fried Rice',
     allergens: ['Shellfish', 'Eggs'],
@@ -101,7 +101,7 @@ const activeDonations = [
   },
   {
     id: 10,
-    hold: true,
+    hold: false,
     ownerId: 10,
     mealName: 'Vegetable Lasagna',
     allergens: ['Dairy', 'Gluten'],

@@ -105,11 +105,7 @@ const ExploreFoodDonationMapModal = forwardRef(
           <p>{address}</p>
           {statusMessage && <p className="map__status">{statusMessage}</p>}
           {/* The interactive map (Google JS API will render here) */}
-          <div
-            ref={mapRef}
-            className="map__canvas"
-            style={{ height: 360, width: '100%' }}
-          />
+
           {/* If JS API didn't geocode/show map, fallback to an iframe */}
           {!window.google?.maps && (
             <div className="map__embed">

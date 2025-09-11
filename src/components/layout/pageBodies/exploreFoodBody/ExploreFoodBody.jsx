@@ -134,7 +134,7 @@ const ExploreFoodBody = ({ activeDonations }) => {
         <ExploreFoodDonationMapModal
           showMapModal={showMapModal}
           ref={modalRef}
-          apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} // or process.env.REACT_APP...
+          apiKey={'AIzaSyBOIRdskona5zw-Lv_0MN2cUQseN_m557A'} // or process.env.REACT_APP...
           address={modalAddress}
           tabIndex={-1} // Make it focusable
           confirmation={
