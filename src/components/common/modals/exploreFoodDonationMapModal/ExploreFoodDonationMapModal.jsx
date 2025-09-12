@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import Button from '../../buttons/Buttons'
 import './ExploreFoodDonationMapModal.css'
+import ConfirmationModal from '../confirmationModal/ConfirmationModal'
 
 //loader for GoogleMaps js api
 
@@ -30,6 +31,14 @@ const ExploreFoodDonationMapModal = forwardRef(
     const mapRef = useRef(null)
     const containerRef = useRef(null)
     const [statusMessage, setStatusMessage] = useState('')
+
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+
+    useEffect(() => {
+      if (!showConfirmationModal) {
+        setStatusMessage('')
+      }
+    }, [showConfirmationModal])
 
     useEffect(() => {
       if (!address) return
@@ -99,13 +108,27 @@ const ExploreFoodDonationMapModal = forwardRef(
       >
         <div className="modal__content">
           <Button
+            type="button"
+            onClick={() => setShowConfirmationModal(true)}
             className="donation-cancel"
             text="Cancel pick up donation"
           ></Button>
+          {showConfirmationModal && (
+            <div className="modal__overlay">
+              <ConfirmationModal
+                onClose={() => setShowConfirmationModal(false)}
+                onClick={onClose}
+                confirmation={'Do you want to cancel pick up donation ?'}
+              ></ConfirmationModal>
+            </div>
+          )}
           <p>{address}</p>
           {statusMessage && <p className="map__status">{statusMessage}</p>}
           {/* The interactive map (Google JS API will render here) */}
-
+          <div
+            ref={mapRef}
+            style={{ width: '100%', height: '360px', borderRadius: '8px' }}
+          />
           {/* If JS API didn't geocode/show map, fallback to an iframe */}
           {!window.google?.maps && (
             <div className="map__embed">

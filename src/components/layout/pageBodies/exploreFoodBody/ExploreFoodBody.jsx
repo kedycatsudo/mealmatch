@@ -133,6 +133,7 @@ const ExploreFoodBody = ({ activeDonations }) => {
       {showMapModal && (
         <ExploreFoodDonationMapModal
           showMapModal={showMapModal}
+          onClose={() => setShowMapModal(false)}
           ref={modalRef}
           apiKey={'AIzaSyBOIRdskona5zw-Lv_0MN2cUQseN_m557A'} // or process.env.REACT_APP...
           address={modalAddress}
