@@ -25,11 +25,6 @@ const HomePageHeader = ({
             text={'Login/Register'}
             variant="secondary"
           ></Button>
-          <Button
-            onClick={() => navigatePages('about')}
-            text={'About Meal Match'}
-            variant="secondary"
-          ></Button>
         </div>
       </div>
     </header>

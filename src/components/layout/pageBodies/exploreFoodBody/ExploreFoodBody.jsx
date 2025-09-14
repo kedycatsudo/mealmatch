@@ -141,7 +141,6 @@ const ExploreFoodBody = ({ activeDonations }) => {
           confirmation={
             'Confirm that you are requesting to pick up the donation.'
           }
-          onClose={() => setShowMapModal(false)}
         />
       )}
     </div>

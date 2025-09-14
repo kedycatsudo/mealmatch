@@ -5,7 +5,7 @@ import PostedDonationListItem from './postedDonationsListContainer/PostedDonatio
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const PostedDonationsContainer = ({}) => {
   const [donations, setDonations] = useState(donationsData)
@@ -15,6 +15,11 @@ const PostedDonationsContainer = ({}) => {
   const [sortSize, setSortSize] = useState('')
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
+
+  const handleDelete = (donationId) => {
+    setDonations((prev) => prev.filter((d) => d.id !== donationId))
+    if (selectedMeal?.id === donationId) setSelectedMeal({})
+  }
 
   const onSave = (updatedMeal) => {
     setDonations((prev) => {
@@ -87,6 +92,7 @@ const PostedDonationsContainer = ({}) => {
             : null}
         </ul>
         <PostedDonationCardDisplay
+          onDelete={handleDelete}
           setSelectedMeal={setSelectedMeal}
           selectedMeal={selectedMeal}
           onSave={onSave} // Pass the save handler to the display/modal

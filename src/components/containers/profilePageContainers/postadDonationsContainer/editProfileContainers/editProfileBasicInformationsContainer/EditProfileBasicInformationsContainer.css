@@ -1,12 +1,14 @@
 .edit__modal-basic-container-avatar {
+  display: block;
   border-radius: 12px;
   width: 200px;
   height: 200px;
+  padding-right: 185px;
 }
 .edit__modal-basic-container {
   padding-top: 25px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .edit__modal-input {

@@ -2,8 +2,9 @@ import { useParticipant } from '../../../../../context/ParticipantContext'
 import DonationStatusListItem from './donationStatusListItem/DonationStatusListItem'
 import './ProfilePageFooter.css'
 import ContainerSeperation from '../../../../common/containerSeperation/ContainerSeperation'
+import { CancelIcon, KarmCheckIcon } from '../../../../../assets/icons'
 const ProfilePageFooter = ({}) => {
-  const { participant, toggleKarm } = useParticipant()
+  const { participant } = useParticipant()
 
   return (
     <footer className="profile__footer">
@@ -33,6 +34,7 @@ const ProfilePageFooter = ({}) => {
         <DonationStatusListItem
           text={'Karm Donor'}
           participantsDataCategory={participant.karm}
+          icon={participant.karm ? KarmCheckIcon : CancelIcon}
         ></DonationStatusListItem>
       </ul>
     </footer>

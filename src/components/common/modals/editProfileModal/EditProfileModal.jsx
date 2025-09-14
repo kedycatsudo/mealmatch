@@ -8,7 +8,6 @@ import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import EditProfileAddressesContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileAdressesContainer/EditProfileAdressesContainer'
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
 import { useState } from 'react'
-import DeleteAccountModal from './deleteAccountModal/DeleteAccountModal'
 import InformationModal from '../informationModals/InformationModal'
 const EditProfileModal = ({ onClose }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
