@@ -1,7 +1,7 @@
 import './ChangePasswordModal.css'
 import Input from '../../../inputs/Inputs'
 import Button from '../../../buttons/Buttons'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useParticipant } from '../../../../../context/ParticipantContext'
 import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
 import InformationModal from '../../informationModals/InformationModal'
@@ -28,7 +28,7 @@ const ChangePasswordModal = ({ onClose }) => {
       ></Button>
       <Input
         name="password"
-        value={participant.password}
+        value={password}
         type="password"
         variant="text"
         className="change__password-container-input"
