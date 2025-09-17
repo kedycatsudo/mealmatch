@@ -31,6 +31,9 @@ app.get('/', (req, res) => {
   res.send('MealMatch Backend is running')
 })
 
+const userRoutes = require('./routes/userRoutes')
+
+app.use('/api/users', userRoutes)
 //Start server
 
 const PORT = process.env.PORT || 5000

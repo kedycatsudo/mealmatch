@@ -1,0 +1,18 @@
+POST http://localhost:5000/api/users/register
+Content-Type: application/json
+
+{
+  "avatar": "https://example.com/avatar.jpg",
+  "printName": "Baylee Kocausta",
+  "userName": "Boo",
+  "email": "bayleemadison22@yahoo.com",
+  "isKarmDonor": true,
+  "phone": "1234567890",
+  "country": "USA",
+  "city": "Knoxville",
+  "state": "TN",
+  "address": "121 Winchester Rd",
+  "zipcode": "37807",
+  "password": "test1234",
+  "isAdmin": false
+}
