@@ -30,10 +30,18 @@ mongoose
 app.get('/', (req, res) => {
   res.send('MealMatch Backend is running')
 })
+const rateLimit = require('express-rate-limit')
 
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { message: 'Too many login attempts, please try again later' },
+})
 const userRoutes = require('./routes/userRoutes')
 
+app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
+
 //Start server
 
 const PORT = process.env.PORT || 5000
