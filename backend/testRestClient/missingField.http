@@ -1,0 +1,11 @@
+POST http://localhost:5000/api/meals
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGNhMjM3MDBlYzE4Mjk0OTZhNGRiOGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU4MTcxNjUxLCJleHAiOjE3NTgyNTgwNTF9.EmLQRcwXpvnzASsPRdber4ep_0xuMS0XzDES_0xaliI
+Content-Type: application/json
+
+{"mealName":"testMeal",
+  "allergens": ["Gluten", "Dairy"],
+  "postDate": "2025-08-15",
+  "servings": 3,
+  "pickUpLoc": "152 street knoxville",
+  "contactPhone": "865 307 3143"
+}

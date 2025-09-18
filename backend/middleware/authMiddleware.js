@@ -12,17 +12,18 @@ const authenticate = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
-        return res
-          .status(errors.UNAUTHORIZED__ERROR_CODE)
-          .json({ message: 'Invalid token ' })
+        return res.status(errors.UNAUTHORIZED__ERROR_CODE).json({
+          message:
+            'Your session has expired or is invalid. Please log in again. ',
+        })
       }
       req.user = decoded
       next()
     })
   } else {
     return res
-      .status(errors.UNAUTHORIZED__ERROR_CODE)
-      .json({ message: 'NO token, authorization denied' })
+      .status(errors.UNAUTHORIZED__ERROR_COSDE)
+      .json({ message: 'To make a new donation, user has to login.' })
   }
 }
 module.exports = authenticate

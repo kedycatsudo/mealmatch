@@ -1,2 +1,0 @@
-GET http://localhost:5000/api/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGNhMjM3MDBlYzE4Mjk0OTZhNGRiOGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU4MTU3OTcxLCJleHAiOjE3NTgyNDQzNzF9.JUpW2VtF8QrpxtevzGqM05UaCfa1pFmUOl6KoextpVs

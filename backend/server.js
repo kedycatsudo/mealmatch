@@ -39,8 +39,11 @@ const loginLimiter = rateLimit({
 })
 const userRoutes = require('./routes/userRoutes')
 
+const mealRoutes = require('./routes/mealRoutes')
+
 app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
+app.use('/api/meals', mealRoutes)
 
 //Start server
 
