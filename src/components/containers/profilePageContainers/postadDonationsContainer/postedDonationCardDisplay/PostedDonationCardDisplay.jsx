@@ -5,10 +5,35 @@ import EditMealCardModalForm from '../../../../common/modals/editMealCardModal/E
 import PostedDonationCardDisplayFooter from './postedDonationCardDisplayFooter/PostedDonationCardDisplayFooter'
 import { useState } from 'react'
 import ConfirmationModal from '../../../../common/modals/confirmationModal/ConfirmationModal'
-const PostedDonationCardDisplay = ({ selectedMeal, onSave, onDelete }) => {
+const PostedDonationCardDisplay = ({
+  selectedMeal,
+  onSave,
+  onDelete,
+  onToggleLive,
+  currentUserId,
+}) => {
   const [showEditMealCardModal, setShowEditMealCardModal] = useState(false)
   const [showDeleteCardModal, setShowDeleteCardModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isToggling, setIsToggling] = useState(false)
+  const [showPickedUpCardModal, setShowPickedUpCardModal] = useState(false)
+
+  const handlePickedUp = () => {
+    if (!selectedMeal?.id) return
+    setShowPickedUpCardModal(true)
+    setIsToggling(true)
+    Promise.resolve(onToggleLive(selectedMeal.id, false))
+      .then(() => {
+        // Optionally, you can update local state or refetch data here
+      })
+      .catch(() => {
+        alert('Failed to mark as picked up. Please try again.')
+      })
+      .finally(() => {
+        setIsToggling(false)
+      })
+  }
+
   const handleDelete = (donationId) => {
     setDonations((prev) => prev.filter((d) => d.id !== donationId))
     if (selectedMeal?.id === donationId) setSelectedMeal({})
@@ -30,6 +55,7 @@ const PostedDonationCardDisplay = ({ selectedMeal, onSave, onDelete }) => {
         setIsDeleting(false)
       })
   }
+  const isOwner = selectedMeal.ownerId === currentUserId
 
   return (
     <div className="posted__donation_card_display-container">
@@ -70,10 +96,42 @@ const PostedDonationCardDisplay = ({ selectedMeal, onSave, onDelete }) => {
                 ></ConfirmationModal>
               </div>
             )}
+
+            <Button
+              onClick={() => setShowPickedUpCardModal(true)}
+              variant="card__edit"
+              text={isToggling ? 'Marking...' : 'Picked Up'}
+              disabled={isToggling}
+            />
+            {showPickedUpCardModal && (
+              <div className="modal__overlay">
+                <ConfirmationModal
+                  onClick={handlePickedUp}
+                  onClose={() => setShowPickedUpCardModal(false)}
+                  confirmation={'Mark this meal as picked up?'}
+                  isLoading={isToggling}
+                ></ConfirmationModal>
+              </div>
+            )}
           </>
         ) : (
           <>
-            <Button variant="card__edit" text="Delete"></Button>
+            <Button
+              onClick={() => setShowDeleteCardModal(true)}
+              variant="card__edit"
+              text={isDeleting ? 'Deleting...' : 'Delete'}
+              disabled={isDeleting}
+            ></Button>
+            {showDeleteCardModal && (
+              <div className="modal__overlay">
+                <ConfirmationModal
+                  onClick={handleConfirmDelete}
+                  onClose={() => setShowDeleteCardModal(false)}
+                  confirmation={'Do you want to delete the meal?'}
+                  isLoading={isDeleting}
+                ></ConfirmationModal>
+              </div>
+            )}
           </>
         )}
       </div>

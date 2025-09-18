@@ -1,8 +1,3 @@
-import {
-  ParticipantProvider,
-  useParticipant,
-} from '../context/ParticipantContext'
-
 const activeDonations = [
   {
     id: 1,

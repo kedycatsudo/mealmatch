@@ -67,6 +67,7 @@ const donationsData = [
     servings: 6,
     useBy: '2025-08-15',
     live: false,
+    karm: true,
   },
   {
     id: 8,

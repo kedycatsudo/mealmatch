@@ -1,7 +1,7 @@
 import Button from '../../../../../common/buttons/Buttons'
 import './PostedDonationCardDisplayFooter'
 const PostedDonationCardDisplayFooter = ({ selectedMeal }) => {
-  if (!selectedMeal.karm) {
+  if (!selectedMeal.karm || selectedMeal.live) {
     return <div></div>
   }
   return (

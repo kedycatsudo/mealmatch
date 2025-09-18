@@ -16,9 +16,27 @@ const PostedDonationsContainer = ({}) => {
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
 
+  const currentUserId = 'your-current-user-id' // Replace with actual user id logic
+
   const handleDelete = (donationId) => {
     setDonations((prev) => prev.filter((d) => d.id !== donationId))
     if (selectedMeal?.id === donationId) setSelectedMeal({})
+  }
+
+  const handleToggleLive = (mealId, liveStatus) => {
+    return new Promise((resolve, reject) => {
+      setDonations((prev) => {
+        const updated = prev.map((d) =>
+          d.id === mealId ? { ...d, live: liveStatus } : d
+        )
+        // Optionally update selectedMeal too
+        if (selectedMeal?.id === mealId) {
+          setSelectedMeal((prevMeal) => ({ ...prevMeal, live: liveStatus }))
+        }
+        resolve() // Simulate promise, replace with actual API logic if needed
+        return updated
+      })
+    })
   }
 
   const onSave = (updatedMeal) => {
@@ -92,6 +110,8 @@ const PostedDonationsContainer = ({}) => {
             : null}
         </ul>
         <PostedDonationCardDisplay
+          onToggleLive={handleToggleLive} // 3. pass the handler
+          currentUserId={currentUserId} // 3. pass the user id
           onDelete={handleDelete}
           setSelectedMeal={setSelectedMeal}
           selectedMeal={selectedMeal}
