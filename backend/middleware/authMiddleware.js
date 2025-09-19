@@ -22,7 +22,7 @@ const authenticate = (req, res, next) => {
     })
   } else {
     return res
-      .status(errors.UNAUTHORIZED__ERROR_COSDE)
+      .status(errors.UNAUTHORIZED__ERROR_CODE)
       .json({ message: 'To make a new donation, user has to login.' })
   }
 }

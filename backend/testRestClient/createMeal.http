@@ -3,7 +3,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGNhM
 Content-Type: application/json
 
 {
-  "mealName": "Spaghetti Bolognese",
+  "mealName": "Spaghetti Bolognes",
   "allergens": ["Gluten", "Dairy"],
   "postDate": "2025-08-15",
   "servings": 3,
