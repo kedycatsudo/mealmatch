@@ -1,0 +1,2 @@
+DELETE http://localhost:5000/api/meals/68cd4f39d386dc3c20f2565e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGNhMjM3MDBlYzE4Mjk0OTZhNGRiOGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU4Mjg2MjYzLCJleHAiOjE3NTgzNzI2NjN9.8kOzcCh0P-b9Hjb8zhuV2TrBlQCTYT-nyte5e4lYtwQ

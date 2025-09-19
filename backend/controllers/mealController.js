@@ -6,7 +6,6 @@ const success = require(`../utils/succesStatuses`)
 const createMeal = (req, res) => {
   const {
     mealName,
-    allergens,
     postDate,
     servings,
     useBy,
@@ -18,7 +17,7 @@ const createMeal = (req, res) => {
   } = req.body
 
   const ownerId = req.user.userId
-
+  let allergens = req.body.allergens
   //handle empty strgin for required fields
 
   function isBlank(str) {
@@ -115,6 +114,41 @@ const createMeal = (req, res) => {
     })
 }
 
+// Delete a meal/donation
+
+const deleteMeal = (req, res) => {
+  const mealId = req.params.id
+  const ownerId = req.user.userId
+
+  Meal.findById(mealId).then((meal) => {
+    if (!meal) {
+      return res
+        .status(errors.NOT_FOUND_ERROR_CODE)
+        .json({ message: 'Meal not found' })
+    }
+
+    if (meal.ownerId.toString() !== ownerId) {
+      return res
+        .status(errors.FORBIDDEN_ERROR_CODE)
+        .json({ message: 'You are not allowed to delete this meal.' })
+    }
+
+    return Meal.deleteOne({ _id: mealId })
+      .then(() => {
+        res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'Meal deleted succesfully.' })
+      })
+      .catch((err) => {
+        console.log(err)
+        return res
+          .status(errors.INTERNAL_SERVER_ERROR_CODE)
+          .json({ message: err.message })
+      })
+  })
+}
+
 module.exports = {
   createMeal,
+  deleteMeal,
 }

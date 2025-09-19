@@ -8,7 +8,7 @@ const authenticate = (req, res, next) => {
   //check for "Bearer <token>"
 
   if (authHeader && authHeader.startsWith('Bearer')) {
-    const token = authHeader.split(' ')[1]
+    let token = authHeader.split(' ')[1]
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
