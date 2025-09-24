@@ -2,7 +2,11 @@ const express = require(`express`)
 
 const router = express.Router()
 
-const { createMeal, deleteMeal } = require('../controllers/mealController')
+const {
+  createMeal,
+  deleteMeal,
+  getMyDonations,
+} = require('../controllers/mealController')
 
 const authenticate = require('../middleware/authMiddleware')
 
@@ -11,5 +15,7 @@ const authenticate = require('../middleware/authMiddleware')
 router.post('/', authenticate, createMeal)
 
 router.delete('/:id', authenticate, deleteMeal)
+
+router.get(`/profile`, authenticate, getMyDonations)
 
 module.exports = router

@@ -114,6 +114,20 @@ const createMeal = (req, res) => {
     })
 }
 
+//Get user`s profile donations
+
+const getMyDonations = (req, res) => {
+  const userId = req.userId
+  Meal.find({ ownerId: userId })
+    .then((meals) => res.status(success.OK_SUCCESS_CODE).json({ meals }))
+    .catch((err) => {
+      console.log(err)
+      res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: err.message })
+    })
+}
+
 // Delete a meal/donation
 
 const deleteMeal = (req, res) => {
@@ -151,4 +165,5 @@ const deleteMeal = (req, res) => {
 module.exports = {
   createMeal,
   deleteMeal,
+  getMyDonations,
 }

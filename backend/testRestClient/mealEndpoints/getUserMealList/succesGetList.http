@@ -1,0 +1,2 @@
+GET http://localhost:5000/api/meals/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGNhMjM3MDBlYzE4Mjk0OTZhNGRiOGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU4NjgwNjkxLCJleHAiOjE3NTg3NjcwOTF9.uni8mj01ftzwFy3EDqkgWGc0hInHh3GIGzDQkAaDaBA
