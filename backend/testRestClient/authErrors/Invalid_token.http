@@ -1,0 +1,3 @@
+GET http://localhost:5000/api/meals/profile
+Authorization: Bearer not.a.real.token
+Accept: application/json

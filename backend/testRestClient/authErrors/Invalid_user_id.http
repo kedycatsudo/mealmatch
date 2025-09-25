@@ -1,0 +1,6 @@
+### 3. Invalid User ID
+# (Assumes your server will decode and try to use a malformed userId from the token)
+# Replace <INVALID_USER_ID_TOKEN> with a JWT that decodes to a malformed or missing userId
+GET http://localhost:5000/api/meals/profile
+Authorization: Bearer <INVALID_USER_ID_TOKEN>
+Accept: application/json

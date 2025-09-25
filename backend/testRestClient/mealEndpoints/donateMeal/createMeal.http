@@ -1,9 +1,9 @@
 POST http://localhost:5000/api/meals
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGNhMjM3MDBlYzE4Mjk0OTZhNGRiOGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU4NjgwOTY2LCJleHAiOjE3NTg3NjczNjZ9.sNXg7YNDrid060A8M7je4dfEmJ9Q5icgqdxx7Pzmgxg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0ODdkNTZhNjhiM2ZjOWFkNmI5YTIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NTg3NTg5MDgsImV4cCI6MTc1ODg0NTMwOH0.9g1Q6IGHZqP56R4kcDLmVPZO60Xazzz_srAyasNp89g
 Content-Type: application/json
 
 {
-  "mealName": "Spaghettasdi Baasdsdolognesssss",
+  "mealName": "kedycat`s meal3",
   "allergens": ["Gluten", "Dairy"],
   "postDate": "2025-08-15",
   "servings": 3,

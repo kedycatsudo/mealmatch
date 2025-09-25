@@ -117,9 +117,25 @@ const createMeal = (req, res) => {
 //Get user`s profile donations
 
 const getMyDonations = (req, res) => {
-  const userId = req.userId
+  const requestedUserId = req.query.userId
+  const authUserId = req.user.userId
+  const { userId } = req.user
+
+  if (requestedUserId && requestedUserId !== authUserId) {
+    return res
+      .status(errors.FORBIDDEN_ERROR_CODE)
+      .json({ message: 'You are not allowed to access these meals.' })
+  }
+
   Meal.find({ ownerId: userId })
-    .then((meals) => res.status(success.OK_SUCCESS_CODE).json({ meals }))
+    .then((meals) => {
+      if (meals.length === 0) {
+        return res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'There is no donation on your profile' })
+      }
+      return res.status(success.OK_SUCCESS_CODE).json({ meals })
+    })
     .catch((err) => {
       console.log(err)
       res

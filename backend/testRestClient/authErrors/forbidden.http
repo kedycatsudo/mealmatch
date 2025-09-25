@@ -1,0 +1,4 @@
+### 5. Forbidden (Accessing Another User's Meals)
+# Try to access another user's meals with a valid token for a different user
+GET http://localhost:5000/api/meals/profile?userId=68ca23700ec1829496a4db8e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0ODdkNTZhNjhiM2ZjOWFkNmI5YTIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NTg3NjE5MTIsImV4cCI6MTc1ODg0ODMxMn0.WMp6f3NjPOzqQYmpXVNJpgMccEgObtMMA6ZQ0xPEjUk
