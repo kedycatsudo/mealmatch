@@ -7,6 +7,7 @@ const {
   deleteMeal,
   getMyDonations,
   updateMyDonation,
+  getExploreMeals,
 } = require('../controllers/mealController')
 
 const authenticate = require('../middleware/authMiddleware')
@@ -18,6 +19,8 @@ router.post('/', authenticate, createMeal)
 router.delete('/profile/:mealId', authenticate, deleteMeal)
 
 router.get(`/profile`, authenticate, getMyDonations)
+
+router.get('/exploreFood', getExploreMeals)
 
 router.patch('/profile/:mealId', authenticate, updateMyDonation)
 

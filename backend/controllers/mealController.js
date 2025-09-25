@@ -234,9 +234,30 @@ const updateMyDonation = (req, res) => {
     })
 }
 
+const getExploreMeals = (req, res) => {
+  Meal.find({})
+    .select('mealName useBy servings postDate allergens')
+    .sort({ postDate: -1 })
+    .then((meals) => {
+      if (meals.length === 0) {
+        return res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'There is no donation yet.' })
+      }
+      return res.status(success.OK_SUCCESS_CODE).json({ meals })
+    })
+    .catch((err) => {
+      console.log(err)
+      res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Error occured on server' })
+    })
+}
+
 module.exports = {
   createMeal,
   deleteMeal,
   getMyDonations,
   updateMyDonation,
+  getExploreMeals,
 }
