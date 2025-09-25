@@ -1,0 +1,8 @@
+### ERROR: Validation error
+PATCH http://localhost:5000/api/meals/profile/68d357901201b7d563d203ef
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0ODdkNTZhNjhiM2ZjOWFkNmI5YTIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NTg3NzI4NzAsImV4cCI6MTc1ODg1OTI3MH0.Xh4v_d1AZUH4TMYwEKNHklxgjJ806HJGHab85aVCJuQ
+Content-Type: application/json
+
+{
+  "servings": -3
+}

@@ -74,7 +74,7 @@ const registerUser = (req, res) => {
         res
           .status(errors.BAD_REQUEST_ERROR_CODE)
           .json({ message: 'User already exist' })
-        return Promise.reject('User already exist')
+        return
       }
       return bcrypt.hash(password, 10)
     })
@@ -105,11 +105,21 @@ const registerUser = (req, res) => {
         .json({ message: 'User registered succesfully.', user })
     })
     .catch((err) => {
-      if (!res.headersSent) {
-        res
-          .status(errors.INTERNAL_SERVER_ERROR_CODE)
-          .json({ message: err.message || err })
+      if (err.code === 11000) {
+        // Detect which field is duplicated:
+        const duplicateField = Object.keys(err.keyPattern)[0]
+        let message = 'Duplicate value.'
+        if (duplicateField === 'email') {
+          message = 'Email already used.'
+        } else if (duplicateField === 'userName') {
+          message = 'Username already used.'
+        }
+        return res.status(errors.BAD_REQUEST_ERROR_CODE).json({ message })
       }
+      // handle other errors
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: err.message || 'Error occurred on the Server' })
     })
 }
 

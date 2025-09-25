@@ -1,0 +1,7 @@
+PATCH http://localhost:5000/api/meals/profile/68d357901201b7d563d203ef
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0YmQ3Y2RkMGFlM2E3NTE3MTE0MGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU4NzcyNjIxLCJleHAiOjE3NTg4NTkwMjF9.R-Nt3pOKdfB-ZVJXXL7cl4nuUJCdAKRuOy8wExrtgIo
+Content-Type: application/json
+
+{
+  "mealName": "asdsad"
+}

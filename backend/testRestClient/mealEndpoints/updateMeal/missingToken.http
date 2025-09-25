@@ -1,0 +1,6 @@
+PATCH http://localhost:5000/api/meals/profile/68d357901201b7d563d203ef
+Content-Type: application/json
+
+{
+  "mealName": "Whatever"
+}

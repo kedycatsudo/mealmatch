@@ -6,6 +6,7 @@ const {
   createMeal,
   deleteMeal,
   getMyDonations,
+  updateMyDonation,
 } = require('../controllers/mealController')
 
 const authenticate = require('../middleware/authMiddleware')
@@ -14,8 +15,10 @@ const authenticate = require('../middleware/authMiddleware')
 
 router.post('/', authenticate, createMeal)
 
-router.delete('/:id', authenticate, deleteMeal)
+router.delete('/profile/:mealId', authenticate, deleteMeal)
 
 router.get(`/profile`, authenticate, getMyDonations)
+
+router.patch('/profile/:mealId', authenticate, updateMyDonation)
 
 module.exports = router

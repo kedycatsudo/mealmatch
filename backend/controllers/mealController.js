@@ -147,7 +147,7 @@ const getMyDonations = (req, res) => {
 // Delete a meal/donation
 
 const deleteMeal = (req, res) => {
-  const mealId = req.params.id
+  const mealId = req.params.mealId
   const ownerId = req.user.userId
 
   Meal.findById(mealId).then((meal) => {
@@ -178,8 +178,65 @@ const deleteMeal = (req, res) => {
   })
 }
 
+// Update a meal/donation
+
+const updateMyDonation = (req, res) => {
+  const mealId = req.params.mealId
+  const userId = req.user.userId
+  const isAdmin = req.user.isAdmin
+
+  //Only allow these fields to be updated
+
+  const allowedUpdates = ['mealName', 'useBy', 'karm', 'servings', 'allergens']
+  const updates = {}
+  allowedUpdates.forEach((key) => {
+    if (key in req.body) updates[key] = req.body[key]
+  })
+
+  Meal.findById(mealId)
+    .then((meal) => {
+      if (!meal) {
+        res
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: 'Meal not found' })
+        return
+      }
+      //only owner or adming can update the meal cards
+      if (meal.ownerId.toString() !== userId && !isAdmin) {
+        return res
+          .status(errors.FORBIDDEN_ERROR_CODE)
+          .json({ message: 'Not authorized to update this meal' })
+      }
+      //Apply updates
+
+      Object.keys(updates).forEach((key) => {
+        meal[key] = updates[key]
+      })
+      return meal.save()
+    })
+    .then((updatedMeal) => {
+      if (!updatedMeal) return
+      return res
+        .status(success.OK_SUCCESS_CODE)
+        .json({ message: 'Meal updated succesfully.' })
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res
+          .status(errors.BAD_REQUEST_ERROR_CODE)
+          .json({ message: 'Make sure you filled with proper value.' })
+      }
+
+      console.log('error name:' + err.name)
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Server Error' })
+    })
+}
+
 module.exports = {
   createMeal,
   deleteMeal,
   getMyDonations,
+  updateMyDonation,
 }

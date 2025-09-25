@@ -87,6 +87,8 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
         ></Input>
         <Input
           type="text"
+          text="Allergens"
+          variant="text"
           name="allergens"
           value={mealData.allergens}
           onChange={handleChange}
