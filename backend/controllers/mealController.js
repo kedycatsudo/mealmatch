@@ -150,32 +150,48 @@ const deleteMeal = (req, res) => {
   const mealId = req.params.mealId
   const ownerId = req.user.userId
 
-  Meal.findById(mealId).then((meal) => {
-    if (!meal) {
-      return res
-        .status(errors.NOT_FOUND_ERROR_CODE)
-        .json({ message: 'Meal not found' })
-    }
-
-    if (meal.ownerId.toString() !== ownerId) {
-      return res
-        .status(errors.FORBIDDEN_ERROR_CODE)
-        .json({ message: 'You are not allowed to delete this meal.' })
-    }
-
-    return Meal.deleteOne({ _id: mealId })
-      .then(() => {
-        res
-          .status(success.OK_SUCCESS_CODE)
-          .json({ message: 'Meal deleted succesfully.' })
-      })
-      .catch((err) => {
-        console.log(err)
+  Meal.findById(mealId)
+    .then((meal) => {
+      if (!meal) {
         return res
-          .status(errors.INTERNAL_SERVER_ERROR_CODE)
-          .json({ message: err.message })
-      })
-  })
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: 'Meal not found' })
+      }
+
+      if (meal.ownerId.toString() !== ownerId) {
+        return res
+          .status(errors.FORBIDDEN_ERROR_CODE)
+          .json({ message: 'You are not allowed to delete this meal.' })
+      }
+
+      return Meal.deleteOne({ _id: mealId })
+        .then(() => {
+          res
+            .status(success.OK_SUCCESS_CODE)
+            .json({ message: 'Meal deleted successfully.' })
+        })
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            return res
+              .status(errors.BAD_REQUEST_ERROR_CODE)
+              .json({ message: 'Invalid meal id format' })
+          }
+          return res
+            .status(errors.INTERNAL_SERVER_ERROR_CODE)
+            .json({ message: err.message })
+        })
+    })
+    .catch((err) => {
+      console.log(err)
+      if (err.name === 'CastError') {
+        return res
+          .status(errors.BAD_REQUEST_ERROR_CODE)
+          .json({ message: 'Invalid meal id format' })
+      }
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: err.message })
+    })
 }
 
 // Update a meal/donation

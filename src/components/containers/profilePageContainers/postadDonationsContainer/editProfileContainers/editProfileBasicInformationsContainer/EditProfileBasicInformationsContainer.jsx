@@ -82,19 +82,6 @@ const EditProfileBasicInformationsContainer = ({}) => {
         placeholder={participant.userName}
         className="edit__modal-input"
       ></Input>
-      <div className="edit__modal-basic-container-small">
-        <p className="edit__modal-basic-container-p">Karm</p>
-        <Input
-          className="checkbox"
-          type="checkbox"
-          checked={participant.karm}
-          onChange={toggleKarm}
-        ></Input>
-        <img
-          className="edit__modal-basic-container-logo"
-          src={participant.karm ? KarmCheckIcon : CancelIcon}
-        ></img>
-      </div>
     </>
   )
 }

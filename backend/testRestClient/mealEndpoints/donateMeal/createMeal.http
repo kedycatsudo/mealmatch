@@ -1,12 +1,12 @@
 POST http://localhost:5000/api/meals
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0ODdkNTZhNjhiM2ZjOWFkNmI5YTIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NTg3NzAyNTEsImV4cCI6MTc1ODg1NjY1MX0.EbNDo1GSBgBa0aSRZSos6uJ7eN-bVucZW9N_xmktB1s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0ODdkNTZhNjhiM2ZjOWFkNmI5YTIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NTkxNDk4OTEsImV4cCI6MTc1OTIzNjI5MX0.QiCVc_-TgKzU-Hm7UrBucHu85tCuYAuGmmK8Ob2ro9Y
 Content-Type: application/json
 
 {
-  "mealName": "kedycat`s meal3",
+  "mealName": "kedycat`s me2l3",
   "allergens": ["Gluten", "Dairy"],
   "postDate": "2025-08-15",
-  "servings": 3,
+  "servings": 0,
   "useBy": "2025-10-20",
   "pickUpLoc": "152 street knoxville",
   "contactPhone": "865 307 3143",

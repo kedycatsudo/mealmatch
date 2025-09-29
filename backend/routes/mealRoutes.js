@@ -20,7 +20,7 @@ router.delete('/profile/:mealId', authenticate, deleteMeal)
 
 router.get(`/profile`, authenticate, getMyDonations)
 
-router.get('/exploreFood', getExploreMeals)
+router.get('/exploreFood', authenticate, getExploreMeals)
 
 router.patch('/profile/:mealId', authenticate, updateMyDonation)
 

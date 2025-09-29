@@ -10,7 +10,10 @@ const mealSchema = new mongoose.Schema(
     mealName: { type: String, required: true },
     allergens: [{ type: String }],
     postDate: { type: Date, required: true, default: Date.now },
-    servings: { type: Number, min: [0, 'Servings must be a positive number.'] },
+    servings: {
+      type: Number,
+      min: [1, 'Servings must be bigger then 0.'],
+    },
     useBy: { type: Date, required: true },
     pickUpLoc: { type: String, required: true },
     contactPhone: { type: String },
