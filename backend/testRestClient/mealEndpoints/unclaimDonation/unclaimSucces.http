@@ -1,0 +1,3 @@
+PATCH http://localhost:5000/api/meals/68dqwe4863989856eb244cd9528/unclaim
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0YmQ3Y2RkMGFlM2E3NTE3MTE0MGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5MTg3MDM3LCJleHAiOjE3NTkyNzM0Mzd9.TyPyDmO4F30xjI2CQDHF77j2Lb8Jh7xmUKQeVm52OJg
+Content-Type: application/json

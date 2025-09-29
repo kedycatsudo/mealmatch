@@ -8,11 +8,11 @@ const {
   getMyDonations,
   updateMyDonation,
   getExploreMeals,
+  claimMeal,
+  unclaimMeal,
 } = require('../controllers/mealController')
 
 const authenticate = require('../middleware/authMiddleware')
-
-//POST /api/meals create a meal (auth require)
 
 router.post('/', authenticate, createMeal)
 
@@ -23,5 +23,9 @@ router.get(`/profile`, authenticate, getMyDonations)
 router.get('/exploreFood', authenticate, getExploreMeals)
 
 router.patch('/profile/:mealId', authenticate, updateMyDonation)
+
+router.patch('/:mealId/claim', authenticate, claimMeal)
+
+router.patch('/:mealId/unclaim', authenticate, unclaimMeal)
 
 module.exports = router

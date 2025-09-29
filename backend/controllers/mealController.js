@@ -1,6 +1,8 @@
 const Meal = require('../models/Meal')
 const errors = require(`../utils/errors`)
 
+const mongoose = require('mongoose')
+
 const success = require(`../utils/succesStatuses`)
 // Create a new meal/donation
 const createMeal = (req, res) => {
@@ -270,10 +272,164 @@ const getExploreMeals = (req, res) => {
     })
 }
 
+// claim Meal
+
+const claimMeal = (req, res) => {
+  const userId = req.user.userId
+  const mealId = req.params.mealId
+
+  //Validate mealId format
+
+  if (!mongoose.Types.ObjectId.isValid(mealId)) {
+    return res
+      .status(errors.BAD_REQUEST_ERROR_CODE)
+      .json({ message: 'Invalid meal ID format' })
+  }
+  // 2. Check if user already has an active claim (not picked up)
+  Meal.findOne({ claimedUpBy: userId, pickedUp: false })
+    .then((activeClaim) => {
+      if (activeClaim) {
+        return res
+          .status(errors.FORBIDDEN_ERROR_CODE)
+          .json({ message: 'You already have an active claim' })
+      }
+      //Find the meal to claim
+
+      return Meal.findById(mealId).then((meal) => {
+        if (!meal) {
+          return res
+            .status(errors.NOT_FOUND_ERROR_CODE)
+            .json({ message: 'Meal not found' })
+        }
+        if (meal.pickedUp) {
+          return res
+            .status(errors.BAD_CONFLICT_ERROR_CODE)
+            .json({ message: 'Meal already picked up' })
+        }
+        if (meal.claimedUpBy) {
+          const now = new Date()
+          const sixHoursMs = 6 * 60 * 60 * 1000
+          if (meal.claimedUpAt && now - meal.claimedUpAt > sixHoursMs) {
+            meal.claimedUpBy = null
+            meal.claimedUpAt = null
+            meal.hold = false
+          } else {
+            return res
+              .status(errors.BAD_CONFLICT_ERROR_CODE)
+              .json({ message: 'Meal is currently claimed by another user' })
+          }
+        }
+        // 4. Set claim info
+        meal.claimedUpBy = userId
+        meal.claimedUpAt = new Date()
+        meal.hold = true
+
+        return meal.save().then((updatedMeal) => {
+          // Respond with essential info for frontend
+
+          return res.status(success.OK_SUCCESS_CODE).json({
+            message: 'Meal succesfully claimed!',
+            meal: {
+              _id: updatedMeal._id,
+              mealName: updatedMeal.mealName,
+              pickUpLocation: updatedMeal.pickUpLoc,
+              claimedUpBy: updatedMeal.claimedUpBy,
+              claimedUpAt: updatedMeal.claimedUpAt,
+              pickedUp: updatedMeal.pickedUp,
+              hold: updatedMeal.hold,
+            },
+          })
+        })
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      if (err.name === 'CastError') {
+        return res
+          .status(errors.BAD_REQUEST_ERROR_CODE)
+          .json({ message: 'Invalid meal ID format' })
+      }
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Error occured on server' })
+    })
+}
+
+//unclaim Meal
+
+const unclaimMeal = (req, res) => {
+  const userId = req.user.userId
+  const mealId = req.params.mealId
+
+  if (!mongoose.Types.ObjectId.isValid(mealId)) {
+    return res
+      .status(errors.BAD_REQUEST_ERROR_CODE)
+      .json({ message: 'Invaild meal ID format' })
+  }
+
+  Meal.findById(mealId)
+    .then((meal) => {
+      if (!meal) {
+        return res
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: 'Meal not founded' })
+      }
+      if (meal.pickedUp) {
+        return res
+          .status(errors.BAD_CONFLICT_ERROR_CODE)
+          .json({ message: 'Meal already picked up' })
+      }
+      if (!meal.claimedUpBy) {
+        return res
+          .status(errors.BAD_CONFLICT_ERROR_CODE)
+          .json({ message: 'Meal is not currently claimed' })
+      }
+      if (meal.claimedUpBy.toString() !== userId) {
+        return res
+          .status(errors.FORBIDDEN_ERROR_CODE)
+          .json({ message: 'You are not the claimer of this meal' })
+      }
+
+      //Unclaim the meal
+
+      meal.claimedUpBy = null
+      meal.claimedUpAt = null
+      meal.hold = false
+
+      return meal.save().then((updatedMeal) => {
+        return res.status(success.OK_SUCCESS_CODE).json({
+          message: 'Meal claim cancelled',
+          meal: {
+            _id: updatedMeal._id,
+            mealName: updatedMeal.mealName,
+            pickUpLoc: updatedMeal.pickUpLoc,
+            claimedUpBy: updatedMeal.claimedUpBy,
+            claimedUpAt: updatedMeal.claimedUpAt,
+            pickUpLoc: updatedMeal.pickedUp,
+            hold: updatedMeal.hold,
+          },
+        })
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      if (err.name === 'CastError') {
+        return res
+          .status(errors.BAD_REQUEST_ERROR_CODE)
+          .json({ message: 'Invalid meal ID format' })
+      }
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Error occured on server' })
+    })
+}
+
 module.exports = {
   createMeal,
   deleteMeal,
   getMyDonations,
   updateMyDonation,
   getExploreMeals,
+  claimMeal,
+  unclaimMeal,
 }
