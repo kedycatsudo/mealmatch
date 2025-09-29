@@ -31,9 +31,6 @@ const ProfilePageHeader = ({}) => {
         ></img>
 
         <p className="header__container-paragraph">{participant.userName}</p>
-        <p className="header__container-paragraph">
-          {participant.karm === true ? 'Karm Donor' : ''}
-        </p>
       </div>
 
       <Button

@@ -7,11 +7,7 @@ const ExploreFoodDonationCardInfo = ({ selectedMeal }) => {
           Use By: {selectedMeal.useBy}
         </p>
       </div>
-      <div className="explore_donation-card-info-container">
-        <p className="explore_donation-card-info">
-          {selectedMeal.karm ? 'Karm donation' : 'Karm donation is N/A'}
-        </p>
-      </div>
+
       <div className="explore_donation-card-info-container">
         <p className="explore_donation-card-info">
           PortionSize: {selectedMeal.servings}
