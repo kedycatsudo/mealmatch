@@ -235,7 +235,7 @@ const updateMyDonation = (req, res) => {
 }
 
 const getExploreMeals = (req, res) => {
-  Meal.find({})
+  Meal.find({ karm: false })
     .select('mealName useBy servings postDate allergens')
     .sort({ postDate: -1 })
     .then((meals) => {
