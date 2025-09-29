@@ -21,6 +21,12 @@ const mealSchema = new mongoose.Schema(
     live: { type: Boolean, default: true },
     karm: { type: Boolean, default: false },
     pickedUp: { type: Boolean, default: false },
+    claimedUpBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: `User`,
+      default: null,
+    },
+    claimedUpAt: { type: Date, default: null },
   },
   { timestamps: true }
 )
