@@ -123,4 +123,105 @@ const registerUser = (req, res) => {
     })
 }
 
-module.exports = { registerUser, loginUser }
+//Update user info
+
+const updateUserProfile = (req, res) => {
+  const userId = req.user.userId
+  const updates = req.body
+
+  // Only allow certain fields to be updated
+  const allowedFields = [
+    'printName',
+    'userName',
+    'phone',
+    'email',
+    'country',
+    'city',
+    'state',
+    'address',
+    'zipcode',
+    'avatar', // or 'avatarPic' if your model uses that
+  ]
+
+  const fieldsToUpdate = {}
+
+  // Build fieldsToUpdate object
+  allowedFields.forEach((field) => {
+    if (updates[field] !== undefined) {
+      fieldsToUpdate[field] = updates[field]
+    }
+  })
+
+  // Prevent empty update
+  if (Object.keys(fieldsToUpdate).length === 0) {
+    return res
+      .status(errors.BAD_REQUEST_ERROR_CODE)
+      .json({ message: 'No valid fields to update.' })
+  }
+
+  // Check for unique email
+  if (fieldsToUpdate.email) {
+    return User.findOne({ email: fieldsToUpdate.email, _id: { $ne: userId } })
+      .then((existing) => {
+        if (existing) {
+          return res
+            .status(errors.BAD_CONFLICT_ERROR_CODE)
+            .json({ message: 'Email already in use' })
+        }
+        // Update user
+        return User.findByIdAndUpdate(userId, fieldsToUpdate, {
+          new: true,
+        }).then((updatedUser) => {
+          return res.status(success.OK_SUCCESS_CODE).json({
+            message: 'Profile updated successfully.',
+            user: {
+              printName: updatedUser.printName,
+              userName: updatedUser.userName,
+              phone: updatedUser.phone,
+              email: updatedUser.email,
+              country: updatedUser.country,
+              city: updatedUser.city,
+              state: updatedUser.state,
+              address: updatedUser.address,
+              zipcode: updatedUser.zipcode,
+              avatar: updatedUser.avatar, // or avatarPic if that's the field
+            },
+          })
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+        return res
+          .status(errors.INTERNAL_SERVER_ERROR_CODE)
+          .json({ message: 'Error occured on server' })
+      })
+  }
+
+  // If not updating email, just update
+  return User.findByIdAndUpdate(userId, fieldsToUpdate, { new: true })
+    .then((updatedUser) => {
+      return res.status(success.OK_SUCCESS_CODE).json({
+        message: 'Profile updated successfully.',
+        user: {
+          printName: updatedUser.printName,
+          userName: updatedUser.userName,
+          phone: updatedUser.phone,
+          email: updatedUser.email,
+          country: updatedUser.country,
+          city: updatedUser.city,
+          state: updatedUser.state,
+          address: updatedUser.address,
+          zipcode: updatedUser.zipcode,
+          avatar: updatedUser.avatar, // or avatarPic if that's the field
+        },
+      })
+    })
+    .catch((err) => {
+      console.error(err)
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Error occurred on server.' })
+    })
+}
+
+module.exports = { registerUser, loginUser, updateUserProfile }

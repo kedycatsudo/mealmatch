@@ -4,7 +4,11 @@ const authenticate = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
-const { registerUser, loginUser } = require('../controllers/userController')
+const {
+  registerUser,
+  loginUser,
+  updateUserProfile,
+} = require('../controllers/userController')
 
 // Route : POST /api/users/register
 
@@ -18,5 +22,6 @@ router.get('/profile', authenticate, (req, res) => {
 
   res.json({ message: 'Profile data', user: req.user })
 })
+router.patch('/profile', authenticate, updateUserProfile)
 
 module.exports = router
