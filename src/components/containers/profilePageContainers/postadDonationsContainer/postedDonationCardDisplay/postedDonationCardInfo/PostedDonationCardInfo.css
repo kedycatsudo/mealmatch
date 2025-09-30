@@ -17,3 +17,8 @@
     padding-top: 10px;
   }
 }
+@media screen and (max-width: 500px) {
+  .posted_donation-card-info {
+    font-size: 18px;
+  }
+}

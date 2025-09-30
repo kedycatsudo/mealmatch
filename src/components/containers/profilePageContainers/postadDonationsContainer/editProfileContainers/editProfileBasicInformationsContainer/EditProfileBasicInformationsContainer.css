@@ -3,12 +3,13 @@
   border-radius: 12px;
   width: 200px;
   height: 200px;
-  padding-right: 185px;
+  margin: 0 auto;
 }
 .edit__modal-basic-container {
   padding-top: 25px;
   display: flex;
-  justify-content: space-around;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
 }
 .edit__modal-input {
@@ -41,4 +42,20 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+@media screen and (max-width: 880px) {
+  .edit__modal-btns {
+    font-size: 20px;
+  }
+  .edit__modal-basic-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .edit__modal-basic-container-avatar {
+    width: 150px;
+    height: 150px;
+  }
 }

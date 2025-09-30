@@ -4,8 +4,9 @@
   border-radius: 12px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  height: 75px;
+  height: 100px;
   cursor: pointer;
+  max-height: 75px;
 }
 .not-active {
   border-bottom: 10px solid red;
@@ -28,12 +29,6 @@
 .posted__donations-list-container::-webkit-scrollbar-thumb {
   background: #bada55;
   border-radius: 8px;
-}
-
-.posted__donation-spam {
-  text-align: center;
-  margin: auto auto;
-  font-size: 20px;
 }
 
 .posted__donations-list-container::-webkit-scrollbar-track {

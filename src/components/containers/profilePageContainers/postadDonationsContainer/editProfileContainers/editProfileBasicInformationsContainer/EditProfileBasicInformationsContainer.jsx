@@ -32,6 +32,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
     <>
       <div className="edit__modal-basic-container">
         <Button
+          className="edit__modal-btns"
           type="button"
           onClick={() => fileInputRef.current.click()}
           text="Upload Picture"
@@ -48,6 +49,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
           src={participant.avatar}
         ></img>
         <Button
+          className="edit__modal-btns"
           type="button"
           variant="edit__modal-change-password"
           text="Change Password"

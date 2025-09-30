@@ -3,7 +3,7 @@ const DonationStatusListItem = ({ text, participantsDataCategory, icon }) => {
     <li className="profile__footer-status-list-item">
       <p className="profile__footer-status-list-item-p">
         {text}:{participantsDataCategory}
-        {text === 'Karm Donor' ? <img src={icon}></img> : null}
+        {text === 'Total Net Tax Back' ? `$` : null}
       </p>
     </li>
   )

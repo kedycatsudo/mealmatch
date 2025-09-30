@@ -5,6 +5,7 @@
   align-items: center;
   padding: 25px 25px;
 }
+
 .homefooter__social {
   display: flex;
   flex-direction: column;
@@ -38,6 +39,12 @@
 
 @media screen and (max-width: 500px) {
   .homefooter {
+    display: flex;
+    flex-direction: column;
+  }
+  .homefooter__container {
+    justify-content: center;
+    align-items: center;
     display: flex;
     flex-direction: column;
   }

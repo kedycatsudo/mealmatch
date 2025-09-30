@@ -84,14 +84,14 @@
 
 .btn-modal__close-btn {
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 30px;
+  right: 35px;
 }
 .btn-edit__modal-change-password {
   background-image: url('../../../assets/icons/lock.svg');
   background-repeat: no-repeat;
   background-position: left;
-  padding-left: 50px;
+  padding-left: 40px;
 }
 
 .btn-delete__account {
@@ -125,5 +125,9 @@
     position: fixed;
     top: 0;
     right: 0;
+  }
+  .btn-edit__modal-change-password {
+    background-size: 20px;
+    padding-left: 20px;
   }
 }

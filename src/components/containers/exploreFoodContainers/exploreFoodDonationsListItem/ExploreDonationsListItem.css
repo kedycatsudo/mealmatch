@@ -7,6 +7,7 @@
   grid-template-columns: repeat(5, 1fr);
   height: 100px;
   cursor: pointer;
+
   overflow: hidden; /* keeps overlay inside rounded corners */
 }
 
