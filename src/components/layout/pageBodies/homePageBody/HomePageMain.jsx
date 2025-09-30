@@ -9,10 +9,6 @@ const HomePageMain = ({}) => (
     <IntroContainer></IntroContainer>
     <ContainerSeperation text={`How It Works`}></ContainerSeperation>
     <HowItWorkContainer></HowItWorkContainer>
-    <ContainerSeperation text={`Testimonials`}></ContainerSeperation>
-    <TestimonialCardsContainer></TestimonialCardsContainer>
-    <ContainerSeperation text={`Participants`}></ContainerSeperation>
-    <ParticipantsContainer></ParticipantsContainer>
     <HomePageFooter></HomePageFooter>
   </>
 )

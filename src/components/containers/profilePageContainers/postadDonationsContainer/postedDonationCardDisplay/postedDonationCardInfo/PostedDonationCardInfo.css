@@ -7,3 +7,13 @@
 .posted_donation-card-info {
   font-size: 25px;
 }
+@media screen and (max-width: 880px) {
+  .posted_donation-card-info-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .posted_donation-card-info {
+    margin: 0;
+    padding-top: 10px;
+  }
+}

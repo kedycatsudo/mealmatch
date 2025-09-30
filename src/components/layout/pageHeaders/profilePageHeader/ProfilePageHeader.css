@@ -42,3 +42,25 @@
   justify-content: center;
   z-index: 9999;
 }
+@media screen and (max-width: 600px) {
+  .header__container-title {
+    font-size: 75px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .header__container {
+    justify-content: centers;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .profile__header-avatar {
+    width: 150px;
+  }
+  .header__container-title {
+    font-size: 50px;
+  }
+  .header__container-btn {
+    margin: 0 auto;
+  }
+}

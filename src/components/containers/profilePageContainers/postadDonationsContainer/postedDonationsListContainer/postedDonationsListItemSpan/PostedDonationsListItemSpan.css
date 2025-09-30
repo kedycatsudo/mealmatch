@@ -7,3 +7,11 @@
 .not-active {
   border-bottom: 10px solid red;
 }
+.posted__donation-spam {
+  font-size: 20px;
+}
+@media screen and (max-width: 880px) {
+  .posted__donation-spam {
+    font-size: 18px;
+  }
+}

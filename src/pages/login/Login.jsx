@@ -52,7 +52,7 @@ function Login() {
   return (
     <div className="login__container">
       <form onSubmit={handleSubmit} className="login-form">
-        <h2 className="login__container-label">Login</h2>
+        <h2 className="login__container-title">Login</h2>
         <Input
           id="userName"
           type={'text'}
@@ -62,17 +62,17 @@ function Login() {
           value={formData.userName}
           onChange={handleChange}
         ></Input>
-        <div className="login__container-username-block">
-          <Input
-            id="password"
-            type={'password'}
-            variant="login"
-            placeholder="password"
-            required={true}
-            value={formData.password}
-            onChange={handleChange}
-          ></Input>
-        </div>
+
+        <Input
+          id="password"
+          type={'password'}
+          variant="login"
+          placeholder="password"
+          required={true}
+          value={formData.password}
+          onChange={handleChange}
+        ></Input>
+
         <div className="login__button-container">
           <div className="login__button-container-usernamepasswd">
             <a href="/forgot-password" className="forgot-password-link">

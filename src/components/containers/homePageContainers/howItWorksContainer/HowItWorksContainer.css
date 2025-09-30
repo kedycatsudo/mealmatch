@@ -12,8 +12,9 @@
   padding: 0;
   margin: 0;
   gap: 10px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+
   width: 100%;
   list-style-type: none;
 }
@@ -80,4 +81,32 @@
 .howItWorks__container_karm-chef {
   display: block;
   padding: 10px 0;
+  width: 100%; /* Image will fill parent width */
+  /* Optional: set a max width */
+  min-width: 200px;
+  height: auto;
+}
+
+@media screen and (max-width: 500px) {
+  .howItWorks__container__cards-parapraph {
+    font-size: 20px;
+  }
+  .howItWorks__container_cards_lits-item {
+    width: 150px;
+    height: 100px;
+  }
+  .howItWorks__container_karm {
+    display: flex;
+    flex-direction: column;
+  }
+  .howItWorks__container_karm-subtitle {
+    font-size: 35px;
+  }
+  .howItWorks__container_karm-paragraph {
+    font-size: 20px;
+  }
+  .howItWorks__container_karm-chef {
+    width: 50px;
+    margin: 0 auto;
+  }
 }

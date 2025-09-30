@@ -8,17 +8,39 @@ const HomePageFooter = ({}) => (
       <img src={karmLogo} className="homefooter__logo"></img>
     </div>
     <div className="homefooter__social">
-      <p className="homefoote__paragraph">facebook</p>
-      <p className="homefoote__paragraph">twitter</p>
-      <p className="homefoote__paragraph">instagram</p>
+      <a
+        className="homefoote__paragraph"
+        href="https://facebook.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        facebook
+      </a>
+      <a
+        className="homefoote__paragraph"
+        href="https://twitter.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        twitter
+      </a>
+      <a
+        className="homefoote__paragraph"
+        href="https://instagram.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        instagram
+      </a>
     </div>
     <div className="homefooter__container">
       <p className="homefoote__paragraph">Terms</p>
-      <p className="homefoote__paragraph">Partner With Us</p>
     </div>
     <div className="homefooter__container">
-      <p className="homefoote__paragraph">About MealMatch</p>
       <p className="homefoote__paragraph">Contact</p>
+      <p className="homefoote__paragraph">865 307 3143</p>
+
+      <p className="homefoote__paragraph_email">dkocausta.linkedn@gmail.com</p>
     </div>
   </footer>
 )

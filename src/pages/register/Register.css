@@ -13,15 +13,15 @@
 .register__container-input {
   font-size: 25px;
   border-radius: 12px;
-  width: 350px;
   height: 40px;
   justify-content: center;
   align-items: center;
 }
 .register-form {
+  justify-content: center;
+  align-items: center;
   text-align: center;
   margin: auto auto;
-  width: 350px;
   display: flex;
   flex-direction: column;
   background-color: transparent;
@@ -53,4 +53,10 @@
 .register__container-checkbox-container {
   justify-content: flex-start;
   display: flex;
+}
+
+@media screen and (max-width: 500px) {
+  .register__container-label {
+    font-size: 75px;
+  }
 }

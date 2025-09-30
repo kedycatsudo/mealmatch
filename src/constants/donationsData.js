@@ -3,7 +3,7 @@ const donationsData = [
   {
     id: 1,
     mealName: 'Spaghetti Bolognese',
-    allergens: ['Gluten', 'Dairy'],
+    allergens: ['Gluten ', 'Dairy'],
     postDate: '2025-08-15',
     servings: 3,
     useBy: '2025-08-20',
@@ -81,7 +81,7 @@ const donationsData = [
   {
     id: 9,
     mealName: 'Shrimp Fried Rice',
-    allergens: ['Shellfish', 'Eggs'],
+    allergens: ['Shellfish ', 'Eggs'],
     postDate: '2025-08-09',
     servings: 3,
     useBy: '2025-08-13',

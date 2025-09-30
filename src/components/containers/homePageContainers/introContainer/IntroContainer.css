@@ -1,4 +1,4 @@
-.Intro__container {
+.intro__container {
   padding: 20px 0;
   border: none;
   border-radius: 12px;
@@ -7,27 +7,39 @@
   width: 100%;
   background-color: #c3e3a3;
 }
-.Intro__container_slogan {
+.intro__container_slogan {
   font-weight: 300;
   text-align: center;
   margin: 0;
   font-size: 100px;
   white-space: normal;
 }
-.Intro__container_sloganbtns {
+.intro__container_sloganbtns {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.Intro__container_buttons {
+.intro__container_buttons {
   gap: 20px;
   display: flex;
 }
-.Intro__container__ntroduction {
+.intro__container__ntroduction {
   font-size: 25px;
   display: flex;
   margin: 0;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+@media screen and (max-width: 500px) {
+  .intro__container {
+    display: flex;
+    flex-direction: column;
+  }
+  .intro__container_slogan {
+    font-size: 50px;
+  }
+  .intro__container__ntroduction {
+    font-size: 20px;
+  }
 }

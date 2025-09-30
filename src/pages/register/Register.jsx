@@ -61,39 +61,37 @@ function Register() {
           value={formData.userName}
           onChange={handleChange}
         ></Input>
-        <div className="register__container-username-block">
-          <Input
-            id="password"
-            type={'password'}
-            variant="register"
-            placeholder="password"
-            required={true}
-            value={formData.password}
-            onChange={handleChange}
-          ></Input>
-        </div>
-        <div className="register__container-username-block">
-          <Input
-            id="email"
-            type={'email'}
-            variant="register"
-            placeholder="email"
-            required={true}
-            value={formData.email}
-            onChange={handleChange}
-          ></Input>
-        </div>
-        <div className="register__container-username-block">
-          <Input
-            id="zipCode"
-            type={'text'}
-            variant="register"
-            placeholder="zipCode"
-            required={false}
-            value={formData.zipCode}
-            onChange={handleChange}
-          ></Input>
-        </div>
+
+        <Input
+          id="password"
+          type={'password'}
+          variant="register"
+          placeholder="password"
+          required={true}
+          value={formData.password}
+          onChange={handleChange}
+        ></Input>
+
+        <Input
+          id="email"
+          type={'email'}
+          variant="register"
+          placeholder="email"
+          required={true}
+          value={formData.email}
+          onChange={handleChange}
+        ></Input>
+
+        <Input
+          id="zipCode"
+          type={'text'}
+          variant="register"
+          placeholder="zipCode"
+          required={false}
+          value={formData.zipCode}
+          onChange={handleChange}
+        ></Input>
+
         <Checkbox
           required={true}
           id="termsCheckbox"
@@ -102,13 +100,12 @@ function Register() {
           text="I accept the terms and conditions"
           type="checkbox"
         ></Checkbox>
-        <div className="register__button-container">
-          <Button
-            text="Submit"
-            variant="register__button-container-submit"
-            type="submit"
-          ></Button>
-        </div>
+
+        <Button
+          text="Submit"
+          variant="login__button-container-submit"
+          type="submit"
+        ></Button>
       </form>
     </div>
   )

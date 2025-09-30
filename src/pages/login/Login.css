@@ -3,8 +3,10 @@
   min-width: fit-content;
   background-color: #d9d9d9;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.login__container-label {
+.login__container-title {
   color: #005d1c;
   margin: 0;
   font-size: 100px;
@@ -19,9 +21,10 @@
   align-items: center;
 }
 .login-form {
+  justify-content: center;
+  align-items: center;
   text-align: center;
   margin: auto auto;
-  width: 350px;
   height: 800px;
   display: flex;
   flex-direction: column;
@@ -37,6 +40,7 @@
   color: white;
 }
 .login__button-container-usernamepasswd {
+  gap: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,4 +52,13 @@
 }
 .login__container-span:hover {
   color: #005d1c;
+}
+
+@media screen and (max-width: 500px) {
+  .login__container-title {
+    font-size: 75px;
+  }
+  .login-form {
+    gap: 30px;
+  }
 }

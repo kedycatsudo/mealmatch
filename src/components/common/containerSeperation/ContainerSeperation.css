@@ -17,3 +17,8 @@
   margin: 0;
   font-weight: 100;
 }
+@media screen and (max-width: 500px) {
+  .container__seperation-text {
+    font-size: 30px;
+  }
+}

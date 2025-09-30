@@ -1,0 +1,20 @@
+.posted__donations-list-title {
+  width: 100%;
+  border-radius: 12px;
+  height: fit-content;
+  background-color: #009951;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+.posted__donations-list-categories {
+  color: white;
+  padding: 10px 0;
+  font-size: 20px;
+  text-align: center;
+}
+
+@media screen and (max-width: 500px) {
+  .posted__donations-list-categories {
+    font-size: large;
+  }
+}

@@ -14,10 +14,11 @@ const SearchBox = ({
     <div className="search__box-container">
       <div className="container__searchBox">
         <Input
+          variant="searchbox"
           type="text"
           id="seachBox"
           placeholder="Search meal..."
-          className="container__search-input"
+          className=""
           onChange={(e) => {
             onSearchChange(e.target.value)
           }}

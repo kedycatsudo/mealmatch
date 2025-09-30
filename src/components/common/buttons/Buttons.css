@@ -1,11 +1,12 @@
 /* Base styles for all buttons */
 .btn {
   background-color: #005d1c; /* blue-600 */
+
   color: white;
   font-size: 25px;
   text-align: center;
   width: fit-content;
-  height: fit-content;
+  min-height: fit-content;
   padding: 10px;
   border-radius: 12px;
   cursor: pointer;
@@ -51,7 +52,8 @@
   font-size: 25px;
   margin: 0 auto;
   color: white;
-  width: 350px;
+  width: 100%;
+  max-width: 350px;
   text-align: center;
   border-radius: 12px;
 }
@@ -106,4 +108,22 @@
 }
 .btn-logout_btn:hover {
   background-color: red;
+}
+
+@media screen and (max-width: 500px) {
+  .btn {
+    font-size: 20px;
+  }
+  .btn-login__button-container-submit {
+    width: 150px;
+  }
+  .btn-logout_btn {
+    width: 50px;
+    height: 50px;
+  }
+  .btn-burger__menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }

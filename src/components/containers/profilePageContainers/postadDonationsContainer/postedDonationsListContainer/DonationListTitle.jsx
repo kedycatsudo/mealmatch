@@ -1,3 +1,4 @@
+import './DonationListTitle.css'
 const DonationListTitle = ({}) => (
   <div className="posted__donations-list-title">
     <span className="posted__donations-list-categories">

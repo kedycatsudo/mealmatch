@@ -6,14 +6,17 @@
   gap: 25px;
 }
 .container__searchBox {
-  display: grid;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
 }
 
 .container__search-input {
-  width: 100%;
   margin-bottom: 58px;
 }
 .container__tags {
+  flex-wrap: wrap;
   display: flex;
   gap: 50px;
   justify-content: space-around;
@@ -21,4 +24,14 @@
 .container__search-btn {
   margin: auto auto;
   width: 150px;
+}
+
+@media screen and (max-width: 500px) {
+  .search__box-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .container__search-input {
+    margin: 0 auto;
+  }
 }

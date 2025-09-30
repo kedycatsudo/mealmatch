@@ -1,5 +1,6 @@
 import { KarmCheckIcon } from '../../../../../../assets/icons/index'
 import { CancelIcon } from '../../../../../../assets/icons/index'
+import './PostedDonationsListItemSpan.css'
 const PostedDonationsListItemSpan = ({ donationsData }) => {
   return (
     <>

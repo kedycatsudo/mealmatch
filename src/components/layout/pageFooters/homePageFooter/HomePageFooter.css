@@ -14,6 +14,13 @@
 }
 .homefoote__paragraph {
   font-size: 30px;
+  color: black;
+  text-decoration: none;
+}
+.homefoote__paragraph_email {
+  word-break: break-all;
+  font-size: 30px;
+  overflow-wrap: anywhere;
 }
 .homefooter__logos {
   display: flex;
@@ -27,4 +34,11 @@
   width: 150px;
   height: 150px;
   border-radius: 12px;
+}
+
+@media screen and (max-width: 500px) {
+  .homefooter {
+    display: flex;
+    flex-direction: column;
+  }
 }
