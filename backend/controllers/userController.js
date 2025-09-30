@@ -224,4 +224,36 @@ const updateUserProfile = (req, res) => {
     })
 }
 
-module.exports = { registerUser, loginUser, updateUserProfile }
+//get user info
+
+const getUserProfile = (req, res) => {
+  const userId = req.user.userId
+
+  User.findById(userId)
+    .select(`-password -isAdmin`)
+    .then((user) => {
+      if (!user) {
+        return res
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: 'User not found' })
+      }
+
+      //send only necessary fields
+
+      res.status(success.OK_SUCCESS_CODE).json({
+        user: {
+          printName: user.printName,
+          avatar: user.avatar,
+          donationStatus: user.donationStatus, // Access donationStatus directly if it's a field in your User schema
+        },
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Error occured on server' })
+    })
+}
+
+module.exports = { registerUser, loginUser, updateUserProfile, getUserProfile }

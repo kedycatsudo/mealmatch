@@ -8,6 +8,7 @@ const {
   registerUser,
   loginUser,
   updateUserProfile,
+  getUserProfile,
 } = require('../controllers/userController')
 
 // Route : POST /api/users/register
@@ -17,11 +18,8 @@ router.post('/login', loginUser)
 
 // GET /api/users/profile - protected route
 
-router.get('/profile', authenticate, (req, res) => {
-  // req.user was set by the middleware
+router.get('/profile', authenticate, getUserProfile)
 
-  res.json({ message: 'Profile data', user: req.user })
-})
 router.patch('/profile', authenticate, updateUserProfile)
 
 module.exports = router

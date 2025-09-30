@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema(
     zipcode: { type: String },
     password: { type: String, required: true }, // Keep type as String; handle password securely elsewhere
     isAdmin: { type: Boolean, default: false },
+    donationStatus: {
+      totalDonations: { type: Number, default: 0 },
+      availableDonations: { type: Number, default: 0 },
+      totalDonationsServings: { type: Number, default: 0 },
+    },
   },
   { timestamps: true }
 )
