@@ -1,16 +1,17 @@
 .food__form {
   justify-content: center;
+  width: 100%;
   align-items: center;
   gap: 15px;
   display: flex;
   flex-direction: column;
 }
 .food__form-inputs-container {
-  gap: 100px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  display: flex;
 }
 .food__form-inputs {
+  width: 100%;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -51,4 +52,15 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+@media screen and (max-width: 720px) {
+  .food__form-inputs-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .food__form-inputs {
+    width: fit-content;
+    gap: 10px;
+  }
 }

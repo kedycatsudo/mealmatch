@@ -28,6 +28,7 @@ const ShareFoodForm = ({}) => {
       <div className="food__form-inputs-container">
         <div className="food__form-inputs">
           <Input
+            className="food__form-input"
             name="mealName"
             value={participant.donationsList[0].mealName}
             onChange={onChange}

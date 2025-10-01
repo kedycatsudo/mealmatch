@@ -9,7 +9,7 @@ const ShareFoodHeader = ({}) => {
   const navigateToMenu = () => navigate(`/menu`)
   return (
     <div className="share__food-header-container">
-      <p className="share__food-header-p">Share Food</p>
+      <h1 className="share__food-header-h">Share Food</h1>
       <img className="share__food-header-logo" src={logo}></img>
       <Button
         className="menu__btn"

@@ -5,16 +5,14 @@
   justify-content: center;
   align-items: center;
 }
-.input-login {
-}
+
 .label {
   color: #005d1c;
   margin: 0;
   font-size: 100px;
   font-weight: 100;
 }
-.label-login {
-}
+
 .label-text {
   padding-top: 10px;
   font-size: 20px;

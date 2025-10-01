@@ -13,11 +13,23 @@
   width: 100px;
   height: 100px;
 }
-.share__food-header-p {
+.share__food-header-h {
+  margin: 0;
+  padding-top: 20px;
   font-size: 100px;
 }
 .menu__btn {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+@media screen and (max-width: 880px) {
+  .share__food-header-h {
+    font-size: 75px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .share__food-header-h {
+    font-size: 50px;
+  }
 }
