@@ -23,11 +23,4 @@ export const menuButtons = [
     variant: 'menu__button',
     karmDonor: false,
   },
-  {
-    id: 4,
-    path: 'testimonials',
-    text: 'TESTIMONIALS',
-    variant: 'menu__button',
-    karmDonor: false,
-  },
 ]

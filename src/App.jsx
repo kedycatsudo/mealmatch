@@ -34,10 +34,7 @@ function App() {
             path="/exploreFood"
             element={<ExploreFood></ExploreFood>}
           ></Route>
-          <Route
-            path="/testimonials"
-            element={<Testimonial></Testimonial>}
-          ></Route>
+
           <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>
       </ParticipantProvider>

@@ -1,4 +1,6 @@
 .register__container {
+  font-family: 'OpenSans', Arial, sans-serif;
+
   min-width: fit-content;
   background-color: #d9d9d9;
   display: flex;
@@ -8,7 +10,7 @@
   color: #005d1c;
   margin: 0;
   font-size: 100px;
-  font-weight: 100;
+  font-weight: 600;
 }
 .register__container-input {
   font-size: 25px;

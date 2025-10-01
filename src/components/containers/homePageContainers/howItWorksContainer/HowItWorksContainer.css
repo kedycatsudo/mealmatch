@@ -38,7 +38,8 @@
   border-radius: 12px;
 }
 .howItWorks__container__cards-parapraph {
-  font-size: 30px;
+  font-weight: 500;
+  font-size: 20px;
   margin: 0;
   padding: 10px 0;
   text-align: center;
@@ -55,7 +56,6 @@
 }
 
 .howItWorks__container_karm {
-  padding: 10px;
   border-radius: 12px;
   background-color: #c3e3a3;
   display: grid;
@@ -67,13 +67,14 @@
   flex-direction: column;
 }
 .howItWorks__container_karm-subtitle {
+  font-weight: 500;
   margin: 0;
   padding: 0;
   font-size: 50px;
 }
 .howItWorks__container_karm-paragraph {
   margin: 0;
-  font-size: 30px;
+  font-size: 20px;
 }
 .how__ItWorks__container_karm-btn {
   margin-left: auto;

@@ -1,10 +1,13 @@
 .menu__container {
+  font-family: 'OpenSans', Arial, sans-serif;
+
   position: relative;
   display: grid;
   grid-auto-rows: 1fr;
   height: 100vh;
 }
 .logout__btn {
+  font-weight: 600;
   position: absolute;
   top: 20px;
   left: 20px;

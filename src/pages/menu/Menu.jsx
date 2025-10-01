@@ -17,7 +17,7 @@ const Menu = ({}) => {
         ></Button>
       ))}
       <Button
-      className='logout__btn'
+        className="logout__btn"
         onClick={() => navigatePages('home')}
         variant="logout_btn"
       ></Button>
