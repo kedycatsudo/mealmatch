@@ -84,8 +84,8 @@
 
 .btn-modal__close-btn {
   position: absolute;
-  top: 30px;
-  right: 35px;
+  top: 10px;
+  right: 10px;
 }
 .btn-edit__modal-change-password {
   background-image: url('../../../assets/icons/lock.svg');
@@ -122,7 +122,7 @@
     height: 50px;
   }
   .btn-burger__menu {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
   }

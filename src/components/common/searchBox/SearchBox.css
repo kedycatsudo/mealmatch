@@ -25,7 +25,11 @@
   margin: auto auto;
   width: 150px;
 }
-
+@media screen and (max-width: 600px) {
+  .search__box-container {
+    grid-template-rows: 1fr 2fr;
+  }
+}
 @media screen and (max-width: 500px) {
   .search__box-container {
     display: flex;
@@ -33,5 +37,8 @@
   }
   .container__search-input {
     margin: 0 auto;
+  }
+  .container__tags {
+    gap: 10px;
   }
 }

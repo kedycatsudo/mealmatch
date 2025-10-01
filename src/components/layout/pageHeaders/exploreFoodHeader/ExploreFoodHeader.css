@@ -11,9 +11,9 @@
   position: relative;
   width: 100%;
 }
-.header__container-h {
+.explore__header__container-title {
   font-weight: 500;
-  font-size: 75px;
+  font-size: 100px;
   text-align: center;
 }
 .logo {
@@ -22,4 +22,20 @@
 }
 .menu__btn {
   position: absolute;
+}
+@media screen and (max-width: 880px) {
+  .explore__header__container-title {
+    padding-top: 75px;
+    font-size: 75px;
+  }
+  .logo {
+    width: 75px;
+    height: 75px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .explore__header__container-title {
+    font-size: 50px;
+    padding-top: 75px;
+  }
 }

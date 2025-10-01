@@ -10,7 +10,7 @@ const ExploreFoodHeader = ({}) => {
     <div className="header__container">
       <div className="header__container-head">
         <img className="logo" src={Logo}></img>
-        <h1 className="header__container-h">Explore Food</h1>
+        <h1 className="explore__header__container-title">Explore Food</h1>
         <Button
           className="menu__btn"
           onClick={() => navigateTo('menu')}

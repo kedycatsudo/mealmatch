@@ -40,8 +40,6 @@
   z-index: 9999;
 }
 @media screen and (max-width: 880px) {
-  .posted__donation_card_display-container {
-  }
   .posted__donation_card_display-container-title {
     font-size: 20px;
   }

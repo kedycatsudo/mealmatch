@@ -23,3 +23,9 @@
 }
 .header__homepage-layout {
 }
+@media screen and (max-width: 880px) {
+  .meal__match-logo {
+    width: 75px;
+    height: 75px;
+  }
+}

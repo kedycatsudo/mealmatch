@@ -19,3 +19,12 @@
   padding: 0;
   font-size: 25px;
 }
+@media screen and (max-width: 880px) {
+  .confirmation__modal-container {
+    gap: 0;
+  }
+  .confirmation__modal-container-p {
+    font-size: 20px;
+    text-align: center;
+  }
+}

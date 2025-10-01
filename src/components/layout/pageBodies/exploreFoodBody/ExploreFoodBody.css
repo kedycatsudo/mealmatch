@@ -17,14 +17,6 @@
   background-color: bisque;
   height: 750px;
 }
-.posted__donations-list-title {
-  width: 100%;
-  border-radius: 12px;
-  height: fit-content;
-  background-color: #009951;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-}
 
 .modal-overlay {
   position: fixed;

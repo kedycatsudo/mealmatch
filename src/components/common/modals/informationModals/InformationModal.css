@@ -11,3 +11,9 @@
 .information__modal-container-p {
   font-size: 25px;
 }
+@media screen and (max-width: 880px) {
+  .information__modal-container-p {
+    font-size: 20px;
+    text-align: center;
+  }
+}
