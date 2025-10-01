@@ -33,6 +33,7 @@ const ExploreFoodBody = ({ activeDonations }) => {
   }
 
   const handleOpenModal = () => {
+    handleSetDonationHold(selectedMeal.id, true)
     let address = ''
     if (selectedMeal?.ownerId) {
       const donor = participantsData.find((p) => p.id === selectedMeal.ownerId)
@@ -86,9 +87,23 @@ const ExploreFoodBody = ({ activeDonations }) => {
       return sortOrderUseBy === 'asc' ? useByA - useByB : useByB - useByA
     }
   })
+  const handleSetDonationHold = (donationId, holdValue) => {
+    setDonations((prevDonations) =>
+      prevDonations.map((donation) =>
+        donation.id === donationId ? { ...donation, hold: holdValue } : donation
+      )
+    )
+  }
   const handleAcceptDonation = (donationId) => {
     setDonations((prevDonations) =>
       prevDonations.map((d) => (d.id === donationId ? { ...d, hold: true } : d))
+    )
+  }
+  const handleCancelDonation = (donationId) => {
+    setDonations((prevDonations) =>
+      prevDonations.map((d) =>
+        d.id === donationId ? { ...d, hold: false } : d
+      )
     )
   }
   return (
@@ -117,21 +132,30 @@ const ExploreFoodBody = ({ activeDonations }) => {
                     donation={sortedDonation}
                     selectedMeal={selectedMeal}
                     owner={owner}
+                    donationHold={sortedDonation.hold}
+                    setDonationHold={(holdValue) =>
+                      handleSetDonationHold(sortedDonation.id, holdValue)
+                    }
+                    cancelDonation={() => handleCancelDonation(selectedMeal.id)} // <-- Add this line
                   />
                 )
               })
             : null}
         </ul>
         <ExploreFoodDonationCardDisplay
+          cancelDonation={() => handleCancelDonation(selectedMeal.id)} // <-- Add this line
+          donationHold={selectedMeal.hold}
+          setDonationHold={(holdValue) =>
+            handleSetDonationHold(selectedMeal.id, holdValue)
+          }
           onConfirmAccept={handleOpenModal}
-          showMapModal={showMapModal}
-          setShowMapModal={setShowMapModal}
           selectedMeal={selectedMeal}
           onClick={() => handleAcceptDonation(selectedMeal.id)}
         />
       </div>
       {showMapModal && (
         <ExploreFoodDonationMapModal
+          cancelDonation={() => handleCancelDonation(selectedMeal.id)} // <-- Add this line
           showMapModal={showMapModal}
           onClose={() => setShowMapModal(false)}
           ref={modalRef}

@@ -27,7 +27,7 @@ function loadGoogleMaps(apiKey) {
 }
 
 const ExploreFoodDonationMapModal = forwardRef(
-  ({ address, apiKey, onClose }, ref) => {
+  ({ address, apiKey, onClose, cancelDonation }, ref) => {
     const mapRef = useRef(null)
     const containerRef = useRef(null)
     const [statusMessage, setStatusMessage] = useState('')
@@ -117,7 +117,11 @@ const ExploreFoodDonationMapModal = forwardRef(
             <div className="modal__overlay">
               <ConfirmationModal
                 onClose={() => setShowConfirmationModal(false)}
-                onClick={onClose}
+                onClick={() => {
+                  cancelDonation()
+                  setShowConfirmationModal(false)
+                  onClose()
+                }}
                 confirmation={'Do you want to cancel pick up donation ?'}
               ></ConfirmationModal>
             </div>

@@ -4,14 +4,16 @@ import './ExploreFoodDonationCardDisplay.css'
 import ExploreFoodDonationCardInfo from './exploreFoodDonationCardInfo/ExploreFoodDonationCardInfo'
 import { useState } from 'react'
 const ExploreFoodDonationCardDisplay = ({
+  cancelDonation,
   selectedMeal,
+  donationHold,
   onConfirmAccept,
   onClick,
 }) => {
   const [showModalAcceptDonation, setShowModalAcceptDonation] = useState(false)
 
   const onClose = () => setShowModalAcceptDonation(false)
-
+  const onAccept = () => {}
   const cardDeleteBtn = () => {}
   return (
     <div className="explore__donation_card_display-container">
@@ -20,7 +22,7 @@ const ExploreFoodDonationCardDisplay = ({
       </h3>
 
       <div className="explore__donation_card-btns">
-        {selectedMeal.hold ? null : (
+        {donationHold ? null : (
           <Button
             type="button"
             onClick={() => setShowModalAcceptDonation(true)}
