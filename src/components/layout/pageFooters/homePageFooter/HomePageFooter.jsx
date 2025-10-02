@@ -14,7 +14,7 @@ const HomePageFooter = ({}) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        facebook
+        Facebook
       </a>
       <a
         className="homefoote__paragraph"
@@ -22,7 +22,7 @@ const HomePageFooter = ({}) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        twitter
+        Twitter
       </a>
       <a
         className="homefoote__paragraph"
@@ -30,7 +30,7 @@ const HomePageFooter = ({}) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        instagram
+        nstagram
       </a>
     </div>
     <div className="homefooter__container">

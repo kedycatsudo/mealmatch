@@ -1,16 +1,16 @@
 import logo from '../../../../assets/logos/logo.png'
 import { MenuIcon } from '../../../../assets/icons'
 import './ProfilePageHeader.css'
-import { useParticipant } from '../../../../context/ParticipantContext'
-import Button from '../../../common/buttons/Buttons'
+import { ParticipantContext } from '../../../../context/ParticipantContext' // Adjust path as neededimport Button from '../../../common/buttons/Buttons'
 import EditProfileModal from '../../../common/modals/editProfileModal/EditProfileModal'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import UseEffectShowModal from '../../../../utils/helpers/useEffectShowModal'
-import { useEffect, useState } from 'react'
+import { useState, useContext } from 'react'
+import Button from '../../../common/buttons/Buttons'
 const ProfilePageHeader = ({}) => {
   const navigate = useNavigate()
   const navigateToMenu = () => navigate(`/menu`)
-  const { participant, toggleKarm } = useParticipant() || {}
+  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
   const [showModal, setShowModal] = useState(false)
   UseEffectShowModal(showModal)
   return (
@@ -26,11 +26,11 @@ const ProfilePageHeader = ({}) => {
       <div className="header__container">
         <img
           className="profile__header-avatar"
-          src={participant.avatar}
+          src={currentUser.avatar}
           alt="user avatar"
         ></img>
 
-        <p className="header__container-paragraph">{participant.userName}</p>
+        <p className="header__container-paragraph">{currentUser.userName}</p>
       </div>
 
       <Button

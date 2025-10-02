@@ -13,6 +13,11 @@
   border: none;
   transition: background-color 0.2s ease;
 }
+.btn-link {
+  background-color: transparent;
+  font-size: 16px;
+  color: #005d1c;
+}
 .btn:hover {
   background-color: transparent;
   color: black;
@@ -114,7 +119,7 @@
 
 @media screen and (max-width: 500px) {
   .btn {
-    font-size: 20px;
+    font-size: 16px;
   }
   .btn-login__button-container-submit {
     width: 150px;

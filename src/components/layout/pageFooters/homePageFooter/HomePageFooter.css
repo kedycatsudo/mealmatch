@@ -22,8 +22,7 @@
 }
 .homefoote__paragraph_email {
   word-break: break-all;
-  font-size: 30px;
-  overflow-wrap: anywhere;
+  font-size: 24px;
 }
 .homefooter__logos {
   display: flex;

@@ -2,13 +2,11 @@ import './ChangePasswordModal.css'
 import Input from '../../../inputs/Inputs'
 import Button from '../../../buttons/Buttons'
 import { useState } from 'react'
-import { useParticipant } from '../../../../../context/ParticipantContext'
 import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
 import InformationModal from '../../informationModals/InformationModal'
 const ChangePasswordModal = ({ onClose }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const { participant, toggleKarm, setParticipant } = useParticipant()
   const [showModal, setShowModal] = useState(false)
   UseEffectShowModal(showModal)
   const handleChangePassword = ({}) => {

@@ -1,7 +1,6 @@
 .page {
   padding: 5px;
   min-height: 100vh;
-  background: #ebeae8;
   display: flex;
   flex-direction: column;
   align-items: center; /* optional: center content horizontally */

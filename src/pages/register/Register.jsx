@@ -1,10 +1,14 @@
 import './Register.css'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Input from '../../components/common/inputs/Inputs'
 import Button from '../../components/common/buttons/Buttons'
 import Checkbox from '../../components/common/checbox/Checkbox'
+import { ParticipantContext } from '../../context/ParticipantContext'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 function Register() {
+  const navigate = useNavigate()
+  const { users, setCurrentUser, loading } = useContext(ParticipantContext)
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
@@ -12,99 +16,123 @@ function Register() {
     zipCode: '',
     termsCheckbox: false,
   })
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+
   const handleChange = (e) => {
-    const { id, value, type, checked } = e.target
+    const { name, value, type, checked } = e.target
     setFormData((prev) => ({
       ...prev,
-      [id]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }))
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    //Handle the logic
-    console.log(
-      `Username:${formData.userName} Password: ${formData.password} Email:${formData.email} ZipCode:${formData.zipCode}`
+    setError('')
+    setSuccess('')
+
+    // Simulate registration logic for MVP
+    // Check if username or email already exists
+    const userExists = users.some(
+      (u) => u.userName === formData.userName || u.email === formData.email
     )
-    fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/jason' },
-      body: JSON.stringify({
-        username: formData.userName,
-        password: formData.password,
-        email: formData.email,
-        zipCode: formData.zipCode,
-        termsCheckbox: formData.termsCheckbox,
-      }),
+    if (userExists) {
+      setError('Username or email already registered.')
+      return
+    }
+    if (!formData.termsCheckbox) {
+      setError('You must accept the terms and conditions.')
+      return
+    }
+    // For MVP, just add user to context
+    const newUser = {
+      _id: Date.now().toString(),
+      userName: formData.userName,
+      printName: formData.userName,
+      email: formData.email,
+      zipCode: formData.zipCode,
+      // password is not stored for MVP
+    }
+    users.push(newUser) // This won't persist; for MVP only
+    setCurrentUser(newUser)
+    setSuccess('Registration successful! You are now logged in.')
+    setFormData({
+      userName: '',
+      password: '',
+      email: '',
+      zipCode: '',
+      termsCheckbox: false,
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Newtwork response was not ok')
-        } else {
-          setFormData({ userName: '', password: '', email: '', zipCode: '' })
-          return res.json()
-        }
-      })
-      .catch((e) => {
-        console.error('Register Failed', e.message)
-      })
   }
+
+  if (loading) {
+    return (
+      <div className="register__container">
+        <div>Loading users...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="register__container">
       <form onSubmit={handleSubmit} className="register-form">
         <h2 className="register__container-label">Register</h2>
+        {error && <div className="register__error">{error}</div>}
+        {success && <div className="register__success">{success}</div>}
         <Input
-          id="userName"
-          type={'text'}
-          variant="Register"
-          placeholder="username"
+          name="userName"
+          type="text"
+          variant="register"
+          placeholder="Username"
           required={true}
           value={formData.userName}
           onChange={handleChange}
-        ></Input>
-
+        />
         <Input
-          id="password"
-          type={'password'}
+          name="password"
+          type="password"
           variant="register"
-          placeholder="password"
+          placeholder="Password"
           required={true}
           value={formData.password}
           onChange={handleChange}
-        ></Input>
-
+        />
         <Input
-          id="email"
-          type={'email'}
+          name="email"
+          type="email"
           variant="register"
-          placeholder="email"
+          placeholder="Email"
           required={true}
           value={formData.email}
           onChange={handleChange}
-        ></Input>
-
+        />
         <Input
-          id="zipCode"
-          type={'text'}
+          name="zipCode"
+          type="text"
           variant="register"
-          placeholder="zipCode"
+          placeholder="Zip Code"
           required={false}
           value={formData.zipCode}
           onChange={handleChange}
-        ></Input>
-
+        />
         <Checkbox
-          required={true}
-          id="termsCheckbox"
+          name="termsCheckbox"
           onChange={handleChange}
           checked={formData.termsCheckbox}
           text="I accept the terms and conditions"
           type="checkbox"
-        ></Checkbox>
-
+        />
         <Button
           text="Submit"
           variant="login__button-container-submit"
           type="submit"
+        />
+        <Button
+          type="button"
+          variant="link"
+          text="Do you have an account?"
+          onClick={() => navigate('/login')}
         ></Button>
       </form>
     </div>

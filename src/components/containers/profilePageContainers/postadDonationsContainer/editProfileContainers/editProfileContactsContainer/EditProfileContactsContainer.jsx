@@ -1,34 +1,35 @@
 import Input from '../../../../../common/inputs/Inputs'
 import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
-import { useParticipant } from '../../../../../../context/ParticipantContext'
+import { useContext } from 'react'
+import { ParticipantContext } from '../../../../../../context/ParticipantContext' // Adjust path as needed
 import './EditProfileContactsContainer.css'
 
 const EditProfileContactsContainer = ({}) => {
-  const { participant, toggleKarm, setParticipant } = useParticipant()
-  const onChange = handleFormInput(setParticipant)
-  if (!participant) {
+  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
+  const onChange = handleFormInput(setCurrentUser)
+  if (!currentUser) {
     return null
   }
   return (
     <>
       <Input
         name="phone"
-        value={participant.phone}
+        value={currentUser.phone}
         type="number"
         onChange={onChange}
         variant="text"
         text="Phone Number"
-        placeholder={participant.phone}
+        placeholder={currentUser.phone}
         className="edit__modal-contacts-input"
       ></Input>
       <Input
         name="email"
-        value={participant.email}
+        value={currentUser.email}
         type="email"
         onChange={onChange}
         variant="text"
         text="Email"
-        placeholder={participant.email}
+        placeholder={currentUser.email}
         className="edit__modal-contacts-input"
       ></Input>
     </>

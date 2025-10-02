@@ -1,7 +1,6 @@
 import './EditProfileModal.css'
 import Button from '../../buttons/Buttons'
 import { useNavigate, Navigate } from 'react-router-dom'
-
 import ConfirmationModal from '../confirmationModal/ConfirmationModal'
 import EditProfileBasicInformationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileBasicInformationsContainer/EditProfileBasicInformationsContainer'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'

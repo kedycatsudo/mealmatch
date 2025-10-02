@@ -4,7 +4,7 @@ import ExploreDonationsListItem from '../../../containers/exploreFoodContainers/
 import ExploreDonationListTitle from '../../../containers/exploreFoodContainers/exploreFoodDonationsListTitle/ExploreFoodDonationsListTitle'
 import SearchBox from '../../../common/searchBox/SearchBox'
 import ExploreFoodDonationCardDisplay from '../../../containers/exploreFoodContainers/exploreFoodDonationCardDisplay/ExploreFoodDonationCardDisplay'
-import { useParticipant } from '../../../../context/ParticipantContext'
+import { ParticipantContext } from '../../../../context/ParticipantContext'
 import { useState, useRef, useEffect } from 'react'
 
 import buildAddress from '../../../../utils/helpers/buildAddress'
@@ -19,8 +19,7 @@ const ExploreFoodBody = ({ activeDonations }) => {
   const [sortSize, setSortSize] = useState('')
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
-  const { participantsData } = useParticipant()
-
+  const { users } = useContext(ParticipantContext)
   const getOwner = (ownerId) => participantsData.find((p) => p.id === ownerId)
 
   const handleSortByPostedDate = () => {

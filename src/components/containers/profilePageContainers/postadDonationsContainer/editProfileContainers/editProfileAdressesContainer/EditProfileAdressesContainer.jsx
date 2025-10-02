@@ -1,65 +1,66 @@
 import './EditProfileAdressesContainer.css'
-import { useParticipant } from '../../../../../../context/ParticipantContext'
+import { useContext } from 'react'
+import { ParticipantContext } from '../../../../../../context/ParticipantContext'
 import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
 import Input from '../../../../../common/inputs/Inputs'
 
 const EditProfileAddressesContainer = ({}) => {
-  const { participant, toggleKarm, setParticipant } = useParticipant()
-  const onChange = handleFormInput(setParticipant)
-  if (!participant) {
+  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
+  const onChange = handleFormInput(setCurrentUser)
+  if (!currentUser) {
     return null
   }
   return (
     <>
       <Input
         name="country"
-        value={participant.country}
+        value={currentUser.country}
         type="text"
         onChange={onChange}
         variant="text"
         text="Country"
         className="edit__profile_addresses-input"
-        placeholder={participant.country}
+        placeholder={currentUser.country}
       ></Input>
       <Input
         name="city"
-        value={participant.city}
+        value={currentUser.city}
         type="text"
         onChange={onChange}
         variant="text"
         text="City"
         className="edit__profile_addresses-input"
-        placeholder={participant.city}
+        placeholder={currentUser.city}
       ></Input>
       <Input
         name="state/province/area"
-        value={participant.state}
+        value={currentUser.state}
         type="text"
         onChange={onChange}
         variant="text"
         text="State/Province/area"
         className="edit__profile_addresses-input"
-        placeholder={participant.state}
+        placeholder={currentUser.state}
       ></Input>
       <Input
         name="address"
-        value={participant.address}
+        value={currentUser.address}
         type="text"
         onChange={onChange}
         variant="text"
         text="Address"
         className="edit__profile_addresses-input"
-        placeholder={participant.adress}
+        placeholder={currentUser.adress}
       ></Input>
       <Input
         name="zipCode"
-        value={participant.zipCode}
+        value={currentUser.zipCode}
         type="number"
         onChange={onChange}
         variant="text"
         text="Zip Code"
         className="edit__profile_addresses-input"
-        placeholder={participant.zipCode}
+        placeholder={currentUser.zipCode}
       ></Input>
     </>
   )

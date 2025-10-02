@@ -1,15 +1,14 @@
 import Button from '../../../../../common/buttons/Buttons'
 import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
-import { KarmCheckIcon, CancelIcon } from '../../../../../../assets/icons'
-import { useParticipant } from '../../../../../../context/ParticipantContext'
+import { ParticipantContext } from '../../../../../../context/ParticipantContext'
 import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 import UseEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
 import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
 const EditProfileBasicInformationsContainer = ({}) => {
   const fileInputRef = useRef()
-  const { participant, toggleKarm, setParticipant } = useParticipant()
+  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
   const [showModal, setShowModal] = useState(false)
   const onChange = handleFormInput(setParticipant)
 
@@ -20,11 +19,11 @@ const EditProfileBasicInformationsContainer = ({}) => {
     const file = e.target.files[0]
     if (file) {
       const imageUrl = URL.createObjectURL(file)
-      setParticipant((prev) => ({ ...prev, avatar: imageUrl }))
+      setCurrentUser((prev) => ({ ...prev, avatar: imageUrl }))
     }
   }
   UseEffectShowModal(showModal)
-  if (!participant) {
+  if (!currentUser) {
     return null
   }
 
@@ -46,7 +45,7 @@ const EditProfileBasicInformationsContainer = ({}) => {
         ></Input>
         <img
           className="edit__modal-basic-container-avatar"
-          src={participant.avatar}
+          src={currentUser.avatar}
         ></img>
         <Button
           className="edit__modal-btns"
@@ -67,21 +66,21 @@ const EditProfileBasicInformationsContainer = ({}) => {
       </div>
       <Input
         name="printName"
-        value={participant.printName}
+        value={currentUser.userName}
         onChange={onChange}
         variant="text"
         text={'Print Name'}
-        placeholder={participant.printName}
+        placeholder={currentUser.userName}
         className="edit__modal-input"
       ></Input>
 
       <Input
-        value={participant.userName}
+        value={currentUser.userName}
         name="userName"
         onChange={onChange}
         variant="text"
         text={'User Name'}
-        placeholder={participant.userName}
+        placeholder={currentUser.userName}
         className="edit__modal-input"
       ></Input>
     </>

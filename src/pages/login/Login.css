@@ -40,14 +40,17 @@
 .forgot-password-link:hover {
   color: white;
 }
+.login__button-container {
+  display: flex;
+  flex-direction: column;
+}
 .login__button-container-usernamepasswd {
   gap: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.login__container-rememberme {
-}
+
 .login__container-span {
   color: white;
 }

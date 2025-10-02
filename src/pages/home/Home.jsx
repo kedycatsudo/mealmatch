@@ -5,10 +5,10 @@ const HomePage = ({}) => (
   <div className="page">
     <div className="page__content">
       <header>
-        <HomePageHeader></HomePageHeader>
+        <HomePageHeader />
       </header>
       <main>
-        <HomePageMain></HomePageMain>
+        <HomePageMain />
       </main>
     </div>
   </div>

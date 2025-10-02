@@ -1,28 +1,65 @@
 import './ShareFoodForm.css'
 import { useNavigate } from 'react-router-dom'
-import { useParticipant } from '../../../context/ParticipantContext'
+import { ParticipantContext } from '../../../context/ParticipantContext'
+import { MealsContext } from '../../../context/MealsContext' // <-- NEW!
 import { useRecentDonation } from '../../../context/RecentDonationsContext'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Input from '../../common/inputs/Inputs'
 import Button from '../../common/buttons/Buttons'
-import handleFormInput from '../../../utils/helpers/handleChangEditFormInput'
 import InformationModal from '../../common/modals/informationModals/InformationModal'
-const ShareFoodForm = ({}) => {
-  const { participant, toggleKarm, setParticipant } = useParticipant()
+
+const initialDonation = {
+  mealName: '',
+  useBy: '',
+  pickUpLoc: '',
+  allergens: '',
+  contactPhone: '',
+  servings: 1,
+  karm: false,
+}
+
+const ShareFoodForm = () => {
+  const { currentUser } = useContext(ParticipantContext)
+  const { addMeal } = useContext(MealsContext) // <-- NEW!
   const { addRecentDonation } = useRecentDonation()
+  const [donation, setDonation] = useState(initialDonation)
   const [showModal, setShowModal] = useState(false)
-  const onChange = handleFormInput(setParticipant)
   const navigate = useNavigate()
-  const navigateTo = (index) => navigate(`/${index}`)
-  const handleSubmitForm = (e) => {
-    console.log('Adding donation:', participant.donationsList[0])
-    e.preventDefault()
-    if (participant.donationsList[0].karm) {
-      addRecentDonation(participant.donationsList[0])
-    } else {
-    }
-    setShowModal(true)
+
+  // Handle input changes
+  const onChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setDonation((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
   }
+
+  // Handle submit
+  const handleSubmitForm = (e) => {
+    e.preventDefault()
+
+    // Create new donation object with all required fields for your schema
+    const newDonation = {
+      ...donation,
+      _id: Date.now().toString(), // simple unique id for MVP
+      ownerId: currentUser?._id,
+      postDate: new Date().toISOString(),
+      live: true,
+      hold: false,
+      pickedUp: false,
+      claimedUpBy: null,
+      claimedUpAt: null,
+    }
+    addMeal(newDonation) // Add to MealsContext!
+    addRecentDonation(newDonation) // Optionally keep this for your modal
+
+    setShowModal(true)
+    setDonation(initialDonation) // Reset form after submit
+  }
+
+  const navigateTo = (path) => navigate(`/${path}`)
+
   return (
     <form className="food__form" onSubmit={handleSubmitForm}>
       <div className="food__form-inputs-container">
@@ -30,84 +67,85 @@ const ShareFoodForm = ({}) => {
           <Input
             className="food__form-input"
             name="mealName"
-            value={participant.donationsList[0].mealName}
+            value={donation.mealName}
             onChange={onChange}
             required={true}
             text="Meal Name *"
             type="text"
             variant="text"
-          ></Input>
+          />
           <Input
             name="useBy"
-            value={participant.donationsList[0].useBy}
+            value={donation.useBy}
             onChange={onChange}
             required={true}
             text="Use By *"
             type="date"
             variant="text"
-          ></Input>
+          />
           <Input
             name="pickUpLoc"
-            value={participant.donationsList[0].pickUpLoc}
+            value={donation.pickUpLoc}
             onChange={onChange}
             required={true}
             text="Pick Up Location *"
             type="text"
             variant="text"
-          ></Input>
+          />
         </div>
         <div className="food__form-inputs">
           <Input
             name="allergens"
-            value={participant.donationsList[0].allergens}
+            value={donation.allergens}
             onChange={onChange}
             text="Allergens"
             type="text"
             variant="text"
-          ></Input>
+          />
           <Input
             name="contactPhone"
-            value={participant.donationsList[0].contactPhone}
+            value={donation.contactPhone}
             onChange={onChange}
             text="Contact Person Phone"
             type="text"
             variant="text"
-          ></Input>
+          />
           <Input
             name="servings"
-            value={participant.donationsList[0].servings}
+            value={donation.servings}
             onChange={onChange}
             text="Serving Size"
             type="number"
             variant="text"
-          ></Input>
+          />
         </div>
       </div>
       <div className="karm__toggle-container">
         <p className="karm__togle-p">Offer this donation to KARM</p>
         <Input
           className="checkbox"
-          checked={participant.donationsList[0].karm}
+          checked={donation.karm}
           type="checkbox"
-          onChange={() => toggleKarm('donation')}
-        ></Input>
+          name="karm"
+          onChange={onChange}
+        />
       </div>
 
       <Button
-        onClick={handleSubmitForm}
         variant="login__button-container-submit"
         text="Donate"
-        type="button"
-      ></Button>
+        type="submit"
+      />
+
       {showModal && (
         <div className="modal-overlay">
           <InformationModal
-            text={'Donation shared succesfully.'}
+            text={'Donation shared successfully.'}
             onClose={() => {
               setShowModal(false)
               navigateTo('profile')
             }}
-          ></InformationModal>
+          />
         </div>
       )}
     </form>
