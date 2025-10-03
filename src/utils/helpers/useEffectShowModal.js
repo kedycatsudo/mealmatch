@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const UseEffectShowModal = ({ showModal }) =>
+function useEffectShowModal(showModal) {
   useEffect(() => {
     if (showModal) {
       document.body.style.overflow = 'hidden'
@@ -11,5 +11,6 @@ const UseEffectShowModal = ({ showModal }) =>
       document.body.style.overflow = ''
     }
   }, [showModal])
+}
 
-export default UseEffectShowModal
+export default useEffectShowModal

@@ -1,6 +1,6 @@
 import './EditProfileModal.css'
 import Button from '../../buttons/Buttons'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import ConfirmationModal from '../confirmationModal/ConfirmationModal'
 import EditProfileBasicInformationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileBasicInformationsContainer/EditProfileBasicInformationsContainer'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
@@ -8,21 +8,26 @@ import EditProfileAddressesContainer from '../../../containers/profilePageContai
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
 import { useState } from 'react'
 import InformationModal from '../informationModals/InformationModal'
-const EditProfileModal = ({ onClose }) => {
+
+const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const navigate = useNavigate()
-  const navigatePages = (index) => {
-    navigate(`/${index}`)
-  }
+
   const deleteAccount = ({}) => {
+    // TODO: Implement account deletion logic
+
     navigatePages('home')
   }
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
-    setShowModal(true)
-
-    return
+    setIsSaving(true)
+    //Todo: save changes to backend or context
+    setTimeout(() => {
+      setIsSaving(false)
+      setShowModal(true)
+    }, 1200)
   }
 
   return (
@@ -33,23 +38,32 @@ const EditProfileModal = ({ onClose }) => {
         <h1 className="edit__modal-header"> Edit Profile</h1>
         <ContainerSeperation text={'Basic Informations'}></ContainerSeperation>
         <div className="edit__modal-basic">
-          <EditProfileBasicInformationsContainer></EditProfileBasicInformationsContainer>
+          <EditProfileBasicInformationsContainer
+            setCurrentUser={setCurrentUser}
+            currentUser={currentUser}
+          ></EditProfileBasicInformationsContainer>
         </div>
         <ContainerSeperation text={'Contacts'}></ContainerSeperation>
         <div className="edit__modal-contacts">
-          <EditProfileContactsContainer></EditProfileContactsContainer>
+          <EditProfileContactsContainer
+            setCurrentUser={setCurrentUser}
+            currentUser={currentUser}
+          ></EditProfileContactsContainer>
         </div>
         <ContainerSeperation
           text={'Address(for pick up donations)'}
         ></ContainerSeperation>
         <div className="edit__modal-address">
-          <EditProfileAddressesContainer></EditProfileAddressesContainer>
+          <EditProfileAddressesContainer
+            setCurrentUser={setCurrentUser}
+            currentUser={currentUser}
+          ></EditProfileAddressesContainer>
         </div>
         <Button
-          type="button"
+          type="submit"
           onClick={handleSubmitEditForm}
           variant="login__button-container-submit"
-          text="Save Changes"
+          text={isSaving ? 'Saving...' : 'Save Changes'}
         ></Button>
         {showModal && (
           <div className="modal-overlay">

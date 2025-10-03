@@ -1,30 +1,38 @@
 import Button from '../../../../../common/buttons/Buttons'
+import logo from '../../../../../../assets/logos/logo.png'
 import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
-import { ParticipantContext } from '../../../../../../context/ParticipantContext'
 import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
-import { useState, useRef, useContext } from 'react'
-import UseEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
+import { useState, useRef } from 'react'
 import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
-const EditProfileBasicInformationsContainer = ({}) => {
-  const fileInputRef = useRef()
-  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
-  const [showModal, setShowModal] = useState(false)
-  const onChange = handleFormInput(setParticipant)
+import useEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
+const defaultAvatar = { logo }
 
-  const onClick = ({}) => {
-    return
-  }
+const EditProfileBasicInformationsContainer = ({
+  setCurrentUser,
+  currentUser,
+}) => {
+  const fileInputRef = useRef()
+
+  const [showModal, setShowModal] = useState(false)
+
+  if (!currentUser) return null
+
+  useEffectShowModal(showModal)
+
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
       const imageUrl = URL.createObjectURL(file)
-      setCurrentUser((prev) => ({ ...prev, avatar: imageUrl }))
+      setCurrentUser({ ...currentUser, avatar: imageUrl })
+      // TODO: Upload to backend if needed!
     }
   }
-  UseEffectShowModal(showModal)
-  if (!currentUser) {
-    return null
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setCurrentUser({ ...currentUser, [name]: value })
+    // TODO: Save to backend after editing or on submit!
   }
 
   return (
@@ -45,7 +53,8 @@ const EditProfileBasicInformationsContainer = ({}) => {
         ></Input>
         <img
           className="edit__modal-basic-container-avatar"
-          src={currentUser.avatar}
+          src={currentUser.avatar || logo}
+          alt="User avatar"
         ></img>
         <Button
           className="edit__modal-btns"
@@ -59,6 +68,8 @@ const EditProfileBasicInformationsContainer = ({}) => {
         {showModal && (
           <div className="modal-overlay">
             <ChangePasswordModal
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
               onClose={() => setShowModal(false)}
             ></ChangePasswordModal>
           </div>
@@ -66,23 +77,22 @@ const EditProfileBasicInformationsContainer = ({}) => {
       </div>
       <Input
         name="printName"
-        value={currentUser.userName}
-        onChange={onChange}
+        value={currentUser.printName}
+        onChange={handleInputChange}
         variant="text"
         text={'Print Name'}
-        placeholder={currentUser.userName}
+        placeholder="Print Name"
         className="edit__modal-input"
       ></Input>
-
       <Input
-        value={currentUser.userName}
         name="userName"
-        onChange={onChange}
+        value={currentUser.userName || ''}
+        onChange={handleInputChange}
         variant="text"
-        text={'User Name'}
-        placeholder={currentUser.userName}
+        text="User Name"
+        placeholder="User Name"
         className="edit__modal-input"
-      ></Input>
+      />
     </>
   )
 }

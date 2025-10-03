@@ -5,21 +5,24 @@ import { ParticipantContext } from '../../../../context/ParticipantContext' // A
 import EditProfileModal from '../../../common/modals/editProfileModal/EditProfileModal'
 import { useNavigate } from 'react-router-dom'
 import UseEffectShowModal from '../../../../utils/helpers/useEffectShowModal'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import Button from '../../../common/buttons/Buttons'
-const ProfilePageHeader = ({}) => {
+
+const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
   const navigate = useNavigate()
-  const navigateToMenu = () => navigate(`/menu`)
-  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
   const [showModal, setShowModal] = useState(false)
   UseEffectShowModal(showModal)
+
+  const avatarSrc =
+    currentUser && currentUser.avatar ? currentUser.avatar : logo
+
   return (
     <header className="profile__page-header">
       <div className="header__container">
-        <img className="meal__match-logo" src={logo}></img>
+        <img className="meal__match-logo" src={logo} alt="MealMatch logo"></img>
         <h1 className="header__container-title">PROFILE</h1>
         <Button
-          onClick={() => navigateToMenu()}
+          onClick={() => navigate('/menu')}
           variant="burger__menu"
         ></Button>
       </div>
@@ -27,7 +30,7 @@ const ProfilePageHeader = ({}) => {
         <img
           className="profile__header-avatar"
           src={currentUser.avatar}
-          alt="user avatar"
+          alt={`${currentUser.userName} avatar`}
         ></img>
 
         <p className="header__container-paragraph">{currentUser.userName}</p>
@@ -38,11 +41,13 @@ const ProfilePageHeader = ({}) => {
         text="Edit Profile"
         className="header__container-btn"
       >
-        <img alt="logo.svg" src={MenuIcon}></img>
+        <img alt="edit profile" src={MenuIcon}></img>
       </Button>
       {showModal && (
         <div className="modal-overlay">
           <EditProfileModal
+            setCurrentUser={setCurrentUser}
+            currentUser={currentUser}
             onClose={() => setShowModal(false)}
           ></EditProfileModal>
         </div>

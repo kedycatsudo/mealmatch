@@ -4,16 +4,27 @@ import Button from '../../../buttons/Buttons'
 import { useState } from 'react'
 import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
 import InformationModal from '../../informationModals/InformationModal'
-const ChangePasswordModal = ({ onClose }) => {
-  const [password, setPassword] = useState('')
+
+const ChangePasswordModal = ({ currentUser, setCurrentUser, onClose }) => {
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [error, setError] = useState('')
+
   UseEffectShowModal(showModal)
+
   const handleChangePassword = ({}) => {
-    if (password !== confirmPassword) {
-      alert(`Password do not match`)
+    setError('')
+
+    if (newPassword !== confirmPassword) {
+      setError('Password do not match!')
+      return
     }
-    setParticipant((prev) => ({ ...prev, password: password }))
+    if (!currentPassword) {
+      setError('Please enter your current password')
+      return
+    }
     setShowModal(true)
   }
   return (
@@ -25,33 +36,46 @@ const ChangePasswordModal = ({ onClose }) => {
         onClick={onClose}
       ></Button>
       <Input
-        name="password"
-        value={password}
+        name="currentPassword"
+        value={currentPassword}
         type="password"
         variant="text"
         className="change__password-container-input"
         text="Current Password"
         placeholder="********"
-        readOnly
+        onChange={(e) => setCurrentPassword(e.target.value)}
       ></Input>
       <Input
         name="newPassword"
         type="password"
         variant="text"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
         className="change__password-container-input"
         text="New Password"
-      ></Input>
+        placeholder="********"
+      />
       <Input
         name="confirmPassword"
         type="password"
+        variant="text"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        variant="text"
         className="change__password-container-input"
-        text="Confirm Password"
+        text="New Password"
       ></Input>
+      {error && (
+        <div className="modal__overlay">
+          <InformationModal
+            text={error}
+            onClose={() => {
+              setShowModal(false)
+              onClose()
+            }}
+          ></InformationModal>
+        </div>
+      )}
+
       <div className="change__password-container-buttons">
         <Button
           type="button"
@@ -65,8 +89,8 @@ const ChangePasswordModal = ({ onClose }) => {
           <InformationModal
             text={'Password changed succesfully'}
             onClose={() => {
-              onClose()
               setShowModal(false)
+              onClose()
             }}
           ></InformationModal>
         </div>
