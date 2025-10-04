@@ -1,20 +1,36 @@
 import { KarmCheckIcon } from '../../../../../../assets/icons/index'
 import { CancelIcon } from '../../../../../../assets/icons/index'
 import './PostedDonationsListItemSpan.css'
-const PostedDonationsListItemSpan = ({ donationsData }) => {
+const PostedDonationsListItemSpan = ({ mealData }) => {
+  // Format allergens array
+
+  const allergens = Array.isArray(mealData.allergens)
+    ? mealData.allergens.join(', ')
+    : mealData.allergens
+
+  // Format dates
+
+  const postDate = mealData.postDate
+    ? new Date(mealData.postDate).toLocaleDateString()
+    : ''
+
+  const UseBy = mealData.useBy
+    ? new Date(mealData.UseBy).toLocaleDateString()
+    : ''
+
   return (
     <>
-      <span className="posted__donation-spam">{donationsData.allergens}</span>
-      <span className="posted__donation-spam">{donationsData.postDate}</span>
-      <span className="posted__donation-spam">{donationsData.servings}</span>
+      <span className="posted__donation-spam">{mealData.allergens}</span>
+      <span className="posted__donation-spam">{postDate}</span>
+      <span className="posted__donation-spam">{mealData.servings}</span>
       <img
-        alt={donationsData.mealName}
-        src={donationsData.karm ? KarmCheckIcon : CancelIcon}
+        alt={mealData.mealName}
+        src={mealData.karm ? KarmCheckIcon : CancelIcon}
         className="karm__check-icon"
       ></img>
 
-      <span className="posted__donation-spam">{donationsData.useBy}</span>
-      <span className="posted__donation-spam">{donationsData.mealName}</span>
+      <span className="posted__donation-spam">{UseBy}</span>
+      <span className="posted__donation-spam">{mealData.mealName}</span>
     </>
   )
 }

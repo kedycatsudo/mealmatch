@@ -86,7 +86,10 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
                 'Confirm that your Meal Match Account will be deleted.'
               }
               onClose={() => setShowModalDelete(false)}
-              onClick={deleteAccount}
+              onClick={() => {
+                setShowModalDelete(false)
+                navigate('/home')
+              }}
             ></ConfirmationModal>
           </div>
         )}

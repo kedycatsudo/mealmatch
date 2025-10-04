@@ -17,45 +17,28 @@ const PostedDonationCardDisplay = ({
   const [isDeleting, setIsDeleting] = useState(false)
   const [isToggling, setIsToggling] = useState(false)
   const [showPickedUpCardModal, setShowPickedUpCardModal] = useState(false)
+  const isOwner = selectedMeal.ownerId === currentUserId
 
   const handlePickedUp = () => {
-    if (!selectedMeal?.id) return
-    setShowPickedUpCardModal(true)
+    if (!selectedMeal?._id) return
     setIsToggling(true)
-    Promise.resolve(onToggleLive(selectedMeal.id, false))
-      .then(() => {
-        // Optionally, you can update local state or refetch data here
-      })
-      .catch(() => {
-        alert('Failed to mark as picked up. Please try again.')
-      })
-      .finally(() => {
-        setIsToggling(false)
-      })
+    Promise.resolve(onToggleLive(selectedMeal._id, false))
+      .then(() => setShowPickedUpCardModal(false))
+      .catch(() => alert('Failed to mark as picked up. Please try again.'))
+      .finally(() => setIsToggling(false))
   }
 
-  const handleDelete = (donationId) => {
-    setDonations((prev) => prev.filter((d) => d.id !== donationId))
-    if (selectedMeal?.id === donationId) setSelectedMeal({})
-  }
   const handleConfirmDelete = () => {
-    if (!selectedMeal?.id) return
-
+    if (!selectedMeal?._id) return
     setIsDeleting(true)
-
-    Promise.resolve(onDelete(selectedMeal.id))
-      .then(() => {
-        setShowDeleteCardModal(false)
-      })
+    Promise.resolve(onDelete(selectedMeal._id))
+      .then(() => setShowDeleteCardModal(false))
       .catch((err) => {
         console.error('Delete failed', err)
         alert('Failed to delete. Please try again.')
       })
-      .finally(() => {
-        setIsDeleting(false)
-      })
+      .finally(() => setIsDeleting(false))
   }
-  const isOwner = selectedMeal.ownerId === currentUserId
 
   return (
     <div className="posted__donation_card_display-container">

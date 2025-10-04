@@ -1,21 +1,22 @@
 import PostedDonationsListItemSpan from './postedDonationsListItemSpan/PostedDonationsListItemSpan'
 import './PostedDonationListItem.css'
-const PostedDonationListItem = ({ donation, onClick }) => {
-  if (donation.live) {
-    return (
-      <li onClick={onClick} className="list__item-container">
-        <PostedDonationsListItemSpan
-          donationsData={donation}
-        ></PostedDonationsListItemSpan>
-      </li>
-    )
-  }
+
+const PostedDonationListItem = ({ meal, onClick }) => {
+  const itemClass = meal.live
+    ? 'list__item-container'
+    : 'list__item-container not-active'
+
   return (
-    <li onClick={onClick} className="list__item-container not-active">
-      <PostedDonationsListItemSpan
-        donationsData={donation}
-      ></PostedDonationsListItemSpan>
+    <li
+      onClick={onClick}
+      className={itemClass}
+      tabIndex={0}
+      role="button"
+      aria-pressed={meal.live}
+    >
+      <PostedDonationsListItemSpan mealData={meal} />
     </li>
   )
 }
+
 export default PostedDonationListItem

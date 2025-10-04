@@ -4,11 +4,11 @@ import DonationsListTitle from './postedDonationsListContainer/DonationListTitle
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
+import mealsData from '../../../../../public/data/meals.json' // for local dev.
+import { useState, useEffect } from 'react'
 
-import { useState } from 'react'
-
-const PostedDonationsContainer = ({}) => {
-  const [donations, setDonations] = useState(donationsData)
+const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
+  const [donations, setDonations] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMeal, setSelectedMeal] = useState({})
   const [sortOrder, setSortOrder] = useState('')
@@ -16,38 +16,55 @@ const PostedDonationsContainer = ({}) => {
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
 
-  const currentUserId = 'your-current-user-id' // Replace with actual user id logic
+  const currentUserId = currentUser?._id || ''
+  console.log(currentUserId)
 
-  const handleDelete = (donationId) => {
-    setDonations((prev) => prev.filter((d) => d.id !== donationId))
-    if (selectedMeal?.id === donationId) setSelectedMeal({})
+  // 2. Simulate backend fetch (replace with API call later)
+
+  useEffect(() => {
+    // Filter meals for the current user when currentUser changes
+    if (currentUser) {
+      const userMeals = mealsData.filter(
+        (meal) => meal.ownerId === currentUserId
+      )
+      setDonations(userMeals)
+    }
+  }, [currentUserId])
+
+  const handleDelete = (mealId) => {
+    setDonations((prev) => prev.filter((meal) => meal._id) !== mealId)
+    if (selectedMeal?._id === mealId) setSelectedMeal({})
   }
 
+  //Toggle live status
+
   const handleToggleLive = (mealId, liveStatus) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setDonations((prev) => {
-        const updated = prev.map((d) =>
-          d.id === mealId ? { ...d, live: liveStatus } : d
+        const updatedMeal = prev.map((meal) =>
+          meal._id === mealId ? { ...meal, live: liveStatus } : meal
         )
-        // Optionally update selectedMeal too
-        if (selectedMeal?.id === mealId) {
+        if (selectedMeal?._id === mealId) {
           setSelectedMeal((prevMeal) => ({ ...prevMeal, live: liveStatus }))
         }
-        resolve() // Simulate promise, replace with actual API logic if needed
-        return updated
+        resolve()
+        return updatedMeal
       })
     })
   }
 
+  // Save changes to meal
+
   const onSave = (updatedMeal) => {
-    setDonations((prev) => {
-      const updated = prev.map((d) =>
-        d.id === updatedMeal.id ? { ...d, ...updatedMeal } : d
+    setDonations((prev) =>
+      prev.map((meal) =>
+        meal._id === updatedMeal._id ? { ...meal, ...updatedMeal } : meal
       )
-      return updated
-    })
-    setSelectedMeal(updatedMeal) // keeps display in sync
+    )
+    setSelectedMeal(updatedMeal)
   }
+  // Sorting handlers
+
   const handleSortByPostedDate = () => {
     setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
     setSortSelection('SortByPostedDate')
@@ -61,12 +78,15 @@ const PostedDonationsContainer = ({}) => {
     setSortSize((prev) => (prev === 'big' ? 'small' : 'big'))
     setSortSelection('SortByServingSize')
   }
+  // Search filter
 
-  const filteredDonations = donations.filter((donation) => {
-    return Object.values(donation)
+  const filteredDonations = donations.filter((meal) => {
+    return Object.values(meal)
       .filter((value) => typeof value === 'string')
       .some((value) => value.toLowerCase().includes(searchTerm.toLowerCase()))
   })
+  // Sorting logic
+
   const sortedDonations = [...filteredDonations].sort((a, b) => {
     if (sortSelection === 'SortByServingSize') {
       const sizeA = a.servings || 0
@@ -81,7 +101,9 @@ const PostedDonationsContainer = ({}) => {
       const useByB = new Date(b.useBy)
       return sortOrderUseBy === 'asc' ? useByA - useByB : useByB - useByA
     }
+    return 0
   })
+
   return (
     <div className="posted__donations-container">
       <SearchBox
@@ -92,30 +114,31 @@ const PostedDonationsContainer = ({}) => {
         onSortByServingSize={handeSortByServingSize}
         sortOrderUseBy={sortOrderUseBy}
         onSortByUseBy={handleSortByUseBy}
+        searchTerm={searchTerm}
       ></SearchBox>
       <div className="posted__donations-list-cards">
         <ul className="posted__donations-list-container">
-          <DonationsListTitle></DonationsListTitle>
+          <DonationsListTitle />
           {sortedDonations && sortedDonations.length > 0
-            ? sortedDonations.map((sortedDonation, idx) => (
+            ? sortedDonations.map((sortedMeal, idx) => (
                 <PostedDonationListItem
                   onClick={() => {
-                    setSelectedMeal(sortedDonation)
+                    setSelectedMeal(sortedMeal)
                   }}
-                  key={sortedDonation.id || idx}
-                  donation={sortedDonation}
+                  key={sortedMeal.id || idx}
+                  meal={sortedMeal}
                   selectedMeal={selectedMeal}
                 />
               ))
             : null}
         </ul>
         <PostedDonationCardDisplay
-          onToggleLive={handleToggleLive} // 3. pass the handler
-          currentUserId={currentUserId} // 3. pass the user id
+          onToggleLive={handleToggleLive}
+          currentUserId={currentUserId}
           onDelete={handleDelete}
           setSelectedMeal={setSelectedMeal}
           selectedMeal={selectedMeal}
-          onSave={onSave} // Pass the save handler to the display/modal
+          onSave={onSave}
         />
       </div>
     </div>

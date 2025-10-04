@@ -2,6 +2,7 @@ import './SearchBox.css'
 import Input from '../inputs/Inputs'
 import Button from '../buttons/Buttons'
 const SearchBox = ({
+  searchTerm,
   onSearchChange,
   onSortByPostedDate,
   sortOrder,
@@ -16,13 +17,12 @@ const SearchBox = ({
         <Input
           variant="searchbox"
           type="text"
-          id="seachBox"
+          id="searchBox"
           placeholder="Search meal..."
           className=""
-          onChange={(e) => {
-            onSearchChange(e.target.value)
-          }}
-        ></Input>
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
       </div>
       <div className="container__tags">
         <Button
