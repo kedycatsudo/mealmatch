@@ -16,8 +16,9 @@
   font-size: 25px;
 }
 .posted__donation_card-btns {
-  padding: 20px 0 0;
+  padding: 10px 5px 0;
   display: flex;
+  gap: 3px;
   justify-content: space-around;
 }
 .posted__donation-card-footer {

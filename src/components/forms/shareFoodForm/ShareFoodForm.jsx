@@ -1,6 +1,5 @@
 import './ShareFoodForm.css'
 import { useNavigate } from 'react-router-dom'
-import { ParticipantContext } from '../../../context/ParticipantContext'
 import { MealsContext } from '../../../context/MealsContext' // <-- NEW!
 import { useRecentDonation } from '../../../context/RecentDonationsContext'
 import { useState, useContext } from 'react'
@@ -18,8 +17,7 @@ const initialDonation = {
   karm: false,
 }
 
-const ShareFoodForm = () => {
-  const { currentUser } = useContext(ParticipantContext)
+const ShareFoodForm = ({ currentUser }) => {
   const { addMeal } = useContext(MealsContext) // <-- NEW!
   const { addRecentDonation } = useRecentDonation()
   const [donation, setDonation] = useState(initialDonation)
@@ -38,21 +36,32 @@ const ShareFoodForm = () => {
   // Handle submit
   const handleSubmitForm = (e) => {
     e.preventDefault()
-
+    if (!currentUser) {
+      // Optionally show an error
+      return
+    }
+    const allergensArray = donation.allergens
+      ? donation.allergens
+          .split(',')
+          .map((a) => a.trim())
+          .filter((a) => a)
+      : []
     // Create new donation object with all required fields for your schema
     const newDonation = {
       ...donation,
       _id: Date.now().toString(), // simple unique id for MVP
-      ownerId: currentUser?._id,
+      ownerId: currentUser._id,
       postDate: new Date().toISOString(),
       live: true,
       hold: false,
       pickedUp: false,
       claimedUpBy: null,
       claimedUpAt: null,
+      allergens: allergensArray,
     }
     addMeal(newDonation) // Add to MealsContext!
     addRecentDonation(newDonation) // Optionally keep this for your modal
+    console.log(newDonation)
 
     setShowModal(true)
     setDonation(initialDonation) // Reset form after submit
@@ -135,6 +144,7 @@ const ShareFoodForm = () => {
         variant="login__button-container-submit"
         text="Donate"
         type="submit"
+        onClick={handleSubmitForm}
       />
 
       {showModal && (

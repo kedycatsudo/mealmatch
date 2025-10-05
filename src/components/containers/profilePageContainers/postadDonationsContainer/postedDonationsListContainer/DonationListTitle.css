@@ -4,7 +4,7 @@
   height: fit-content;
   background-color: #009951;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 1fr 1fr 0.5fr 0.5fr 1fr 1fr;
 }
 .posted__donations-list-categories {
   color: white;

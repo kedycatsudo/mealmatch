@@ -3,7 +3,7 @@
   border-bottom: 10px solid #009951;
   border-radius: 12px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: 1fr 1fr 0.5fr 0.5fr 1fr 1fr;
   height: 100px;
   cursor: pointer;
   max-height: 75px;

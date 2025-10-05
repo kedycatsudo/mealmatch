@@ -1,34 +1,47 @@
 import { useContext } from 'react'
-import { ParticipantContext } from '../../../../../context/ParticipantContext' // Adjust path as needed
+import { ParticipantContext } from '../../../../../context/ParticipantContext'
 import './ProfilePageFooter.css'
 import ContainerSeperation from '../../../../common/containerSeperation/ContainerSeperation'
 import DonationStatusListItem from './donationStatusListItem/DonationStatusListItem'
-const ProfilePageFooter = ({}) => {
-  const { users, currentUser, setCurrentUser } = useContext(ParticipantContext)
+
+const ProfilePageFooter = () => {
+  const { currentUser } = useContext(ParticipantContext)
+
+  // Guard against missing currentUser or donationStatus
+  if (!currentUser || !currentUser.donationStatus) {
+    return (
+      <footer className="profile__footer">
+        <ContainerSeperation text={'Donation Status'} />
+        <div className="profile__footer-status-list">
+          No donation status data available.
+        </div>
+      </footer>
+    )
+  }
+
   return (
     <footer className="profile__footer">
-      <ContainerSeperation text={'Donation Status'}></ContainerSeperation>
+      <ContainerSeperation text={'Donation Status'} />
       <ul className="profile__footer-status-list">
         <DonationStatusListItem
           text={'Total Donations'}
           participantsDataCategory={currentUser.donationStatus.totalDonations}
-        ></DonationStatusListItem>
-
+        />
         <DonationStatusListItem
           text={'Available Donations'}
           participantsDataCategory={
             currentUser.donationStatus.availableDonations
           }
-        ></DonationStatusListItem>
-
+        />
         <DonationStatusListItem
           text={'Total Net Tax Back'}
           participantsDataCategory={
-            currentUser.donationStatus.totalNexTaxDeduction
+            currentUser.donationStatus.totalNetTaxDeduction
           }
-        ></DonationStatusListItem>
+        />
       </ul>
     </footer>
   )
 }
+
 export default ProfilePageFooter

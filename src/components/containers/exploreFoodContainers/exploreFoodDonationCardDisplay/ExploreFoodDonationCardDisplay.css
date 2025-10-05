@@ -25,7 +25,7 @@
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  padding: 20px 0 0;
+  padding: 20px 5px 0;
 }
 .modal-overlay {
   position: fixed;

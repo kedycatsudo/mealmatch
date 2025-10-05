@@ -15,12 +15,12 @@ const PostedDonationsListItemSpan = ({ mealData }) => {
     : ''
 
   const UseBy = mealData.useBy
-    ? new Date(mealData.UseBy).toLocaleDateString()
+    ? new Date(mealData.useBy).toLocaleDateString()
     : ''
 
   return (
     <>
-      <span className="posted__donation-spam">{mealData.allergens}</span>
+      <span className="posted__donation-spam">{allergens}</span>
       <span className="posted__donation-spam">{postDate}</span>
       <span className="posted__donation-spam">{mealData.servings}</span>
       <img

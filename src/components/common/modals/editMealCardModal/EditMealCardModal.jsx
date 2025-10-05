@@ -3,15 +3,8 @@ import { useState, useEffect } from 'react'
 import Input from '../../inputs/Inputs'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import Button from '../../buttons/Buttons'
-const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setMealData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }))
-  }
 
+const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
   const [mealData, setMealData] = useState({
     mealName: '',
     useBy: '',
@@ -24,30 +17,52 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
     if (selectedMeal) {
       setMealData({
         mealName: selectedMeal.mealName || '',
-        useBy: selectedMeal.useBy || '',
-        karm: selectedMeal.karm || false,
-        servings: selectedMeal.servings || '',
-        allergens: selectedMeal.allergens || '',
+        useBy: selectedMeal.useBy ? selectedMeal.useBy.split('T')[0] : '', // for <input type="date">
+        karm: !!selectedMeal.karm,
+        servings: selectedMeal.servings?.toString() || '',
+        allergens: Array.isArray(selectedMeal.allergens)
+          ? selectedMeal.allergens.join(', ')
+          : selectedMeal.allergens || '',
       })
     }
   }, [selectedMeal])
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setMealData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
+  }
+
   const onSubmit = (e) => {
     e.preventDefault()
     if (onSave) {
-      // Merge the original selectedMeal with updated form fields
-      const merged = { ...selectedMeal, ...mealData }
+      // Prepare allergens as array for backend
+      const merged = {
+        ...selectedMeal,
+        ...mealData,
+        servings: Number(mealData.servings),
+        allergens: mealData.allergens
+          ? mealData.allergens
+              .split(',')
+              .map((a) => a.trim())
+              .filter((a) => a)
+          : [],
+        useBy: mealData.useBy, // let backend format date if needed
+      }
       onSave(merged)
       onClose()
     }
   }
+
   return (
     <div className="edit__meal_modal-container">
-      <Button onClick={onClose} text="X" variant="modal__close-btn"></Button>
+      <Button onClick={onClose} text="X" variant="modal__close-btn" />
       <ContainerSeperation
         className="container__seperation"
         text={'Edit Meal'}
-      ></ContainerSeperation>
+      />
       <form onSubmit={onSubmit} className="edit__meal_modal-forms">
         <Input
           variant="text"
@@ -57,7 +72,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           value={mealData.mealName}
           onChange={handleChange}
           className="edit__meal-modal-input"
-        ></Input>
+        />
         <Input
           variant="text"
           text="Use By"
@@ -66,7 +81,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           value={mealData.useBy}
           onChange={handleChange}
           className="edit__meal-modal-input"
-        ></Input>
+        />
         <Input
           text="Karm donation"
           variant="edit__meal-modal-input-karm"
@@ -75,7 +90,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           checked={mealData.karm}
           onChange={handleChange}
           className="edit__meal-modal-input-karm"
-        ></Input>
+        />
         <Input
           variant="text"
           text="Servings"
@@ -84,24 +99,25 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           value={mealData.servings}
           onChange={handleChange}
           className="edit__meal-modal-input"
-        ></Input>
+        />
         <Input
           type="text"
-          text="Allergens"
+          text="Allergens (comma separated)"
           variant="text"
           name="allergens"
           value={mealData.allergens}
           onChange={handleChange}
           className="edit__meal-modal-input"
-        ></Input>
+        />
         <Button
           type="submit"
           className="edit__modal_save-changes-btn"
           text="Save Changes"
           variant="login__button-container-submit"
-        ></Button>
+        />
       </form>
     </div>
   )
 }
+
 export default EditMealCardModalForm

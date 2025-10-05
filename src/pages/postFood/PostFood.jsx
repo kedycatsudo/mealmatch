@@ -1,16 +1,33 @@
+import { useContext } from 'react'
 import './PostFood.css'
 import ContainerSeperation from '../../components/common/containerSeperation/ContainerSeperation'
 import ShareFoodHeader from '../../components/layout/pageHeaders/shareFoodHeader/ShareFoodHeader'
 import ShareFoodBody from '../../components/layout/pageBodies/donationForm/ShareFoodBody'
-const PostFood = ({}) => {
+import { ParticipantContext } from '../../context/ParticipantContext' // Adjust path if needed
+
+const PostFood = () => {
+  const { currentUser } = useContext(ParticipantContext)
+
+  // If not logged in, show a message (or redirect, or render a login form)
+  if (!currentUser) {
+    return (
+      <div className="page">
+        <div className="page__content">
+          <h2>Please log in to create a new donation.</h2>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="page">
       <div className="page__content">
-        <ShareFoodHeader></ShareFoodHeader>
-        <ContainerSeperation text={'New Donation'}></ContainerSeperation>
-        <ShareFoodBody></ShareFoodBody>
+        <ShareFoodHeader />
+        <ContainerSeperation text="New Donation" />
+        <ShareFoodBody currentUser={currentUser} />
       </div>
     </div>
   )
 }
+
 export default PostFood

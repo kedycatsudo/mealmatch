@@ -17,22 +17,26 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
 
   const currentUserId = currentUser?._id || ''
-  console.log(currentUserId)
 
   // 2. Simulate backend fetch (replace with API call later)
 
   useEffect(() => {
-    // Filter meals for the current user when currentUser changes
     if (currentUser) {
-      const userMeals = mealsData.filter(
-        (meal) => meal.ownerId === currentUserId
-      )
+      console.log('mealsData:', mealsData) // Should be array
+      console.log('typeof mealsData:', typeof mealsData) // Should be object (arrays are objects in JS)
+      console.log('Array.isArray(mealsData):', Array.isArray(mealsData)) // Should be true
+      console.log('currentUserId:', currentUserId)
+
+      const userMeals = Array.isArray(mealsData)
+        ? mealsData.filter((meal) => meal.ownerId === currentUserId)
+        : []
       setDonations(userMeals)
+      console.log('userMeals:', userMeals)
     }
   }, [currentUserId])
 
   const handleDelete = (mealId) => {
-    setDonations((prev) => prev.filter((meal) => meal._id) !== mealId)
+    setDonations((prev) => prev.filter((meal) => meal._id !== mealId))
     if (selectedMeal?._id === mealId) setSelectedMeal({})
   }
 
@@ -80,11 +84,15 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   }
   // Search filter
 
-  const filteredDonations = donations.filter((meal) => {
-    return Object.values(meal)
-      .filter((value) => typeof value === 'string')
-      .some((value) => value.toLowerCase().includes(searchTerm.toLowerCase()))
-  })
+  const filteredDonations = Array.isArray(donations)
+    ? donations.filter((meal) => {
+        return Object.values(meal)
+          .filter((value) => typeof value === 'string')
+          .some((value) =>
+            value.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+      })
+    : []
   // Sorting logic
 
   const sortedDonations = [...filteredDonations].sort((a, b) => {
@@ -127,7 +135,6 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
                   }}
                   key={sortedMeal.id || idx}
                   meal={sortedMeal}
-                  selectedMeal={selectedMeal}
                 />
               ))
             : null}

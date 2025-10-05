@@ -6,6 +6,8 @@
 }
 .posted_donation-card-info {
   font-size: 25px;
+  margin: 0;
+  padding: 15px 5px;
 }
 @media screen and (max-width: 880px) {
   .posted_donation-card-info-container {

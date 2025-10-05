@@ -15,7 +15,7 @@
     "donationStatus": {
       "totalDonations": 5,
       "availableDonations": 2,
-      "totalNexTaxDeduction": 250
+      "totalNetTaxDeduction": 250
     }
   },
   {

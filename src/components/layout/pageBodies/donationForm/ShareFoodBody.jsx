@@ -1,9 +1,9 @@
 import './ShareFoodBody.css'
 import ShareFoodForm from '../../../forms/shareFoodForm/ShareFoodForm'
-const ShareFoodBody = ({}) => {
+const ShareFoodBody = ({ currentUser }) => {
   return (
     <div className="donation__form-container">
-      <ShareFoodForm></ShareFoodForm>
+      <ShareFoodForm currentUser={currentUser}></ShareFoodForm>
     </div>
   )
 }
