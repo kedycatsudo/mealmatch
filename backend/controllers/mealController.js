@@ -252,6 +252,8 @@ const updateMyDonation = (req, res) => {
     })
 }
 
+// get Available public donations
+
 const getExploreMeals = (req, res) => {
   Meal.find({ karm: false })
     .select('mealName useBy servings postDate allergens')

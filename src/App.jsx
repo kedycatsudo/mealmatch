@@ -3,7 +3,6 @@ import './App.css'
 
 // PAGES
 import HomePage from './pages/home/Home'
-import About from './pages/about/About'
 import Login from './pages/login/Login'
 import Register from './pages/register/Register'
 import Menu from './pages/menu/Menu'
@@ -35,14 +34,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/about"
-              element={
-                <ProtectedRoute>
-                  <About />
-                </ProtectedRoute>
-              }
-            />
+
             <Route
               path="/profile"
               element={

@@ -1,13 +1,9 @@
-import { useContext } from 'react'
-import { ParticipantContext } from '../../../../../context/ParticipantContext'
 import './ProfilePageFooter.css'
 import ContainerSeperation from '../../../../common/containerSeperation/ContainerSeperation'
 import DonationStatusListItem from './donationStatusListItem/DonationStatusListItem'
 
-const ProfilePageFooter = () => {
-  const { currentUser } = useContext(ParticipantContext)
-
-  // Guard against missing currentUser or donationStatus
+const ProfilePageFooter = ({ currentUser }) => {
+  // Defensive: show fallback if no data
   if (!currentUser || !currentUser.donationStatus) {
     return (
       <footer className="profile__footer">
@@ -19,25 +15,25 @@ const ProfilePageFooter = () => {
     )
   }
 
+  // Use backend-calculated donationStatus fields
+  const { totalDonations, availableDonations, totalNetTaxDeduction } =
+    currentUser.donationStatus
+
   return (
     <footer className="profile__footer">
       <ContainerSeperation text={'Donation Status'} />
       <ul className="profile__footer-status-list">
         <DonationStatusListItem
           text={'Total Donations'}
-          participantsDataCategory={currentUser.donationStatus.totalDonations}
+          participantsDataCategory={totalDonations}
         />
         <DonationStatusListItem
           text={'Available Donations'}
-          participantsDataCategory={
-            currentUser.donationStatus.availableDonations
-          }
+          participantsDataCategory={availableDonations}
         />
         <DonationStatusListItem
           text={'Total Net Tax Back'}
-          participantsDataCategory={
-            currentUser.donationStatus.totalNetTaxDeduction
-          }
+          participantsDataCategory={totalNetTaxDeduction}
         />
       </ul>
     </footer>

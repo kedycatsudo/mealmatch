@@ -1,5 +1,4 @@
 import './PostedDonationsContainer.css'
-import donationsData from '../../../../constants/donationsData.js'
 import DonationsListTitle from './postedDonationsListContainer/DonationListTitle.jsx'
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
