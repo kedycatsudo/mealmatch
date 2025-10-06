@@ -1,0 +1,97 @@
+[
+  {
+    "_id": "u1",
+    "avatar": "/src/assets/images/avatar.jpg",
+    "printName": "Doruk Kocausta",
+    "userName": "Doruk",
+    "email": "alice@example.com",
+    "isKarmDonor": true,
+    "phone": "+1234567890",
+    "country": "USA",
+    "city": "New York",
+    "state": "NY",
+    "address": "123 Food St.",
+    "zipcode": "10001",
+    "donationStatus": {
+      "totalDonations": 5,
+      "availableDonations": 2,
+      "totalNetTaxDeduction": 250
+    }
+  },
+  {
+    "_id": "u2",
+    "avatar": "/src/assets/images/avatar.jpg",
+    "printName": "Bob Lee",
+    "userName": "boblee",
+    "email": "bob@example.com",
+    "isKarmDonor": false,
+    "phone": "+1987654321",
+    "country": "USA",
+    "city": "San Francisco",
+    "state": "CA",
+    "address": "456 Curry Ave.",
+    "zipcode": "94103",
+    "donationStatus": {
+      "totalDonations": 1,
+      "availableDonations": 0,
+      "totalNexTaxDeduction": 250
+    }
+  },
+  {
+    "_id": "u3",
+    "avatar": "/src/assets/images/avatar.jpg",
+    "printName": "Carlos Vega",
+    "userName": "carlosv",
+    "email": "carlos@example.com",
+    "isKarmDonor": true,
+    "phone": "+1212121212",
+    "country": "USA",
+    "city": "Miami",
+    "state": "FL",
+    "address": "789 Salsa Rd.",
+    "zipcode": "33101",
+    "donationStatus": {
+      "totalDonations": 8,
+      "availableDonations": 3,
+      "totalNexTaxDeduction": 250
+    }
+  },
+  {
+    "_id": "u4",
+    "avatar": "/src/assets/images/avatar.jpg",
+    "printName": "Diana Chen",
+    "userName": "dianac",
+    "email": "diana@example.com",
+    "isKarmDonor": false,
+    "phone": "+14045555555",
+    "country": "USA",
+    "city": "Seattle",
+    "state": "WA",
+    "address": "321 Noodle Ave.",
+    "zipcode": "98101",
+    "donationStatus": {
+      "totalDonations": 2,
+      "availableDonations": 1,
+      "totalNexTaxDeduction": 250
+    }
+  },
+  {
+    "_id": "u5",
+    "avatar": "/src/assets/images/avatar.jpg",
+    "printName": "Ella Johnson",
+    "userName": "ellaj",
+    "email": "ella@example.com",
+    "isKarmDonor": true,
+    "phone": "+13479998888",
+    "country": "USA",
+    "city": "Austin",
+    "state": "TX",
+    "address": "654 BBQ Blvd.",
+    "zipcode": "78701",
+    "donationStatus": {
+      "totalDonations": 3,
+      "availableDonations": 2,
+      "totalNexTaxDeduction": 250
+    }
+  }
+]
