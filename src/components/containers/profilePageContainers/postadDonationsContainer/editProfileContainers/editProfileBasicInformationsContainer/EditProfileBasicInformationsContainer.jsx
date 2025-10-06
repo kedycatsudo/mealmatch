@@ -1,8 +1,8 @@
 import Button from '../../../../../common/buttons/Buttons'
 import logo from '../../../../../../assets/logos/logo.png'
 import Input from '../../../../../common/inputs/Inputs'
+import avatar from '../../../../../../assets/images/avatar.jpg'
 import './EditProfileBasicInformationsContainer.css'
-import handleFormInput from '../../../../../../utils/helpers/handleChangEditFormInput'
 import { useState, useRef } from 'react'
 import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
 import useEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
@@ -53,7 +53,7 @@ const EditProfileBasicInformationsContainer = ({
         ></Input>
         <img
           className="edit__modal-basic-container-avatar"
-          src={currentUser.avatar || logo}
+          src={avatar}
           alt="User avatar"
         ></img>
         <Button
