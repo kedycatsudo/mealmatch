@@ -4,7 +4,7 @@ import DonationsListTitle from './postedDonationsListContainer/DonationListTitle
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
-import mealsData from '../../../../../public/data/meals.json' // for local dev.
+
 import { useState, useEffect } from 'react'
 
 const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
@@ -21,18 +21,20 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   // 2. Simulate backend fetch (replace with API call later)
 
   useEffect(() => {
-    if (currentUser) {
-      console.log('mealsData:', mealsData) // Should be array
-      console.log('typeof mealsData:', typeof mealsData) // Should be object (arrays are objects in JS)
-      console.log('Array.isArray(mealsData):', Array.isArray(mealsData)) // Should be true
-      console.log('currentUserId:', currentUserId)
-
-      const userMeals = Array.isArray(mealsData)
-        ? mealsData.filter((meal) => meal.ownerId === currentUserId)
-        : []
-      setDonations(userMeals)
-      console.log('userMeals:', userMeals)
-    }
+    fetch('/data/meals.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch meals data')
+        return res.json()
+      })
+      .then((meals) => {
+        const userMeals = Array.isArray(meals)
+          ? meals.filter((meal) => meal.ownerId === currentUserId)
+          : []
+        setDonations(userMeals)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }, [currentUserId])
 
   const handleDelete = (mealId) => {

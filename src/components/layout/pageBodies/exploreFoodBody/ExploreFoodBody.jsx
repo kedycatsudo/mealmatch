@@ -5,12 +5,14 @@ import ExploreDonationListTitle from '../../../containers/exploreFoodContainers/
 import SearchBox from '../../../common/searchBox/SearchBox'
 import ExploreFoodDonationCardDisplay from '../../../containers/exploreFoodContainers/exploreFoodDonationCardDisplay/ExploreFoodDonationCardDisplay'
 import { ParticipantContext } from '../../../../context/ParticipantContext'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 
 import buildAddress from '../../../../utils/helpers/buildAddress'
-const ExploreFoodBody = ({ activeDonations }) => {
+const ExploreFoodBody = ({ liveMeals }) => {
   const [showMapModal, setShowMapModal] = useState(false)
-  const [donations, setDonations] = useState(activeDonations)
+  const [donations, setDonations] = useState(
+    Array.isArray(liveMeals) ? liveMeals : []
+  )
   const [modalAddress, setModalAddress] = useState('')
   const modalRef = useRef(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -20,8 +22,11 @@ const ExploreFoodBody = ({ activeDonations }) => {
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
   const { users } = useContext(ParticipantContext)
-  const getOwner = (ownerId) => participantsData.find((p) => p.id === ownerId)
 
+  const getOwner = (ownerId) =>
+    Array.isArray(users) ? users.find((u) => u._id === ownerId) : null
+
+  // Sorting handlers
   const handleSortByPostedDate = () => {
     setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
     setSortSelection('SortByPostedDate')
@@ -30,34 +35,26 @@ const ExploreFoodBody = ({ activeDonations }) => {
     setSortOrderUseBy((prev) => (prev === 'asc' ? 'desc' : 'asc'))
     setSortSelection('SortByUseBy')
   }
-
-  const handleOpenModal = () => {
-    handleSetDonationHold(selectedMeal.id, true)
-    let address = ''
-    if (selectedMeal?.ownerId) {
-      const donor = participantsData.find((p) => p.id === selectedMeal.ownerId)
-      address = buildAddress(donor)
-    } else if (selectedMeal?.participantId) {
-      const donor = participantsData.find(
-        (p) => p.id === selectedMeal.participantId
-      )
-      address = buildAddress(donor)
-    } else {
-      const street = selectedMeal?.address || selectedMeal?.adress
-      if (street) address = `${street}, ${selectedMeal.city || ''}`
-    }
-    if (!address) {
-      console.warn('No address available for selected meal')
-      return
-    }
-    setModalAddress(address)
-    setShowMapModal(true)
-  }
-
   const handeSortByServingSize = () => {
     setSortSize((prev) => (prev === 'big' ? 'small' : 'big'))
     setSortSelection('SortByServingSize')
   }
+
+  // Modal logic
+
+  const handleOpenModal = () => {
+    handleSetDonationHold(selectedMeal._id, true)
+    if (!selectedMeal?.pickUpLoc) {
+      console.warn('No pick up location available for selected meal')
+      return
+    }
+    setShowMapModal(true)
+    // Owner available for later use
+    // const owner = getOwner(selectedMeal.ownerId)
+    // For future: send email, display owner info, etc.
+  }
+
+  // Modal focus effect
 
   useEffect(() => {
     if (showMapModal && modalRef.current) {
@@ -66,11 +63,18 @@ const ExploreFoodBody = ({ activeDonations }) => {
     }
   }, [showMapModal])
 
-  const filteredDonations = donations.filter((donation) => {
-    return Object.values(donation)
-      .filter((value) => typeof value === 'string')
-      .some((value) => value.toLowerCase().includes(searchTerm.toLowerCase()))
-  })
+  // Filter and sort logic
+
+  const filteredDonations = Array.isArray(donations)
+    ? donations.filter((donation) =>
+        Object.values(donation)
+          .filter((value) => typeof value === 'string')
+          .some((value) =>
+            value.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+      )
+    : []
+
   const sortedDonations = [...filteredDonations].sort((a, b) => {
     if (sortSelection === 'SortByServingSize') {
       const sizeA = a.servings || 0
@@ -86,22 +90,27 @@ const ExploreFoodBody = ({ activeDonations }) => {
       return sortOrderUseBy === 'asc' ? useByA - useByB : useByB - useByA
     }
   })
+  // Donation state handlers
   const handleSetDonationHold = (donationId, holdValue) => {
     setDonations((prevDonations) =>
       prevDonations.map((donation) =>
-        donation.id === donationId ? { ...donation, hold: holdValue } : donation
+        donation._id === donationId
+          ? { ...donation, hold: holdValue }
+          : donation
       )
     )
   }
   const handleAcceptDonation = (donationId) => {
     setDonations((prevDonations) =>
-      prevDonations.map((d) => (d.id === donationId ? { ...d, hold: true } : d))
+      prevDonations.map((d) =>
+        d._id === donationId ? { ...d, hold: true } : d
+      )
     )
   }
   const handleCancelDonation = (donationId) => {
     setDonations((prevDonations) =>
       prevDonations.map((d) =>
-        d.id === donationId ? { ...d, hold: false } : d
+        d._id === donationId ? { ...d, hold: false } : d
       )
     )
   }
@@ -118,7 +127,7 @@ const ExploreFoodBody = ({ activeDonations }) => {
       ></SearchBox>
       <div className="posted__donations-list-cards">
         <ul className="posted__donations-list-container">
-          <ExploreDonationListTitle></ExploreDonationListTitle>
+          <ExploreDonationListTitle />
           {sortedDonations && sortedDonations.length > 0
             ? sortedDonations.map((sortedDonation, idx) => {
                 const owner = getOwner(sortedDonation.ownerId)
@@ -127,39 +136,41 @@ const ExploreFoodBody = ({ activeDonations }) => {
                     onClick={() => {
                       setSelectedMeal(sortedDonation)
                     }}
-                    key={sortedDonation.id || idx}
+                    key={sortedDonation._id || idx}
                     donation={sortedDonation}
                     selectedMeal={selectedMeal}
                     owner={owner}
                     donationHold={sortedDonation.hold}
                     setDonationHold={(holdValue) =>
-                      handleSetDonationHold(sortedDonation.id, holdValue)
+                      handleSetDonationHold(sortedDonation._id, holdValue)
                     }
-                    cancelDonation={() => handleCancelDonation(selectedMeal.id)} // <-- Add this line
+                    cancelDonation={() =>
+                      handleCancelDonation(selectedMeal._id)
+                    }
                   />
                 )
               })
             : null}
         </ul>
         <ExploreFoodDonationCardDisplay
-          cancelDonation={() => handleCancelDonation(selectedMeal.id)} // <-- Add this line
+          cancelDonation={() => handleCancelDonation(selectedMeal._id)}
           donationHold={selectedMeal.hold}
           setDonationHold={(holdValue) =>
-            handleSetDonationHold(selectedMeal.id, holdValue)
+            handleSetDonationHold(selectedMeal._id, holdValue)
           }
           onConfirmAccept={handleOpenModal}
           selectedMeal={selectedMeal}
-          onClick={() => handleAcceptDonation(selectedMeal.id)}
+          onClick={() => handleAcceptDonation(selectedMeal._id)}
         />
       </div>
       {showMapModal && (
         <ExploreFoodDonationMapModal
-          cancelDonation={() => handleCancelDonation(selectedMeal.id)} // <-- Add this line
+          cancelDonation={() => handleCancelDonation(selectedMeal._id)}
           showMapModal={showMapModal}
           onClose={() => setShowMapModal(false)}
           ref={modalRef}
           apiKey={'AIzaSyBOIRdskona5zw-Lv_0MN2cUQseN_m557A'} // or process.env.REACT_APP...
-          address={modalAddress}
+          address={selectedMeal.pickUpLoc}
           tabIndex={-1} // Make it focusable
           confirmation={
             'Confirm that you are requesting to pick up the donation.'

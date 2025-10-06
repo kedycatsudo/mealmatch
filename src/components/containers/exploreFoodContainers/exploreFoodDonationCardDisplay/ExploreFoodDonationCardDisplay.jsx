@@ -4,7 +4,6 @@ import './ExploreFoodDonationCardDisplay.css'
 import ExploreFoodDonationCardInfo from './exploreFoodDonationCardInfo/ExploreFoodDonationCardInfo'
 import { useState } from 'react'
 const ExploreFoodDonationCardDisplay = ({
-  cancelDonation,
   selectedMeal,
   donationHold,
   onConfirmAccept,
@@ -13,8 +12,14 @@ const ExploreFoodDonationCardDisplay = ({
   const [showModalAcceptDonation, setShowModalAcceptDonation] = useState(false)
 
   const onClose = () => setShowModalAcceptDonation(false)
-  const onAccept = () => {}
-  const cardDeleteBtn = () => {}
+
+  const handleAcceptConfirm = () => {
+    if (onConfirmAccept) onConfirmAccept()
+    setShowModalAcceptDonation(false)
+    if (onClick) onClick()
+    // If you want to call a backend API, you can do so here in future!
+  }
+
   return (
     <div className="explore__donation_card_display-container">
       <h3 className="explore__donation_card_display-container-title">
@@ -22,25 +27,21 @@ const ExploreFoodDonationCardDisplay = ({
       </h3>
 
       <div className="explore__donation_card-btns">
-        {donationHold ? null : (
+        {!donationHold && (
           <Button
             type="button"
             onClick={() => setShowModalAcceptDonation(true)}
             variant="card__edit"
             text="Accept"
-          ></Button>
+          />
         )}
 
         {showModalAcceptDonation && (
           <div className="modal-overlay">
             <ConfirmationModal
-              onClick={() => {
-                if (onConfirmAccept) onConfirmAccept()
-                setShowModalAcceptDonation(false)
-                onClick()
-              }}
+              onClick={handleAcceptConfirm}
               confirmation={
-                'Confirm that you are requesting to pick up the donation.'
+                'Confirm that you are requesting to pick up the seleceted donation.'
               }
               onClose={onClose}
             ></ConfirmationModal>
@@ -48,9 +49,7 @@ const ExploreFoodDonationCardDisplay = ({
         )}
       </div>
       <div className="explore__donation-card-infos">
-        <ExploreFoodDonationCardInfo
-          selectedMeal={selectedMeal}
-        ></ExploreFoodDonationCardInfo>
+        <ExploreFoodDonationCardInfo selectedMeal={selectedMeal} />
       </div>
     </div>
   )
