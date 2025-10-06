@@ -30,7 +30,7 @@ const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
       <div className="header__container">
         <img
           className="profile__header-avatar"
-          src={currentUser.avatar}
+          src={avatar}
           alt={`${currentUser.userName} avatar`}
         ></img>
 
