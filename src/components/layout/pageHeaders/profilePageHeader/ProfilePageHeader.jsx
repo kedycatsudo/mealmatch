@@ -1,4 +1,5 @@
 import logo from '../../../../assets/logos/logo.png'
+import avatar from '../../../../assets/images/avatar.jpg'
 import { MenuIcon } from '../../../../assets/icons'
 import './ProfilePageHeader.css'
 import { ParticipantContext } from '../../../../context/ParticipantContext' // Adjust path as neededimport Button from '../../../common/buttons/Buttons'
