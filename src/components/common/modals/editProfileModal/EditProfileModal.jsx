@@ -50,9 +50,7 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
             currentUser={currentUser}
           ></EditProfileContactsContainer>
         </div>
-        <ContainerSeperation
-          text={'Address(for pick up donations)'}
-        ></ContainerSeperation>
+        <ContainerSeperation text={'Address'}></ContainerSeperation>
         <div className="edit__modal-address">
           <EditProfileAddressesContainer
             setCurrentUser={setCurrentUser}

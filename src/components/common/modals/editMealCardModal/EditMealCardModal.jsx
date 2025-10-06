@@ -4,6 +4,8 @@ import Input from '../../inputs/Inputs'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import Button from '../../buttons/Buttons'
 
+const requiredFields = ['mealName', 'useBy']
+
 const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
   const [mealData, setMealData] = useState({
     mealName: '',
@@ -12,6 +14,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
     servings: '',
     allergens: '',
   })
+  const [error, setError] = useState('')
 
   useEffect(() => {
     if (selectedMeal) {
@@ -24,6 +27,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           ? selectedMeal.allergens.join(', ')
           : selectedMeal.allergens || '',
       })
+      setError('')
     }
   }, [selectedMeal])
 
@@ -33,10 +37,21 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }))
+    setError('')
   }
+
+  // Helper: Check if all required fields are filled
+  const allFieldsFilled = requiredFields.every(
+    (field) =>
+      typeof mealData[field] === 'string' && mealData[field].trim() !== ''
+  )
 
   const onSubmit = (e) => {
     e.preventDefault()
+    if (!allFieldsFilled) {
+      setError('Please fill all required fields: Meal Name, Use By.')
+      return
+    }
     if (onSave) {
       // Prepare allergens as array for backend
       const merged = {
@@ -109,12 +124,35 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           onChange={handleChange}
           className="edit__meal-modal-input"
         />
+        {error && (
+          <div
+            className="edit__meal-form-error"
+            style={{ color: 'red', marginBottom: '1em' }}
+          >
+            {error}
+          </div>
+        )}
         <Button
           type="submit"
           className="edit__modal_save-changes-btn"
           text="Save Changes"
           variant="login__button-container-submit"
+          disabled={!allFieldsFilled}
         />
+        {!allFieldsFilled && (
+          <div
+            className="food__form-error"
+            style={{
+              color: 'red',
+              marginTop: '1em',
+              textAlign: 'center',
+              marginBottom: '1em',
+            }}
+          >
+            Please fill all required fields: Meal Name, Use By, Pick Up
+            Location.
+          </div>
+        )}
       </form>
     </div>
   )

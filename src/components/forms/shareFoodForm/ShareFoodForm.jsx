@@ -1,6 +1,6 @@
 import './ShareFoodForm.css'
 import { useNavigate } from 'react-router-dom'
-import { MealsContext } from '../../../context/MealsContext' // <-- NEW!
+import { MealsContext } from '../../../context/MealsContext'
 import { useRecentDonation } from '../../../context/RecentDonationsContext'
 import { useState, useContext } from 'react'
 import Input from '../../common/inputs/Inputs'
@@ -17,12 +17,21 @@ const initialDonation = {
   karm: false,
 }
 
+const requiredFields = ['mealName', 'useBy', 'pickUpLoc']
+
 const ShareFoodForm = ({ currentUser }) => {
-  const { addMeal } = useContext(MealsContext) // <-- NEW!
+  const { addMeal } = useContext(MealsContext)
   const { addRecentDonation } = useRecentDonation()
   const [donation, setDonation] = useState(initialDonation)
   const [showModal, setShowModal] = useState(false)
+  const [error, setError] = useState('')
   const navigate = useNavigate()
+
+  // Helper: Check if all required fields are filled
+  const allFieldsFilled = requiredFields.every(
+    (field) =>
+      typeof donation[field] === 'string' && donation[field].trim() !== ''
+  )
 
   // Handle input changes
   const onChange = (e) => {
@@ -31,25 +40,30 @@ const ShareFoodForm = ({ currentUser }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }))
+    setError('') // Clear error on change
   }
 
   // Handle submit
   const handleSubmitForm = (e) => {
     e.preventDefault()
-    if (!currentUser) {
-      // Optionally show an error
+    if (!currentUser) return
+
+    if (!allFieldsFilled) {
+      setError(
+        'Please fill all required fields: Meal Name, Use By, Pick Up Location.'
+      )
       return
     }
+
     const allergensArray = donation.allergens
       ? donation.allergens
           .split(',')
           .map((a) => a.trim())
           .filter((a) => a)
       : []
-    // Create new donation object with all required fields for your schema
     const newDonation = {
       ...donation,
-      _id: Date.now().toString(), // simple unique id for MVP
+      _id: Date.now().toString(),
       ownerId: currentUser._id,
       postDate: new Date().toISOString(),
       live: true,
@@ -59,12 +73,11 @@ const ShareFoodForm = ({ currentUser }) => {
       claimedUpAt: null,
       allergens: allergensArray,
     }
-    addMeal(newDonation) // Add to MealsContext!
-    addRecentDonation(newDonation) // Optionally keep this for your modal
-    console.log(newDonation)
-
+    addMeal(newDonation)
+    addRecentDonation(newDonation)
     setShowModal(true)
-    setDonation(initialDonation) // Reset form after submit
+    setDonation(initialDonation)
+    setError('')
   }
 
   const navigateTo = (path) => navigate(`/${path}`)
@@ -140,12 +153,29 @@ const ShareFoodForm = ({ currentUser }) => {
         />
       </div>
 
+      {error && (
+        <div
+          className="food__form-error"
+          style={{ color: 'red', marginBottom: '1em' }}
+        >
+          {error}
+        </div>
+      )}
+
       <Button
         variant="login__button-container-submit"
         text="Donate"
         type="submit"
-        onClick={handleSubmitForm}
+        disabled={!allFieldsFilled}
       />
+      {!allFieldsFilled && (
+        <div
+          className="food__form-error"
+          style={{ color: 'red', marginTop: '1em' }}
+        >
+          Please fill all required fields: Meal Name, Use By, Pick Up Location.
+        </div>
+      )}
 
       {showModal && (
         <div className="modal-overlay">
@@ -161,4 +191,5 @@ const ShareFoodForm = ({ currentUser }) => {
     </form>
   )
 }
+
 export default ShareFoodForm

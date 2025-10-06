@@ -30,7 +30,7 @@ const EditProfileAddressesContainer = ({ currentUser, setCurrentUser }) => {
         placeholder="City"
       ></Input>
       <Input
-        name="state/province/area"
+        name="state"
         value={currentUser.state || ''}
         type="text"
         onChange={handleContactChange}

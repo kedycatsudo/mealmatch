@@ -13,7 +13,20 @@ export function MealsProvider({ children }) {
   }, [])
 
   // Example: Add a new meal (for MVP, local only)
-  const addMeal = (meal) => setMeals((prev) => [...prev, meal])
+  const addMeal = (meal) => {
+    function isBlank(str) {
+      return typeof str !== 'string' || str.trim() === ''
+    }
+    if (
+      isBlank(meal.mealName) ||
+      isBlank(meal.useBy) ||
+      isBlank(meal.pickUpLoc)
+    ) {
+      alert('Meal Name, Use By, and Pick Up Location are required!')
+      return
+    }
+    setMeals((prev) => [...prev, meal])
+  }
 
   // Example: Claim a meal by ID
   const claimMeal = (mealId, userId) => {
