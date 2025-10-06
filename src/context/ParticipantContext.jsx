@@ -11,7 +11,7 @@ export function ParticipantProvider({ children }) {
 
   useEffect(() => {
     setLoading(true)
-    fetch('/data/users.json')
+    fetch(`${import.meta.env.BASE_URL}data/users.json`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data)

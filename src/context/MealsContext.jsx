@@ -6,7 +6,7 @@ export function MealsProvider({ children }) {
   const [meals, setMeals] = useState([])
 
   useEffect(() => {
-    fetch('/data/meals.json')
+    fetch(`${import.meta.env.BASE_URL}data/meals.json`)
       .then((res) => res.json())
       .then((data) => setMeals(data))
     // TODO: Swap fetch for backend API when ready

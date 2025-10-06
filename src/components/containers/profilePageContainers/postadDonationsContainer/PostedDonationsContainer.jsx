@@ -20,7 +20,7 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   // 2. Simulate backend fetch (replace with API call later)
 
   useEffect(() => {
-    fetch('/data/meals.json')
+    fetch(`${import.meta.env.BASE_URL}data/meals.json`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch meals data')
         return res.json()
