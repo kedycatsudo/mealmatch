@@ -117,9 +117,12 @@ function Login() {
             type="submit"
           />
         </div>
-        <a href="/register" className="forgot-password-link">
-          Do you need to register?
-        </a>
+        <Button
+          type="button"
+          variant="link"
+          text="Do you have an account?"
+          onClick={() => navigate('/register')}
+        ></Button>
         <div className="login__container-rememberme-container">
           <Checkbox
             name="rememberMe"
