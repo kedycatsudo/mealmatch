@@ -129,6 +129,8 @@ const getMyDonations = (req, res) => {
       .json({ message: 'You are not allowed to access these meals.' })
   }
 
+  // calculate status counts
+
   Meal.find({ ownerId: userId })
     .then((meals) => {
       if (meals.length === 0) {
@@ -136,7 +138,13 @@ const getMyDonations = (req, res) => {
           .status(success.OK_SUCCESS_CODE)
           .json({ message: 'There is no donation on your profile' })
       }
-      return res.status(success.OK_SUCCESS_CODE).json({ meals })
+      const totalDonations = meals.length
+      const availableDonations = meals.filter(
+        (meal) => meal.live === true
+      ).length
+      return res
+        .status(success.OK_SUCCESS_CODE)
+        .json({ meals, totalDonations, availableDonations })
     })
     .catch((err) => {
       console.log(err)
@@ -255,7 +263,7 @@ const updateMyDonation = (req, res) => {
 // get Available public donations
 
 const getExploreMeals = (req, res) => {
-  Meal.find({ karm: false })
+  Meal.find({ karm: false, live: true })
     .select('mealName useBy servings postDate allergens')
     .sort({ postDate: -1 })
     .then((meals) => {
@@ -426,6 +434,46 @@ const unclaimMeal = (req, res) => {
     })
 }
 
+const completeMealPickUp = (req, res) => {
+  const { mealId } = req.params
+  const userId = req.user.userId
+
+  Meal.findById(mealId)
+    .then((meal) => {
+      if (!meal) {
+        return res
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: `Meal not found.` })
+      }
+
+      //only the meal owner can complete pickup
+
+      if (meal.ownerId.toString() !== userId) {
+        return res
+          .status(errors.FORBIDDEN_ERROR_CODE)
+          .json({ message: 'You are not allow to update this meal.' })
+      }
+
+      meal.live = false
+      meal.pickedUp = true
+      meal.claimedUpAt = new Date()
+      return meal.save()
+    })
+    .then((updatedMeal) => {
+      if (updatedMeal) {
+        res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'Meal marked as picked up', meal: updatedMeal })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      res
+        .statu(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: `Server error`, error: err.message })
+    })
+}
+
 module.exports = {
   createMeal,
   deleteMeal,
@@ -434,4 +482,5 @@ module.exports = {
   getExploreMeals,
   claimMeal,
   unclaimMeal,
+  completeMealPickUp,
 }

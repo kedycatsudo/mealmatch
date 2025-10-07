@@ -10,6 +10,7 @@ const {
   getExploreMeals,
   claimMeal,
   unclaimMeal,
+  completeMealPickUp,
 } = require('../controllers/mealController')
 
 const authenticate = require('../middleware/authMiddleware')
@@ -19,6 +20,8 @@ router.post('/', authenticate, createMeal)
 router.delete('/profile/:mealId', authenticate, deleteMeal)
 
 router.get(`/profile`, authenticate, getMyDonations)
+
+router.patch('/:mealId/completePickup', authenticate, completeMealPickUp)
 
 router.get('/exploreFood', authenticate, getExploreMeals)
 

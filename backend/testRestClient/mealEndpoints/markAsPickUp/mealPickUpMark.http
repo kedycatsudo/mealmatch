@@ -1,0 +1,4 @@
+PATCH http://localhost:5000/api/meals/68e5517f1a73ca819f8c355d/completePickup
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0YmQ3Y2RkMGFlM2E3NTE3MTE0MGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5ODY0MDE2LCJleHAiOjE3NTk5NTA0MTZ9.ge1jHtmj1-Od5ImT31dN9GcuJfJT1H6DBxABJ3n1dMM
+

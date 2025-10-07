@@ -1,2 +1,3 @@
 GET http://localhost:5000/api/meals/exploreFood
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0YmQ3Y2RkMGFlM2E3NTE3MTE0MGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5ODU0ODc4LCJleHAiOjE3NTk5NDEyNzh9.TUY6oCJeYGSTUl32YXu3G6LKxEe3g8BfLeeXd0VrRcw
