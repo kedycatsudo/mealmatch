@@ -6,15 +6,22 @@ import EditProfileBasicInformationsContainer from '../../../containers/profilePa
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import EditProfileAddressesContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileAdressesContainer/EditProfileAdressesContainer'
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import InformationModal from '../informationModals/InformationModal'
 
 const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [shouldNavigate, setShouldNavigate] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const navigate = useNavigate()
-
+  useEffect(() => {
+    if (!showModal && shouldNavigate) {
+      console.log('Navigating now!')
+      navigate('/profile')
+      setShouldNavigate(false) // reset the flag
+    }
+  }, [showModal, shouldNavigate, navigate])
   const deleteAccount = ({}) => {
     // TODO: Implement account deletion logic
 
@@ -23,6 +30,7 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
     setIsSaving(true)
+
     //Todo: save changes to backend or context
     setTimeout(() => {
       setIsSaving(false)
@@ -59,7 +67,6 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
         </div>
         <Button
           type="submit"
-          onClick={handleSubmitEditForm}
           variant="login__button-container-submit"
           text={isSaving ? 'Saving...' : 'Save Changes'}
         ></Button>
@@ -67,7 +74,7 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
           <div className="modal-overlay">
             <InformationModal
               text={'Changes saved succesfully.'}
-              onClose={() => setShowModal(false)}
+              onClose={() => onClose()}
             ></InformationModal>
           </div>
         )}
