@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Meal = require('../models/Meal')
 
 const errors = require('../utils/errors')
 
@@ -7,6 +8,57 @@ const success = require('../utils/succesStatuses')
 const bcrypt = require('bcryptjs')
 
 const jwt = require('jsonwebtoken')
+
+const multer = require('multer')
+const path = require('path')
+
+//set up multer storage
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads/avatars'))
+  },
+  filename: function (req, file, cb) {
+    //unique filename:userId+timestamp+ext
+    const ext = path.extname(file.originalname)
+    cb(null, req.user.userId + '-' + Date.now() + ext)
+  },
+})
+
+const upload = multer({ storage })
+
+//path /profile/avatar
+
+const updateAvatar = (req, res) => {
+  const userId = req.user.userId
+  //file will be on req.file
+  if (!req.file) {
+    return res
+      .status(errors.BAD_REQUEST_ERROR_CODE)
+      .json({ message: 'No file uploaded' })
+  }
+
+  const avatarPath = '/uploads/avatars' + req.file.filename
+
+  User.findByIdAndUpdate(userId, { avatar: avatarPath }, { new: true })
+    .then((updatedUser) => {
+      if (!updatedUser) {
+        return res
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: 'User not found.' })
+      }
+      return res.status(success.OK_SUCCESS_CODE).json({
+        message: 'Avatar updated succesfully.',
+        avatar: updatedUser.avatar,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Server Error.', error: err.message })
+    })
+}
 
 //Login
 
@@ -256,4 +308,87 @@ const getUserProfile = (req, res) => {
     })
 }
 
-module.exports = { registerUser, loginUser, updateUserProfile, getUserProfile }
+//password change
+
+const changePassword = (req, res) => {
+  const userId = req.user.userId
+  const { currentPassword, newPassword } = req.body
+
+  //Validate Input
+  if (!currentPassword || !newPassword) {
+    return res
+      .status(errors.BAD_REQUEST_ERROR_CODE)
+      .json({ message: 'Both current and new password is required' })
+  }
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res
+          .status(errors.BAD_REQUEST_ERROR_CODE)
+          .json({ message: `user not found` })
+      }
+      //compate current password
+
+      return bcrypt.compare(currentPassword, user.password).then((isMatch) => {
+        if (!isMatch) {
+          return res.status(errors.UNAUTHORIZED__ERROR_CODE).json({
+            message: 'Current password can not be same with new password',
+          })
+        }
+        //hash the new  password
+        return bcrypt.hash(newPassword, 10).then((hashedPassword) => {
+          user.password = hashedPassword
+          return user.save()
+        })
+      })
+    })
+    .then((updatedUser) => {
+      if (updatedUser) {
+        return res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'Password changed successfully' })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      return res
+        .status(errors.INTERNAL_SERVER_ERROR_CODE)
+        .json({ message: 'Server Error' })
+    })
+}
+
+//delete user
+
+const deleteUser = (req, res) => {
+  const userId = req.user.userId // Authenticated user
+
+  User.findByIdAndDelete(userId)
+    .then((deletedUser) => {
+      if (!deletedUser) {
+        return res
+          .status(errors.NOT_FOUND_ERROR_CODE)
+          .json({ message: 'User not found.' })
+      }
+
+      // Optional: Delete all meals donated by this user
+      return Meal.deleteMany({ ownerId: userId }).then(() => {
+        return res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'Your account and donations have been deleted.' })
+      })
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'Server error', error: err.message })
+    })
+}
+
+module.exports = {
+  registerUser,
+  loginUser,
+  updateUserProfile,
+  getUserProfile,
+  changePassword,
+  deleteUser,
+  updateAvatar,
+  upload,
+}

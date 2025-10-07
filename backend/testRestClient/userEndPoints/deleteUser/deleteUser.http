@@ -1,0 +1,3 @@
+DELETE http://localhost:5000/api/users/profile/deleteAccount
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGU1N2M1NjI1M2ZjM2Y2MmFmMTU5MTgiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5ODcwMDQwLCJleHAiOjE3NTk5NTY0NDB9.vTY9NrZyR5dWgDoAh30YxDu1tzghe2RiHAVVD0LoJI0
