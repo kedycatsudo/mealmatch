@@ -1,6 +1,6 @@
 const Meal = require('../models/Meal')
 const errors = require(`../utils/errors`)
-
+const { sendDonationToKarm } = require('../utils/helpers/nodemailer')
 const mongoose = require('mongoose')
 
 const success = require(`../utils/succesStatuses`)
@@ -20,7 +20,6 @@ const createMeal = (req, res) => {
 
   const ownerId = req.user.userId
   let allergens = req.body.allergens
-  //handle empty strgin for required fields
 
   function isBlank(str) {
     return typeof str !== 'string' || str.trim() === ''
@@ -42,8 +41,7 @@ const createMeal = (req, res) => {
       .json({ message: 'Contact phone cannot be empty.' })
   }
 
-  //handle if the allergens not array
-
+  // handle allergens
   if (typeof allergens === 'string') {
     allergens = allergens
       .split(',')
@@ -59,8 +57,7 @@ const createMeal = (req, res) => {
       .json({ message: 'Invalid allergens format.' })
   }
 
-  //handle the useBy and postDate
-
+  // handle useBy and postDate
   const today = new Date()
   const postDateObj = new Date(postDate)
   const useByObj = new Date(useBy)
@@ -76,7 +73,7 @@ const createMeal = (req, res) => {
       .json({ message: 'useBy date must be in the future.' })
   }
 
-  // Duplicate prevention: check if meal already exists for this user and date
+  // Duplicate prevention
   Meal.findOne({ ownerId, mealName, postDate })
     .then((existingMeal) => {
       if (existingMeal) {
@@ -84,7 +81,6 @@ const createMeal = (req, res) => {
           .status(errors.BAD_CONFLICT_ERROR_CODE)
           .json({ message: 'You already submitted this meal for this date.' })
       }
-
       return Meal.create({
         ownerId,
         mealName,
@@ -97,11 +93,46 @@ const createMeal = (req, res) => {
         hold,
         live,
         karm,
-      }).then((meal) =>
-        res
+      })
+    })
+    .then((meal) => {
+      if (!meal) return // Already handled conflict
+
+      // If karm is true, send email
+      if (meal.karm) {
+        const emailText =
+          `User ${ownerId} shared a donation for KARM:\n` +
+          `Meal: ${meal.mealName}\n` +
+          `Servings: ${meal.servings}\n` +
+          `Pick up: ${meal.pickUpLoc}\n` +
+          `Contact: ${meal.contactPhone}\n` +
+          `Use by: ${meal.useBy}\n`
+
+        return sendDonationToKarm({
+          to: process.env.KARM_ADMIN_EMAIL,
+          subject: 'New KARM Food Donation',
+          text: emailText,
+        })
+          .then(() =>
+            res
+              .status(success.CREATED_SUCCESS_CODE)
+              .json({ message: 'Meal created (KARM notified)', meal })
+          )
+          .catch((err) => {
+            console.log(err)
+            return res.status(success.CREATED_SUCCESS_CODE).json({
+              message:
+                'Meal created, but failed to notify KARM admin by email.',
+              meal,
+              error: err.message,
+            })
+          })
+      } else {
+        // No email to send
+        return res
           .status(success.CREATED_SUCCESS_CODE)
           .json({ message: 'Meal created', meal })
-      )
+      }
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
