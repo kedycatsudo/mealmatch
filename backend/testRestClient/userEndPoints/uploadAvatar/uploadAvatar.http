@@ -1,0 +1,4 @@
+POST http://localhost:5000/api/users/profile/avatar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGU1YWU4NDNjNTc3MWEzMTgyYmUzNzkiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5OTI0Mzg3LCJleHAiOjE3NjAwMTA3ODd9.OUqGoc81TVf_qLA0-KuOJNKumnE9-Irv6OH2CPzriMM
+
+avatar=@avatar.jpeg

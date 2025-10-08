@@ -17,24 +17,53 @@ const {
 
 // Route : POST /api/users/register
 
-router.post('/register', registerUser)
-
-router.post('/login', loginUser)
+router.post(
+  '/register',
+  express.json(),
+  express.urlencoded({ extended: true }),
+  registerUser
+)
+router.post(
+  '/login',
+  express.json(),
+  express.urlencoded({ extended: true }),
+  loginUser
+)
 
 // GET /api/users/profile - protected route
 
 router.get('/profile', authenticate, getUserProfile)
 
-router.patch('/profile', authenticate, updateUserProfile)
+router.patch(
+  '/profile',
+  express.json(),
+  express.urlencoded({ extended: true }),
+  authenticate,
+  updateUserProfile
+)
 
-router.delete('/profile/deleteAccount', authenticate, deleteUser)
+router.patch(
+  '/profile/changePassword',
+  express.json(),
+  express.urlencoded({ extended: true }),
+  authenticate,
+  changePassword
+)
 
 router.patch(
   '/profile/avatar',
   authenticate,
-  upload.single('avatar'),
+  (req, res, next) => {
+    upload.single('avatar')(req, res, function (err) {
+      if (err) {
+        return res.status(400).json({ message: err.message })
+      }
+      next()
+    })
+  },
   updateAvatar
 )
 
-router.patch('/profile/changePassword', authenticate, changePassword)
+router.delete('/profile/deleteAccount', authenticate, deleteUser)
+
 module.exports = router

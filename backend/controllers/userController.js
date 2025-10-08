@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
 
 const multer = require('multer')
 const path = require('path')
+const allowedExt = ['.jpg', '.jpeg', '.png', '.gif']
 
 //set up multer storage
 
@@ -25,12 +26,28 @@ const storage = multer.diskStorage({
   },
 })
 
-const upload = multer({ storage })
+const fileFilter = (req, res, cb) => {
+  const ext = path.extname(file.originalname).toLowerCase()
+  if (allowedExt.includes(ext)) {
+    cb(null, true)
+  } else {
+    cb(
+      new Error('Only image files (.jpg, .jpeg, .png, .gif) are allowed!'),
+      false
+    )
+  }
+}
 
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB size limit
+  fileFilter,
+})
 //path /profile/avatar
 
 const updateAvatar = (req, res) => {
   const userId = req.user.userId
+  console.log('req.file:', req.file)
   //file will be on req.file
   if (!req.file) {
     return res

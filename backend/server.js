@@ -2,7 +2,6 @@
 
 const express = require('express')
 const mongoose = require('mongoose')
-
 const cors = require('cors')
 const dotenv = require('dotenv')
 
@@ -13,8 +12,6 @@ dotenv.config()
 const app = express()
 
 //Middleware
-app.use(express.json()) // Parse json bodies
-
 app.use(cors()) // Enable CORS
 
 //MongoDb connection
@@ -40,6 +37,8 @@ const loginLimiter = rateLimit({
 const userRoutes = require('./routes/userRoutes')
 
 const mealRoutes = require('./routes/mealRoutes')
+
+app.use('/uploads', express.static('backend/uploads'))
 
 app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
