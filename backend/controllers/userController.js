@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
 
 const multer = require('multer')
 const path = require('path')
+const { BadRequestError } = require('../utils/errorClasses')
 const allowedExt = ['.jpg', '.jpeg', '.png', '.gif']
 
 //set up multer storage
@@ -119,7 +120,7 @@ const loginUser = (req, res) => {
 
 //Register a new user (with Promises)
 
-const registerUser = (req, res) => {
+const registerUser = (req, res, next) => {
   const {
     avatar,
     printName,
@@ -136,14 +137,19 @@ const registerUser = (req, res) => {
     isAdmin,
   } = req.body
 
+  //Check for required fields
+
+  if (!userName || !email || !password) {
+    return next(
+      new BadRequestError('Username, email, and password are required.')
+    )
+  }
+
   User.findOne({ userName })
     .then((userExists) => {
       if (userExists) {
-        // Stop the chain by returning here
-        res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: 'User already exist' })
-        return
+        //Instead of responding throw error
+        throw new BadRequestError('User already exist.')
       }
       return bcrypt.hash(password, 10)
     })
@@ -175,7 +181,7 @@ const registerUser = (req, res) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        // Detect which field is duplicated:
+        //  Handle duplicate key error from MongoDB
         const duplicateField = Object.keys(err.keyPattern)[0]
         let message = 'Duplicate value.'
         if (duplicateField === 'email') {
@@ -183,12 +189,10 @@ const registerUser = (req, res) => {
         } else if (duplicateField === 'userName') {
           message = 'Username already used.'
         }
-        return res.status(errors.BAD_REQUEST_ERROR_CODE).json({ message })
+        return next(new BadRequestError(message))
       }
-      // handle other errors
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: err.message || 'Error occurred on the Server' })
+      // Pass other errors to centralized error handler
+      next(err)
     })
 }
 

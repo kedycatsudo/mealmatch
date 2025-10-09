@@ -2,6 +2,14 @@ const express = require(`express`)
 
 const router = express.Router()
 
+const rateLimit = require('express-rate-limit')
+const mealLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit to 5 meal creates per window per IP
+  message: {
+    message: 'Too many meal creation attempts, please try again later.',
+  },
+})
 const {
   createMeal,
   deleteMeal,
@@ -19,6 +27,7 @@ router.post(
   '/',
   express.json(),
   express.urlencoded({ extended: true }),
+  mealLimiter,
   authenticate,
   createMeal
 )
@@ -53,7 +62,12 @@ router.patch(
   claimMeal
 )
 
-router.patch('/:mealId/unclaim',express.json(),
-  express.urlencoded({ extended: true }), authenticate, unclaimMeal)
+router.patch(
+  '/:mealId/unclaim',
+  express.json(),
+  express.urlencoded({ extended: true }),
+  authenticate,
+  unclaimMeal
+)
 
 module.exports = router

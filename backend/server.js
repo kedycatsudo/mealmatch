@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
 
+const errorHandlerMiddleware = require('./middleware/errorHandlerMiddleware')
+
 //Load environment variables from . env file
 dotenv.config()
 
@@ -44,6 +46,7 @@ app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
 app.use('/api/meals', mealRoutes)
 
+app.use(errorHandlerMiddleware)
 //Start server
 
 const PORT = process.env.PORT || 5000

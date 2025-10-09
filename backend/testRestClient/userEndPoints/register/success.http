@@ -3,9 +3,9 @@ Content-Type: application/json
 
 {
   "avatar": "https://yourdomain.com/avatar.jpg",
-  "printName": "Baylee",
-  "userName": "Boo ",
-  "email": "baylee@gmail.com",
+  "printName": "Luna",
+  "userName": "asdasd",
+  "email": "luna@gmail.com",
   "isKarmDonor": true,
   "phone": "+8653073143",
   "country": "Turkey",
@@ -13,6 +13,6 @@ Content-Type: application/json
   "state": "Ege Bolgesi",
   "address": "56/3sk No:19 Daire:13",
   "zipcode": "35350",
-  "password": "Bayleespassword",
+  "password": "lunapassword",
   "isAdmin": false
 }

@@ -1,6 +1,10 @@
 const Meal = require('../models/Meal')
+const User = require('../models/User')
 const errors = require(`../utils/errors`)
-const { sendDonationToKarm } = require('../utils/helpers/nodemailer')
+const {
+  sendDonationToKarm,
+  sendClaimNotificationToOwner,
+} = require('../utils/helpers/nodemailer')
 const mongoose = require('mongoose')
 
 const success = require(`../utils/succesStatuses`)
@@ -19,6 +23,7 @@ const createMeal = (req, res) => {
   } = req.body
 
   const ownerId = req.user.userId
+  const ownerName = req.userDoc.printName
   let allergens = req.body.allergens
 
   function isBlank(str) {
@@ -101,17 +106,28 @@ const createMeal = (req, res) => {
       // If karm is true, send email
       if (meal.karm) {
         const emailText =
-          `User ${ownerId} shared a donation for KARM:\n` +
-          `Meal: ${meal.mealName}\n` +
+          `User: ${ownerName} shared a donation for KARM:\n` +
+          `Meal name: ${meal.mealName}\n` +
           `Servings: ${meal.servings}\n` +
-          `Pick up: ${meal.pickUpLoc}\n` +
+          `Pick up location: ${meal.pickUpLoc}\n` +
           `Contact: ${meal.contactPhone}\n` +
           `Use by: ${meal.useBy}\n`
+
+        // Compose meal data for handlebars template
+
+        const mealForEmail = {
+          ownerName, // Pass this for the template
+          mealName: meal.mealName,
+          servings: meal.servings,
+          pickUpLoc: meal.pickUpLoc,
+          contactPhone: meal.contactPhone,
+          useBy: meal.useBy,
+        }
 
         return sendDonationToKarm({
           to: process.env.KARM_ADMIN_EMAIL,
           subject: 'New KARM Food Donation',
-          text: emailText,
+          meal: mealForEmail,
         })
           .then(() =>
             res
@@ -367,19 +383,58 @@ const claimMeal = (req, res) => {
 
         return meal.save().then((updatedMeal) => {
           // Respond with essential info for frontend
+          // --- BEGIN EMAIL NOTIFICATION ---
 
-          return res.status(success.OK_SUCCESS_CODE).json({
-            message: 'Meal succesfully claimed!',
-            meal: {
-              _id: updatedMeal._id,
-              mealName: updatedMeal.mealName,
-              pickUpLocation: updatedMeal.pickUpLoc,
-              claimedUpBy: updatedMeal.claimedUpBy,
-              claimedUpAt: updatedMeal.claimedUpAt,
-              pickedUp: updatedMeal.pickedUp,
-              hold: updatedMeal.hold,
-            },
-          })
+          User.findById(updatedMeal.ownerId)
+            .then((ownerUser) => {
+              if (!ownerUser || !ownerUser.email) {
+                // owner doesn't exist or has no email; skip email
+                return
+              }
+              // Get claimant's name (from req.userDoc or req.user)
+
+              const claimerName =
+                (req.userDoc &&
+                  (req.userDoc.printName ||
+                    req.userDoc.name ||
+                    req.userDoc.username)) ||
+                req.user.printName ||
+                req.user.name ||
+                req.user.username ||
+                'MealMatch User'
+
+              const mealForEmail = {
+                mealName: updatedMeal.mealName,
+                postDate: updatedMeal.postDate.toLocaleString(),
+                claimedUpAt,
+                claimerName,
+              }
+
+              return sendClaimNotificationToOwner({
+                to: ownerUser.email,
+                subject: 'Your meal has been claimed!',
+                meal: mealForEmail,
+              }).catch((err) => {
+                console.log(err)
+                console.log(`Failed to send claim notification email`, e)
+              })
+            })
+            .finally(() => {
+              //respond to the fronted as before
+              return res.status(success.OK_SUCCESS_CODE).json({
+                message: 'Meal succesfully claimed!',
+                meal: {
+                  _id: updatedMeal._id,
+                  mealName: updatedMeal.mealName,
+                  pickUpLocation: updatedMeal.pickUpLoc,
+                  claimedUpBy: updatedMeal.claimedUpBy,
+                  claimedUpAt: updatedMeal.claimedUpAt,
+                  pickedUp: updatedMeal.pickedUp,
+                  hold: updatedMeal.hold,
+                },
+              })
+            })
+          // --- END EMAIL NOTIFICATION ---
         })
       })
     })

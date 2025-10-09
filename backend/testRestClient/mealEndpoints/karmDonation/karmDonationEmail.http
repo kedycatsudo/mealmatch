@@ -1,9 +1,9 @@
 POST http://localhost:5000/api/meals
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGU1YWU4NDNjNTc3MWEzMTgyYmUzNzkiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5OTM5Mjc4LCJleHAiOjE3NjAwMjU2Nzh9.EMNgoIgvY2htf_gqKl7WdR5CdA0hjTxJ24G4umKoToU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGU1YWU4NDNjNTc3MWEzMTgyYmUzNzkiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5OTUyMjUyLCJleHAiOjE3NjAwMzg2NTJ9.o2ExS74Hq1D2DelX1lWEKkaP-qXjPVMkoqhcM60qKmM
 Content-Type: application/json
 
 {
-  "mealName": "new karm meal3",
+  "mealName": "New KARM Donation5",
   "postDate": "2025-10-08T15:56:48.000Z",
   "servings": 5,
   "useBy": "2025-10-09T15:56:48.000Z",
