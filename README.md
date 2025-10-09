@@ -1,13 +1,15 @@
-# React + Vite
+Hello @gennady-bars. I didn`t get exactly what you mean by:
+In Files changed, there must be the code that should be reviewed. It means that all changes from the last sprint should be there. But now there is only 1 file there. I'm not able to leave comments in your code.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+That is my custom final project and i follow those steps from final project sprint: 5. Project submission
 
-Currently, two official plugins are available:
+Submit the link to the pull request opened from the stage-1-frontend-and-api branch to main.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Make sure you attach the link leading specifically to the pull request, not to the repository. Once the work is approved by an instructor, click the "Merge" button to apply the changes from the stage-1-frontend-and-api branch to main.
 
-## Expanding the ESLint configuration
+I realized that there was problems that i need to fix in my code, i just fixed it on main branch because the project running live on github pages from main branch. But then i merge it to this branch: Stage 1 Frontend and API Submission.
+And now the branch works without error and as expected. And now i am submitting the same pull request again because i fixed the problems that i found in this branch : Stage 1 Frontend and API Submission.
+Correct me wherever i am wrong please. Thank you for your time.
+So you are the first one that will review this project, i fixed stuff that i realized on my project after i publish it to github pages. Hope that is make sense.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# mealmatch
+github pages link: https://kedycatsudo.github.io/mealmatch/

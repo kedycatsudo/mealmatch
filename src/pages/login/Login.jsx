@@ -120,7 +120,7 @@ function Login() {
         <Button
           type="button"
           variant="link"
-          text="Do you have an account?"
+          text="You don`t have an account yet?"
           onClick={() => navigate('/register')}
         ></Button>
         <div className="login__container-rememberme-container">
