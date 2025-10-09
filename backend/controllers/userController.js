@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken')
 
 const multer = require('multer')
 const path = require('path')
-const { BadRequestError } = require('../utils/errorClasses')
+const { BadRequestError, ValidationError } = require('../utils/errorClasses')
 const allowedExt = ['.jpg', '.jpeg', '.png', '.gif']
 
 //set up multer storage
@@ -139,12 +139,25 @@ const registerUser = (req, res, next) => {
 
   //Check for required fields
 
+  const rawPassword = req.body.password
+
   if (!userName || !email || !password) {
     return next(
       new BadRequestError('Username, email, and password are required.')
     )
   }
-
+  if (
+    !rawPassword ||
+    rawPassword.length < 8 ||
+    !/[A-Za-z]/.test(rawPassword) ||
+    !/\d/.test(rawPassword)
+  ) {
+    return next(
+      new ValidationError(
+        'Password must be at least 8 characters and contain at least one letter and one number'
+      )
+    )
+  }
   User.findOne({ userName })
     .then((userExists) => {
       if (userExists) {

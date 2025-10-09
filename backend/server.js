@@ -46,6 +46,14 @@ app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
 app.use('/api/meals', mealRoutes)
 
+// Catch malformed JSON errors from express.json()
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ message: 'Malformed JSON in request body.' })
+  }
+  next(err)
+})
+
 app.use(errorHandlerMiddleware)
 //Start server
 

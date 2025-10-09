@@ -55,9 +55,7 @@ router.patch(
   authenticate,
   (req, res, next) => {
     upload.single('avatar')(req, res, function (err) {
-      if (err) {
-        return res.status(400).json({ message: err.message })
-      }
+      if (err) return next(err) // Pass to centralized error handler
       next()
     })
   },

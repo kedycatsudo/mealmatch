@@ -5,7 +5,12 @@ const userSchema = new mongoose.Schema(
     avatar: { type: String, required: false }, // 'required: false' is optional, default is not required
     printName: { type: String, required: true },
     userName: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'],
+    },
     isKarmDonor: { type: Boolean, required: true },
     phone: { type: String },
     country: { type: String },
@@ -13,7 +18,18 @@ const userSchema = new mongoose.Schema(
     state: { type: String },
     address: { type: String },
     zipcode: { type: String },
-    password: { type: String, required: true }, // Keep type as String; handle password securely elsewhere
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+      validate: {
+        validator: function (value) {
+          return /[A-Za-z]/.test(value) && /\d/.test(value)
+        },
+        message:
+          'Password must be at least 8 characters and contain at least one letter and one number',
+      },
+    },
     isAdmin: { type: Boolean, default: false },
     donationStatus: {
       totalDonations: { type: Number, default: 0 },
