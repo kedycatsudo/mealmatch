@@ -51,7 +51,7 @@ class ConflictError extends AppError {
 }
 
 class InternalServerError extends AppError {
-  constructor(message = 'Internal server error') {
+  constructor(message = 'An unexpected error occuder in server.') {
     super(message, INTERNAL_SERVER_ERROR_CODE)
   }
 }

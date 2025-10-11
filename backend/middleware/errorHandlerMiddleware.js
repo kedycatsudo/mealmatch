@@ -1,4 +1,4 @@
-const errors = require('../utils/errors')
+const errors = require('../utils/errors/errors')
 
 function errorHandlerMiddleware(err, req, res, next) {
   //if the error has a statusCode, use it. Otherwise,default to 500

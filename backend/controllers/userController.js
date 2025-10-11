@@ -1,7 +1,7 @@
 const User = require('../models/User')
 const Meal = require('../models/Meal')
 
-const errors = require('../utils/errors')
+const errors = require('../utils/errors/errors')
 
 const success = require('../utils/succesStatuses')
 
@@ -9,9 +9,15 @@ const bcrypt = require('bcryptjs')
 
 const jwt = require('jsonwebtoken')
 
+const normalizeError = require('../utils/errors/normalizeError')
+
 const multer = require('multer')
 const path = require('path')
-const { BadRequestError, ValidationError } = require('../utils/errorClasses')
+const {
+  BadRequestError,
+  ValidationError,
+  InternalServerError,
+} = require('../utils/errors/errorClasses')
 const allowedExt = ['.jpg', '.jpeg', '.png', '.gif']
 
 //set up multer storage
@@ -80,25 +86,25 @@ const updateAvatar = (req, res) => {
 
 //Login
 
-const loginUser = (req, res) => {
-  console.log(req.body)
-
+const loginUser = (req, res, next) => {
   const { userName, password } = req.body
 
-  //check the username first
+  // Early synchronous validation -> use next(...) with a typed error
+
+  if (!userName || !password) {
+    return next(new BadRequestError('Username and password are required.'))
+  }
+  // Promise chain: throw typed errors so they bubble to .catch(...)
+
   User.findOne({ userName })
     .then((user) => {
       if (!user) {
-        return res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: 'Invalid Credentials' })
+        throw new BadRequestError('Invalid credentials')
       }
       //compare the password
       bcrypt.compare(password, user.password).then((isMatch) => {
         if (!isMatch) {
-          return res
-            .status(errors.BAD_REQUEST_ERROR_CODE)
-            .json({ message: 'Invalid credentials' })
+          throw new BadRequestError('Invalid credentials')
         }
         const token = jwt.sign(
           { userId: user._id, isAdmin: user.isAdmin },
@@ -107,14 +113,19 @@ const loginUser = (req, res) => {
         )
         // Respond with token and user info (omit password)
         const { password, ...userData } = user.toObject()
-        res.json({ token, message: 'Welcome ' + user.userName })
+        return res.json({
+          token,
+          user: userData,
+          message: `Welcome ${user.userName}`,
+        })
       })
     })
     .catch((err) => {
       console.log(err)
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: err.message })
+      err = new InternalServerError(
+        err.message || 'An unexpected error occuder in server.'
+      )
+      return next(err)
     })
 }
 
@@ -193,19 +204,11 @@ const registerUser = (req, res, next) => {
         .json({ message: 'User registered succesfully.', user })
     })
     .catch((err) => {
-      if (err.code === 11000) {
-        //  Handle duplicate key error from MongoDB
-        const duplicateField = Object.keys(err.keyPattern)[0]
-        let message = 'Duplicate value.'
-        if (duplicateField === 'email') {
-          message = 'Email already used.'
-        } else if (duplicateField === 'userName') {
-          message = 'Username already used.'
-        }
-        return next(new BadRequestError(message))
-      }
-      // Pass other errors to centralized error handler
-      next(err)
+      console.log(err)
+      // Normalize unknown errors and forward to centralized handler
+
+      const normalized = normalizeError(err)
+      return next(normalized)
     })
 }
 

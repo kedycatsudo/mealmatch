@@ -1,6 +1,6 @@
 const Meal = require('../models/Meal')
 const User = require('../models/User')
-const errors = require(`../utils/errors`)
+const errors = require(`../utils/errors/errors`)
 const {
   sendDonationToKarm,
   sendClaimNotificationToOwner,
