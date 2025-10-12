@@ -51,7 +51,26 @@ function normalizeError(err) {
     // Keep console.error here for development visibility of the original error
     console.error('normalizeError - original error:', err)
   }
-
+  // Mongo/Mongoose connection / network / buffering errors
+  const msg = (err && err.message) || ''
+  const isMongoNetworkError =
+    err &&
+    (err.name === 'MongoNetworkError' ||
+      err.name === 'MongooseServerSelectionError' ||
+      msg.includes('buffering timed out') ||
+      msg.includes('ECONNREFUSED') ||
+      msg.includes('failed to connect to server'))
+  if (isMongoNetworkError) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error('normalizeError - original DB/network error:', err)
+      // In dev keep original message so you see exactly what failed
+      return new InternalServerError(err.message || 'Database unavailable')
+    }
+    // In prod return a safe generic message
+    return new InternalServerError(
+      'Service temporarily unavailable. Please try again later.'
+    )
+  }
   return new InternalServerError(
     err && err.message ? err.message : 'An unexpected error occurred'
   )

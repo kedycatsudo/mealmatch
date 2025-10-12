@@ -14,8 +14,10 @@ const normalizeError = require('../utils/errors/normalizeError')
 const multer = require('multer')
 const path = require('path')
 const {
+  AppError,
   BadRequestError,
-  ValidationError,
+  NotFoundError,
+  ConflictError,
   InternalServerError,
 } = require('../utils/errors/errorClasses')
 const allowedExt = ['.jpg', '.jpeg', '.png', '.gif']
@@ -99,12 +101,12 @@ const loginUser = (req, res, next) => {
   User.findOne({ userName })
     .then((user) => {
       if (!user) {
-        throw new BadRequestError('Invalid credentials')
+        return next(new BadRequestError('Invalid Credentials'))
       }
       //compare the password
       bcrypt.compare(password, user.password).then((isMatch) => {
         if (!isMatch) {
-          throw new BadRequestError('Invalid credentials')
+          return next(new BadRequestError('Invalid Credentials'))
         }
         const token = jwt.sign(
           { userId: user._id, isAdmin: user.isAdmin },
@@ -214,11 +216,12 @@ const registerUser = (req, res, next) => {
 
 //Update user info
 
-const updateUserProfile = (req, res) => {
+const updateUserProfile = (req, res, next) => {
   const userId = req.user.userId
-  const updates = req.body
+  const updates = req.body || {}
 
-  // Only allow certain fields to be updated
+  //Only allow certain fieldsto be updated
+
   const allowedFields = [
     'printName',
     'userName',
@@ -229,87 +232,83 @@ const updateUserProfile = (req, res) => {
     'state',
     'address',
     'zipcode',
-    'avatar', // or 'avatarPic' if your model uses that
+    'avatar',
   ]
 
   const fieldsToUpdate = {}
 
-  // Build fieldsToUpdate object
+  //Build fieldsToUpdate object
+
   allowedFields.forEach((field) => {
-    if (updates[field] !== undefined) {
+    if (Object.prototype.hasOwnProperty.call(updates, field)) {
       fieldsToUpdate[field] = updates[field]
     }
   })
 
-  // Prevent empty update
+  // prevent empty update
+
   if (Object.keys(fieldsToUpdate).length === 0) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'No valid fields to update.' })
+    return next(new BadRequestError('No valid fields to update.'))
   }
 
-  // Check for unique email
+  //helper to send standarized success response
+
+  function sendUpdatedUser(res, updatedUser) {
+    const payload = {
+      printName: updatedUser.printName,
+      userName: updatedUser.userName,
+      phone: updatedUser.phone,
+      email: updatedUser.email,
+      country: updatedUser.country,
+      city: updatedUser.city,
+      state: updatedUser.state,
+      address: updatedUser.address,
+      zipcode: updatedUser.zipcode,
+      avatar: updatedUser.avatar,
+    }
+    return res
+      .status(success.OK_SUCCESS_CODE)
+      .json({ message: 'Profile updated succesfully.', user: payload })
+  }
+  const updateOptions = {
+    new: true,
+    runValidators: true,
+    context: 'query',
+  }
+  //if updating email,ensure uniqueness first
   if (fieldsToUpdate.email) {
-    return User.findOne({ email: fieldsToUpdate.email, _id: { $ne: userId } })
+    return User.findOne({
+      email: fieldsToUpdate.email,
+      _id: { $ne: userId },
+    })
       .then((existing) => {
         if (existing) {
-          return res
-            .status(errors.BAD_CONFLICT_ERROR_CODE)
-            .json({ message: 'Email already in use' })
+          //email already in use
+          throw new ConflictError('Email alread in use')
         }
-        // Update user
-        return User.findByIdAndUpdate(userId, fieldsToUpdate, {
-          new: true,
-        }).then((updatedUser) => {
-          return res.status(success.OK_SUCCESS_CODE).json({
-            message: 'Profile updated successfully.',
-            user: {
-              printName: updatedUser.printName,
-              userName: updatedUser.userName,
-              phone: updatedUser.phone,
-              email: updatedUser.email,
-              country: updatedUser.country,
-              city: updatedUser.city,
-              state: updatedUser.state,
-              address: updatedUser.address,
-              zipcode: updatedUser.zipcode,
-              avatar: updatedUser.avatar, // or avatarPic if that's the field
-            },
-          })
-        })
+        return User.findByIdAndUpdate(userId, fieldsToUpdate, updateOptions)
+      })
+      .then((updatedUser) => {
+        if (!updatedUser) {
+          throw new NotFoundError('User not found')
+        }
+        return sendUpdatedUser(res, updatedUser)
       })
       .catch((err) => {
-        console.log(err)
-        return res
-          .status(errors.INTERNAL_SERVER_ERROR_CODE)
-          .json({ message: 'Error occured on server' })
+        return next(normalizeError(err))
       })
   }
+  // Not updating email — perform update directly
 
-  // If not updating email, just update
-  return User.findByIdAndUpdate(userId, fieldsToUpdate, { new: true })
+  return User.findByIdAndUpdate(userId, fieldsToUpdate, updateOptions)
     .then((updatedUser) => {
-      return res.status(success.OK_SUCCESS_CODE).json({
-        message: 'Profile updated successfully.',
-        user: {
-          printName: updatedUser.printName,
-          userName: updatedUser.userName,
-          phone: updatedUser.phone,
-          email: updatedUser.email,
-          country: updatedUser.country,
-          city: updatedUser.city,
-          state: updatedUser.state,
-          address: updatedUser.address,
-          zipcode: updatedUser.zipcode,
-          avatar: updatedUser.avatar, // or avatarPic if that's the field
-        },
-      })
+      if (!updatedUser) {
+        throw new NotFoundError('User not found')
+      }
+      return sendUpdatedUser(res, updatedUser)
     })
     .catch((err) => {
-      console.error(err)
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Error occurred on server.' })
+      return next(normalizeError(err))
     })
 }
 

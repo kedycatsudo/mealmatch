@@ -1,8 +1,7 @@
 PATCH http://localhost:5000/api/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0YmQ3Y2RkMGFlM2E3NTE3MTE0MGUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzU5MTg4NTc3LCJleHAiOjE3NTkyNzQ5Nzd9.kHK6k7RKuwcr9t_4LLhWQvZB4MiqCpgIUsXekERnojA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGViZDgyYTk0MzdjNGRlZmE4N2E4NDAiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYwMjkzNzg0LCJleHAiOjE3NjAzODAxODR9.QjlnM88xOZco5GWMovhPrJYIXyNcPw8bCl8zlX2SRUg
 Content-Type: application/json
 
-{
-  "printName": "forest Wonderland",
-  "city": "San Francisco"
+{"username":"asdasd",
+"password": "asdasd"
 }
