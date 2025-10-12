@@ -20,6 +20,16 @@ function errorHandlerMiddleware(err, req, res, next) {
   // Generate correlation id for server errors
   const errorId = isServerError ? uuidv4() : undefined
 
+  // Multer errors for file size/type
+  if (err.name === 'MulterError') {
+    let message = err.message
+    let statusCode = 400
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      message = 'File too large. Maximum allowed size is 2MB.'
+    }
+    // You could add more Multer error code handling here if needed
+    return res.status(statusCode).json({ message })
+  }
   // Logging: keep the original error logged for diagnostics.
   // For server errors we always log with errorId so you can correlate logs.
   if (isServerError) {

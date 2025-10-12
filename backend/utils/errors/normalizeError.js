@@ -46,11 +46,6 @@ function normalizeError(err) {
     return new UnauthorizedError(err.message || 'Invalid or expired token')
   }
 
-  // Unknown error -> log original in development, then wrap as InternalServerError
-  if (process.env.NODE_ENV === 'development') {
-    // Keep console.error here for development visibility of the original error
-    console.error('normalizeError - original error:', err)
-  }
   // Mongo/Mongoose connection / network / buffering errors
   const msg = (err && err.message) || ''
   const isMongoNetworkError =
@@ -70,6 +65,11 @@ function normalizeError(err) {
     return new InternalServerError(
       'Service temporarily unavailable. Please try again later.'
     )
+  }
+  // Unknown error -> log original in development, then wrap as InternalServerError
+  if (process.env.NODE_ENV === 'development') {
+    // Keep console.error here for development visibility of the original error
+    console.error('normalizeError - original error:', err)
   }
   return new InternalServerError(
     err && err.message ? err.message : 'An unexpected error occurred'

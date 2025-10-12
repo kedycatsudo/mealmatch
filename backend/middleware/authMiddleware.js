@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 
 const errors = require('../utils/errors/errors')
 
+const normalizeError = require('../utils/errors/normalizeError')
+
 const User = require('../models/User')
 
 const authenticate = (req, res, next) => {
@@ -49,6 +51,16 @@ const authenticate = (req, res, next) => {
       next()
     })
     .catch((err) => {
+      // Forward Mongo/network errors to error handler for proper 500 response
+      if (
+        err.name === 'MongoNetworkError' ||
+        err.name === 'MongooseServerSelectionError' ||
+        (err.message && err.message.includes('ECONNREFUSED')) ||
+        (err.message && err.message.includes('buffering timed out')) ||
+        (err.message && err.message.includes('failed to connect to server'))
+      ) {
+        return next(normalizeError(err))
+      }
       if (err.name === 'TokenExpiredError') {
         return res
           .status(errors.UNAUTHORIZED__ERROR_CODE)

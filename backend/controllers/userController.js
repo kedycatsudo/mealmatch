@@ -19,6 +19,7 @@ const {
   NotFoundError,
   ConflictError,
   InternalServerError,
+  UnauthorizedError,
 } = require('../utils/errors/errorClasses')
 const allowedExt = ['.jpg', '.jpeg', '.png', '.gif']
 
@@ -35,13 +36,15 @@ const storage = multer.diskStorage({
   },
 })
 
-const fileFilter = (req, res, cb) => {
+const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase()
   if (allowedExt.includes(ext)) {
     cb(null, true)
   } else {
     cb(
-      new Error('Only image files (.jpg, .jpeg, .png, .gif) are allowed!'),
+      new BadRequestError(
+        'Only image files (.jpg, .jpeg, .png, .gif) are allowed!'
+      ),
       false
     )
   }
@@ -54,24 +57,19 @@ const upload = multer({
 })
 //path /profile/avatar
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const userId = req.user.userId
-  console.log('req.file:', req.file)
-  //file will be on req.file
+  //Multer popultates req.file, handle file errors via Multer error Middleware
   if (!req.file) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'No file uploaded' })
+    return next(new BadRequestError('No file uploaded.'))
   }
 
-  const avatarPath = '/uploads/avatars' + req.file.filename
+  const avatarPath = '/uploads/avatars/' + req.file.filename
 
   User.findByIdAndUpdate(userId, { avatar: avatarPath }, { new: true })
     .then((updatedUser) => {
       if (!updatedUser) {
-        return res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: 'User not found.' })
+        throw new NotFoundError('User not found.')
       }
       return res.status(success.OK_SUCCESS_CODE).json({
         message: 'Avatar updated succesfully.',
@@ -79,10 +77,7 @@ const updateAvatar = (req, res) => {
       })
     })
     .catch((err) => {
-      console.log(err)
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Server Error.', error: err.message })
+      return next(normalizeError(err))
     })
 }
 
@@ -104,7 +99,7 @@ const loginUser = (req, res, next) => {
         return next(new BadRequestError('Invalid Credentials'))
       }
       //compare the password
-      bcrypt.compare(password, user.password).then((isMatch) => {
+      return bcrypt.compare(password, user.password).then((isMatch) => {
         if (!isMatch) {
           return next(new BadRequestError('Invalid Credentials'))
         }
@@ -171,7 +166,7 @@ const registerUser = (req, res, next) => {
       )
     )
   }
-  User.findOne({ userName })
+  User.findOne({ $or: [{ userName }, { email }] })
     .then((userExists) => {
       if (userExists) {
         //Instead of responding throw error
@@ -314,64 +309,68 @@ const updateUserProfile = (req, res, next) => {
 
 //get user info
 
-const getUserProfile = (req, res) => {
+const getUserProfile = (req, res, next) => {
   const userId = req.user.userId
 
   User.findById(userId)
-    .select(`-password -isAdmin`)
+    .select('-password -isAdmin -__v')
+    .lean()
     .then((user) => {
-      if (!user) {
-        return res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: 'User not found' })
+      if (!user) throw new NotFoundError('User not found.')
+      // Send only the fields the UI needs
+      const payload = {
+        printName: user.printName,
+        userName: user.userName,
+        avatar: user.avatar,
+        donationStatus: user.donationStatus,
+        email: user.email, // include only if the UI needs it
+        phone: user.phone, // include only if needed
+        country: user.country,
+        city: user.city,
+        state: user.state,
+        address: user.address,
+        zipcode: user.zipcode,
       }
-
-      //send only necessary fields
-
-      res.status(success.OK_SUCCESS_CODE).json({
-        user: {
-          printName: user.printName,
-          avatar: user.avatar,
-          donationStatus: user.donationStatus, // Access donationStatus directly if it's a field in your User schema
-        },
-      })
+      return res.status(success.OK_SUCCESS_CODE).json({ user: payload })
     })
     .catch((err) => {
-      console.log(err)
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Error occured on server' })
+      return next(normalizeError(err))
     })
 }
 
 //password change
 
-const changePassword = (req, res) => {
+const changePassword = (req, res, next) => {
   const userId = req.user.userId
   const { currentPassword, newPassword } = req.body
 
-  //Validate Input
+  //validate input
   if (!currentPassword || !newPassword) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Both current and new password is required' })
+    return next(
+      new BadRequestError('Both current and new password is required to fill.')
+    )
   }
+
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        return res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: `user not found` })
+        throw new NotFoundError('User not found')
       }
-      //compate current password
+
+      //compare current password
 
       return bcrypt.compare(currentPassword, user.password).then((isMatch) => {
         if (!isMatch) {
-          return res.status(errors.UNAUTHORIZED__ERROR_CODE).json({
-            message: 'Current password can not be same with new password',
-          })
+          throw new UnauthorizedError('Current password is incorrect.')
         }
-        //hash the new  password
+
+        if (currentPassword === newPassword) {
+          throw new BadRequestError(
+            'New password must be different from current password'
+          )
+        }
+        //Hash the new password and save
+
         return bcrypt.hash(newPassword, 10).then((hashedPassword) => {
           user.password = hashedPassword
           return user.save()
@@ -382,31 +381,24 @@ const changePassword = (req, res) => {
       if (updatedUser) {
         return res
           .status(success.OK_SUCCESS_CODE)
-          .json({ message: 'Password changed successfully' })
+          .json({ message: 'Password changed succesfully.' })
       }
     })
     .catch((err) => {
-      console.log(err)
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Server Error' })
+      return next(normalizeError(err))
     })
 }
 
 //delete user
 
-const deleteUser = (req, res) => {
-  const userId = req.user.userId // Authenticated user
+const deleteUser = (req, res, next) => {
+  const userId = req.user.userId
 
   User.findByIdAndDelete(userId)
     .then((deletedUser) => {
       if (!deletedUser) {
-        return res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: 'User not found.' })
+        throw new NotFoundError('User not found.')
       }
-
-      // Optional: Delete all meals donated by this user
       return Meal.deleteMany({ ownerId: userId }).then(() => {
         return res
           .status(success.OK_SUCCESS_CODE)
@@ -414,7 +406,7 @@ const deleteUser = (req, res) => {
       })
     })
     .catch((err) => {
-      res.status(500).json({ message: 'Server error', error: err.message })
+      return next(normalizeError(err))
     })
 }
 
