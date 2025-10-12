@@ -30,7 +30,7 @@ const HomePageFooter = ({}) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        nstagram
+        Instagram
       </a>
     </div>
     <div className="homefooter__container">
