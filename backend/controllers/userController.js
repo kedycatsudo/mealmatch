@@ -1,8 +1,6 @@
 const User = require('../models/User')
 const Meal = require('../models/Meal')
 
-const errors = require('../utils/errors/errors')
-
 const success = require('../utils/succesStatuses')
 
 const bcrypt = require('bcryptjs')
@@ -15,6 +13,7 @@ const multer = require('multer')
 const path = require('path')
 const {
   AppError,
+  ValidationError,
   BadRequestError,
   NotFoundError,
   ConflictError,

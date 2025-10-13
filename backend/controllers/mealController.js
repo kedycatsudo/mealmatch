@@ -1,15 +1,30 @@
 const Meal = require('../models/Meal')
 const User = require('../models/User')
+const normalizeError = require('../utils/errors/normalizeError')
+const mongoose = require('mongoose')
+
 const errors = require(`../utils/errors/errors`)
+const success = require(`../utils/succesStatuses`)
+
+//error classes
+const {
+  AppError,
+  BadRequestError,
+  NotFoundError,
+  ConflictError,
+  InternalServerError,
+  UnauthorizedError,
+  ForbiddenError,
+} = require('../utils/errors/errorClasses')
+
+//nodemailer
 const {
   sendDonationToKarm,
   sendClaimNotificationToOwner,
 } = require('../utils/helpers/nodemailer')
-const mongoose = require('mongoose')
 
-const success = require(`../utils/succesStatuses`)
 // Create a new meal/donation
-const createMeal = (req, res) => {
+const createMeal = (req, res, next) => {
   const {
     mealName,
     postDate,
@@ -29,24 +44,21 @@ const createMeal = (req, res) => {
   function isBlank(str) {
     return typeof str !== 'string' || str.trim() === ''
   }
-
+  //Validation
+  if (typeof servings !== 'number' || Number.isNaN(servings)) {
+    return next(new BadRequestError('Servings must be a number.'))
+  }
   if (isBlank(mealName)) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Meal name cannot be empty.' })
+    return next(new BadRequestError('Meal name cannot be empty'))
+  }
+  if (isBlank(useBy)) {
+    return next(new BadRequestError('Use by date cannot be empty.'))
   }
   if (isBlank(pickUpLoc)) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Pick up location cannot be empty.' })
+    return next(new BadRequestError('Pick up location cannot be empty '))
   }
-  if (isBlank(contactPhone)) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Contact phone cannot be empty.' })
-  }
+  //handle allergens
 
-  // handle allergens
   if (typeof allergens === 'string') {
     allergens = allergens
       .split(',')
@@ -57,34 +69,26 @@ const createMeal = (req, res) => {
   } else if (!allergens) {
     allergens = []
   } else {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Invalid allergens format.' })
+    return next(new BadRequestError('Invalid allergens format'))
   }
 
-  // handle useBy and postDate
+  //handle useBy and postDate
   const today = new Date()
   const postDateObj = new Date(postDate)
   const useByObj = new Date(useBy)
 
   if (useByObj < postDateObj) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Use By date must be after postDate' })
+    return next(new BadRequestError('Use by date must be after postDate'))
   }
   if (useByObj < today.setHours(0, 0, 0, 0)) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'useBy date must be in the future.' })
+    return next(new BadRequestError('useBy date must be in the future'))
   }
 
-  // Duplicate prevention
+  //Duplicate prevention
   Meal.findOne({ ownerId, mealName, postDate })
     .then((existingMeal) => {
       if (existingMeal) {
-        return res
-          .status(errors.BAD_CONFLICT_ERROR_CODE)
-          .json({ message: 'You already submitted this meal for this date.' })
+        throw new ConflictError('You already submitted this meal for this date')
       }
       return Meal.create({
         ownerId,
@@ -101,41 +105,29 @@ const createMeal = (req, res) => {
       })
     })
     .then((meal) => {
-      if (!meal) return // Already handled conflict
-
-      // If karm is true, send email
+      if (!meal) return //already handled conflict
+      //If karm is true, send email to karm
       if (meal.karm) {
-        const emailText =
-          `User: ${ownerName} shared a donation for KARM:\n` +
-          `Meal name: ${meal.mealName}\n` +
-          `Servings: ${meal.servings}\n` +
-          `Pick up location: ${meal.pickUpLoc}\n` +
-          `Contact: ${meal.contactPhone}\n` +
-          `Use by: ${meal.useBy}\n`
-
-        // Compose meal data for handlebars template
-
         const mealForEmail = {
-          ownerName, // Pass this for the template
+          ownerName,
           mealName: meal.mealName,
           servings: meal.servings,
           pickUpLoc: meal.pickUpLoc,
           contactPhone: meal.contactPhone,
           useBy: meal.useBy,
         }
-
         return sendDonationToKarm({
           to: process.env.KARM_ADMIN_EMAIL,
           subject: 'New KARM Food Donation',
           meal: mealForEmail,
         })
-          .then(() =>
+          .then(() => {
             res
               .status(success.CREATED_SUCCESS_CODE)
               .json({ message: 'Meal created (KARM notified)', meal })
-          )
+          })
           .catch((err) => {
-            console.log(err)
+            // Email error should not block meal creation; notify user
             return res.status(success.CREATED_SUCCESS_CODE).json({
               message:
                 'Meal created, but failed to notify KARM admin by email.',
@@ -144,60 +136,46 @@ const createMeal = (req, res) => {
             })
           })
       } else {
-        // No email to send
+        //karm false no email to karm, donation shared at the public list
         return res
           .status(success.CREATED_SUCCESS_CODE)
-          .json({ message: 'Meal created', meal })
+          .json({ message: 'Meal created, and shared at public list.', meal })
       }
     })
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: error.message })
-      } else {
-        res
-          .status(errors.INTERNAL_SERVER_ERROR_CODE)
-          .json({ message: error.message })
-      }
+    .catch((err) => {
+      return next(normalizeError(err))
     })
 }
 
 //Get user`s profile donations
 
-const getMyDonations = (req, res) => {
+const getMyDonations = (req, res, next) => {
   const requestedUserId = req.query.userId
   const authUserId = req.user.userId
-  const { userId } = req.user
 
   if (requestedUserId && requestedUserId !== authUserId) {
-    return res
-      .status(errors.FORBIDDEN_ERROR_CODE)
-      .json({ message: 'You are not allowed to access these meals.' })
+    return next(new ForbiddenError('You are not allowed to access these meals'))
   }
 
-  // calculate status counts
-
-  Meal.find({ ownerId: userId })
+  Meal.find({ ownerId: authUserId })
     .then((meals) => {
-      if (meals.length === 0) {
-        return res
-          .status(success.OK_SUCCESS_CODE)
-          .json({ message: 'There is no donation on your profile' })
-      }
       const totalDonations = meals.length
       const availableDonations = meals.filter(
         (meal) => meal.live === true
       ).length
-      return res
-        .status(success.OK_SUCCESS_CODE)
-        .json({ meals, totalDonations, availableDonations })
+
+      return res.status(success.OK_SUCCESS_CODE).json({
+        meals,
+        totalDonations,
+        availableDonations,
+        message:
+          totalDonations === 0
+            ? 'There is no donation on your profile'
+            : undefined,
+      })
     })
     .catch((err) => {
-      console.log(err)
-      res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: err.message })
+      return next(normalizeError(err))
     })
 }
 

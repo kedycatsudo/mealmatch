@@ -7,3 +7,8 @@ getUserProfile error handling is finished
 changePassword error handling is finished
 deleteUser error handling is finished
 uploadAvatar error handling is finished
+
+
+Meal controllers:
+createMeal handling is finished
+getMyDonations handling is finished
