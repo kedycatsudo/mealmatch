@@ -1,4 +1,4 @@
 POST http://localhost:5000/api/users/login
 Content-Type: application/json
 
-{"userName":"testuser2","password":"testuser123"}
+{"userName":"test4","password":"123doruk123"}

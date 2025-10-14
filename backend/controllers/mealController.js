@@ -181,65 +181,47 @@ const getMyDonations = (req, res, next) => {
 
 // Delete a meal/donation
 
-const deleteMeal = (req, res) => {
+const deleteMeal = (req, res, next) => {
   const mealId = req.params.mealId
   const ownerId = req.user.userId
 
   Meal.findById(mealId)
     .then((meal) => {
       if (!meal) {
-        return res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: 'Meal not found' })
+        return next(new NotFoundError('Meal not found.'))
       }
 
+      //check ownership
       if (meal.ownerId.toString() !== ownerId) {
-        return res
-          .status(errors.FORBIDDEN_ERROR_CODE)
-          .json({ message: 'You are not allowed to delete this meal.' })
+        return next(
+          new ForbiddenError('You are not allowed to delete this meal.')
+        )
       }
 
-      return Meal.deleteOne({ _id: mealId })
-        .then(() => {
-          res
-            .status(success.OK_SUCCESS_CODE)
-            .json({ message: 'Meal deleted successfully.' })
-        })
-        .catch((err) => {
-          if (err.name === 'CastError') {
-            return res
-              .status(errors.BAD_REQUEST_ERROR_CODE)
-              .json({ message: 'Invalid meal id format' })
-          }
-          return res
-            .status(errors.INTERNAL_SERVER_ERROR_CODE)
-            .json({ message: err.message })
-        })
+      return Meal.deleteOne({ _id: mealId }).then(() => {
+        res
+          .status(success.OK_SUCCESS_CODE)
+          .json({ message: 'Meal deleted successfully.' })
+      })
     })
     .catch((err) => {
-      console.log(err)
-      if (err.name === 'CastError') {
-        return res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: 'Invalid meal id format' })
-      }
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: err.message })
+      return next(normalizeError(err))
     })
 }
 
 // Update a meal/donation
 
-const updateMyDonation = (req, res) => {
+const updateMyDonation = (req, res, next) => {
   const mealId = req.params.mealId
   const userId = req.user.userId
   const isAdmin = req.user.isAdmin
 
-  //Only allow these fields to be updated
+  //Only allow these field to be updated
 
   const allowedUpdates = ['mealName', 'useBy', 'karm', 'servings', 'allergens']
+
   const updates = {}
+
   allowedUpdates.forEach((key) => {
     if (key in req.body) updates[key] = req.body[key]
   })
@@ -247,18 +229,13 @@ const updateMyDonation = (req, res) => {
   Meal.findById(mealId)
     .then((meal) => {
       if (!meal) {
-        res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: 'Meal not found' })
-        return
+        return next(new NotFoundError('Meal not found.'))
       }
-      //only owner or adming can update the meal cards
+      //Only owner or adming can update the meal card
+
       if (meal.ownerId.toString() !== userId && !isAdmin) {
-        return res
-          .status(errors.FORBIDDEN_ERROR_CODE)
-          .json({ message: 'Not authorized to update this meal' })
+        return next(new ForbiddenError('Not authorized to update this meal'))
       }
-      //Apply updates
 
       Object.keys(updates).forEach((key) => {
         meal[key] = updates[key]
@@ -266,28 +243,21 @@ const updateMyDonation = (req, res) => {
       return meal.save()
     })
     .then((updatedMeal) => {
-      if (!updatedMeal) return
+      if (!updatedMeal) {
+        return
+      }
       return res
         .status(success.OK_SUCCESS_CODE)
-        .json({ message: 'Meal updated succesfully.' })
+        .json({ message: 'Meal updated succesfully.', updatedMeal })
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: 'Make sure you filled with proper value.' })
-      }
-
-      console.log('error name:' + err.name)
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Server Error' })
+      return next(normalizeError(err))
     })
 }
 
 // get Available public donations
 
-const getExploreMeals = (req, res) => {
+const getExploreMeals = (req, res, next) => {
   Meal.find({ karm: false, live: true })
     .select('mealName useBy servings postDate allergens')
     .sort({ postDate: -1 })
@@ -300,46 +270,35 @@ const getExploreMeals = (req, res) => {
       return res.status(success.OK_SUCCESS_CODE).json({ meals })
     })
     .catch((err) => {
-      console.log(err)
-      res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Error occured on server' })
+      return next(normalizeError(err))
     })
 }
 
 // claim Meal
 
-const claimMeal = (req, res) => {
+const claimMeal = (req, res, next) => {
   const userId = req.user.userId
   const mealId = req.params.mealId
 
   //Validate mealId format
-
   if (!mongoose.Types.ObjectId.isValid(mealId)) {
-    return res
-      .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Invalid meal ID format' })
+    return next(new BadRequestError('Invalid meal ID format'))
   }
-  // 2. Check if user already has an active claim (not picked up)
+  //Check if the user has already an active claim (not picked up)
   Meal.findOne({ claimedUpBy: userId, pickedUp: false })
     .then((activeClaim) => {
       if (activeClaim) {
-        return res
-          .status(errors.FORBIDDEN_ERROR_CODE)
-          .json({ message: 'You already have an active claim' })
+        return next(new ForbiddenError('You already have an active claim'))
       }
+
       //Find the meal to claim
 
       return Meal.findById(mealId).then((meal) => {
         if (!meal) {
-          return res
-            .status(errors.NOT_FOUND_ERROR_CODE)
-            .json({ message: 'Meal not found' })
+          return next(new NotFoundError('Meal not found'))
         }
         if (meal.pickedUp) {
-          return res
-            .status(errors.BAD_CONFLICT_ERROR_CODE)
-            .json({ message: 'Meal already picked up' })
+          return next(new ConflictError('Meal already picked up'))
         }
         if (meal.claimedUpBy) {
           const now = new Date()
@@ -349,26 +308,25 @@ const claimMeal = (req, res) => {
             meal.claimedUpAt = null
             meal.hold = false
           } else {
-            return res
-              .status(errors.BAD_CONFLICT_ERROR_CODE)
-              .json({ message: 'Meal is currently claimed by another user' })
+            return next(
+              new ConflictError('Meal is currently claimed by another user')
+            )
           }
         }
-        // 4. Set claim info
+
+        // set claim info
         meal.claimedUpBy = userId
         meal.claimedUpAt = new Date()
         meal.hold = true
-
         return meal.save().then((updatedMeal) => {
-          // Respond with essential info for frontend
           // --- BEGIN EMAIL NOTIFICATION ---
 
           User.findById(updatedMeal.ownerId)
             .then((ownerUser) => {
               if (!ownerUser || !ownerUser.email) {
-                // owner doesn't exist or has no email; skip email
-                return
+                return //owner doesn`t exist or hsa no email; skip email
               }
+
               // Get claimant's name (from req.userDoc or req.user)
 
               const claimerName =
@@ -384,7 +342,7 @@ const claimMeal = (req, res) => {
               const mealForEmail = {
                 mealName: updatedMeal.mealName,
                 postDate: updatedMeal.postDate.toLocaleString(),
-                claimedUpAt,
+                claimedUpAt: updatedMeal.claimedUpAt,
                 claimerName,
               }
 
@@ -393,14 +351,13 @@ const claimMeal = (req, res) => {
                 subject: 'Your meal has been claimed!',
                 meal: mealForEmail,
               }).catch((err) => {
-                console.log(err)
-                console.log(`Failed to send claim notification email`, e)
+                console.log('Failed to send claim notification emal', err)
               })
             })
             .finally(() => {
-              //respond to the fronted as before
+              //Respond to the frontend as before
               return res.status(success.OK_SUCCESS_CODE).json({
-                message: 'Meal succesfully claimed!',
+                message: 'Meal successfully claimed!',
                 meal: {
                   _id: updatedMeal._id,
                   mealName: updatedMeal.mealName,
@@ -412,56 +369,42 @@ const claimMeal = (req, res) => {
                 },
               })
             })
-          // --- END EMAIL NOTIFICATION ---
         })
       })
     })
     .catch((err) => {
-      console.log(err)
       if (err.name === 'CastError') {
-        return res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: 'Invalid meal ID format' })
+        return next(new BadRequestError('Invalid meal ID format'))
       }
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Error occured on server' })
+      return next(normalizeError(err))
     })
 }
 
 //unclaim Meal
 
-const unclaimMeal = (req, res) => {
+const unclaimMeal = (req, res, next) => {
   const userId = req.user.userId
   const mealId = req.params.mealId
 
   if (!mongoose.Types.ObjectId.isValid(mealId)) {
     return res
       .status(errors.BAD_REQUEST_ERROR_CODE)
-      .json({ message: 'Invaild meal ID format' })
+      .json({ message: 'Invalid meal ID format' })
   }
 
   Meal.findById(mealId)
     .then((meal) => {
       if (!meal) {
-        return res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: 'Meal not founded' })
+        return next(new NotFoundError('Meal not found'))
       }
       if (meal.pickedUp) {
-        return res
-          .status(errors.BAD_CONFLICT_ERROR_CODE)
-          .json({ message: 'Meal already picked up' })
+        return next(new ConflictError('Meal already picked up'))
       }
       if (!meal.claimedUpBy) {
-        return res
-          .status(errors.BAD_CONFLICT_ERROR_CODE)
-          .json({ message: 'Meal is not currently claimed' })
+        return next(new ConflictError('Meal is not currently claimed'))
       }
       if (meal.claimedUpBy.toString() !== userId) {
-        return res
-          .status(errors.FORBIDDEN_ERROR_CODE)
-          .json({ message: 'You are not the claimer of this meal' })
+        return next(new ForbiddenError('You are not the claimer of this meal'))
       }
 
       //Unclaim the meal
@@ -479,43 +422,35 @@ const unclaimMeal = (req, res) => {
             pickUpLoc: updatedMeal.pickUpLoc,
             claimedUpBy: updatedMeal.claimedUpBy,
             claimedUpAt: updatedMeal.claimedUpAt,
-            pickUpLoc: updatedMeal.pickedUp,
+            pickedUp: updatedMeal.pickedUp,
             hold: updatedMeal.hold,
           },
         })
       })
     })
     .catch((err) => {
-      console.log(err)
       if (err.name === 'CastError') {
-        return res
-          .status(errors.BAD_REQUEST_ERROR_CODE)
-          .json({ message: 'Invalid meal ID format' })
+        return next(new BadRequestError('Invalid meal ID format'))
       }
-      return res
-        .status(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: 'Error occured on server' })
+      return next(normalizeError(err))
     })
 }
 
-const completeMealPickUp = (req, res) => {
-  const { mealId } = req.params
+const completeMealPickUp = (req, res, next) => {
+  const mealId = req.params.mealId
   const userId = req.user.userId
 
   Meal.findById(mealId)
     .then((meal) => {
       if (!meal) {
-        return res
-          .status(errors.NOT_FOUND_ERROR_CODE)
-          .json({ message: `Meal not found.` })
+        return next(new NotFoundError('Meal not found.'))
       }
 
-      //only the meal owner can complete pickup
-
+      // only the meal owner can complete pickup
       if (meal.ownerId.toString() !== userId) {
-        return res
-          .status(errors.FORBIDDEN_ERROR_CODE)
-          .json({ message: 'You are not allow to update this meal.' })
+        return next(
+          new ForbiddenError('You are not allowed to update this meal.')
+        )
       }
 
       meal.live = false
@@ -531,10 +466,7 @@ const completeMealPickUp = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err)
-      res
-        .statu(errors.INTERNAL_SERVER_ERROR_CODE)
-        .json({ message: `Server error`, error: err.message })
+      return next(normalizeError(err))
     })
 }
 

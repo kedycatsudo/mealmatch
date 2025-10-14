@@ -1,11 +1,10 @@
-PATCH http://localhost:5000/api/meals/profile/68d4b5f16083e27c1980b1ed
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGViZDgyYTk0MzdjNGRlZmE4N2E4NDAiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYwMjg2Nzc1LCJleHAiOjE3NjAzNzMxNzV9.56bhnJkql9b7EhaTXpa9xN6qa0Q9TM3gapEw2kUI3CY
+PATCH http://localhost:5000/api/meals/profile/68eda3128c6781c6b414a440
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGVkNjVhYjc1OGQ2MWJmOTkwOTk2MGMiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYwNDA2NjI3LCJleHAiOjE3NjA0OTMwMjd9._D9vvhGw2uKweePUjvcO405gZKAy7b6UE1-JkXlmeqM
 Content-Type: application/json
 
 {
   "mealName": "New Name",
-  "useBy": "2025-10-01T18:00:00Z",
-  "karm": false,
+  "karm": true,
   "servings": 5,
   "allergens": ["peanuts", "soy"]
 }

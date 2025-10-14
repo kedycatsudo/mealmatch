@@ -12,3 +12,8 @@ uploadAvatar error handling is finished
 Meal controllers:
 createMeal handling is finished
 getMyDonations handling is finished
+deleteMeal handling is finished
+getExploreMeals handling is finished
+updateMyDonation handling is finished
+claimMeal handling is finished
+unclaimMeal handling is finished
