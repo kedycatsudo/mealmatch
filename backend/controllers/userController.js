@@ -165,11 +165,21 @@ const registerUser = (req, res, next) => {
       )
     )
   }
-  User.findOne({ $or: [{ userName }, { email }] })
+  const normalizedEmail = email.trim().toLowerCase()
+  const normalizedUserName = userName.trim() // .toLowerCase() if you want case-insensitive
+
+  User.findOne({
+    $or: [{ userName: normalizedUserName }, { email: normalizedEmail }],
+  })
     .then((userExists) => {
       if (userExists) {
-        //Instead of responding throw error
-        throw new BadRequestError('User already exist.')
+        if (userExists.email === normalizedEmail) {
+          throw new BadRequestError('Email already exists.')
+        }
+        if (userExists.userName === normalizedUserName) {
+          throw new BadRequestError('Username already exists.')
+        }
+        throw new BadRequestError('User already exists.')
       }
       return bcrypt.hash(password, 10)
     })
@@ -194,17 +204,21 @@ const registerUser = (req, res, next) => {
     })
     .then((user) => {
       if (!user) return
-
-      return res
-        .status(success.CREATED_SUCCESS_CODE)
-        .json({ message: 'User registered succesfully.', user })
+      const userObjNoPasswd = user.toObject
+      delete userObj.password
+      return res.status(success.CREATED_SUCCESS_CODE).json({
+        message: 'User registered succesfully.',
+        user: userObjNoPasswd,
+      })
     })
     .catch((err) => {
-      console.log(err)
-      // Normalize unknown errors and forward to centralized handler
-
-      const normalized = normalizeError(err)
-      return next(normalized)
+      // Handle duplicate key error from MongoDB
+      if (err && err.code === 11000 && err.keyValue) {
+        const field = Object.keys(err.keyValue)[0]
+        return next(new BadRequestError(`${field} already exists.`))
+      }
+      // Normalize unknown errors and forward
+      return next(normalizeError(err))
     })
 }
 

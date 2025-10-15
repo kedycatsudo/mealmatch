@@ -17,3 +17,4 @@ getExploreMeals handling is finished
 updateMyDonation handling is finished
 claimMeal handling is finished
 unclaimMeal handling is finished
+completeMealPickUp handling is finished

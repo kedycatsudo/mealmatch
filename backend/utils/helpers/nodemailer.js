@@ -56,7 +56,7 @@ function sendDonationToKarm({ to, subject, meal }) {
  * @returns {Promise} resolves when the email is sent
  */
 
-function sendClaimNotificationToOwner({ to, subject, meal }) {
+function sendClaimNotificationToOwner({ to, subject, meal, text }) {
   const templateSrc = fs.readFileSync(
     path.join(__dirname, 'email_templates', 'donationClaimEmail.html'),
     'utf8'
@@ -71,7 +71,9 @@ function sendClaimNotificationToOwner({ to, subject, meal }) {
     to,
     subject,
     html,
-    text: `Your meal"${meal.mealName}"(posted:${meal.postDate}) was claimed by ${meal.claimedUpBy} at ${meal.claimedUpAt}`,
+    text:
+      text ||
+      `Your meal "${meal.mealName}" (posted: ${meal.postDate}) was claimed by ${meal.claimedUpBy} at ${meal.claimedUpAt}`,
   }
   return transporter.sendMail(mailoptions)
 }

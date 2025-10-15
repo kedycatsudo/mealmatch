@@ -455,15 +455,58 @@ const completeMealPickUp = (req, res, next) => {
 
       meal.live = false
       meal.pickedUp = true
-      meal.claimedUpAt = new Date()
+      meal.pickedUpAt = new Date()
       return meal.save()
     })
+
     .then((updatedMeal) => {
-      if (updatedMeal) {
-        res
+      if (!updatedMeal) return
+      const ownerId = updatedMeal.ownerId
+      if (!ownerId) {
+        // No owner, just respond
+        return res
           .status(success.OK_SUCCESS_CODE)
           .json({ message: 'Meal marked as picked up', meal: updatedMeal })
       }
+      // Find owner for notification
+      return User.findById(ownerId)
+        .then((ownerUser) => {
+          // Prepare email content for owner
+          const mealForEmail = {
+            mealName: updatedMeal.mealName,
+            pickUpDate: updatedMeal.pickedUpAt
+              ? updatedMeal.pickedUpAt.toLocaleString()
+              : '',
+            postDate: updatedMeal.postDate
+              ? updatedMeal.postDate.toLocaleString()
+              : '',
+            claimedUpBy: updatedMeal.claimedUpBy || 'N/A',
+            ownerName:
+              (ownerUser &&
+                (ownerUser.printName ||
+                  ownerUser.name ||
+                  ownerUser.userName)) ||
+              'MealMatch Owner',
+          }
+
+          // Send email to owner
+          if (ownerUser && ownerUser.email) {
+            return sendClaimNotificationToOwner({
+              to: ownerUser.email,
+              subject: 'Your donation pickup is completed',
+              meal: mealForEmail,
+              text: `Your meal "${mealForEmail.mealName}" (posted: ${mealForEmail.postDate}) was picked up${mealForEmail.claimedUpBy !== 'N/A' ? ` by ${mealForEmail.claimedUpBy}` : ''} at ${mealForEmail.pickUpDate}.`,
+            }).catch((err) => {
+              console.log('Failed to send pickup notification email', err)
+            })
+          }
+        })
+        .finally(() => {
+          // Respond to frontend as before
+          return res
+            .status(success.OK_SUCCESS_CODE)
+            .json({ message: 'Meal marked as picked up', meal: updatedMeal })
+        })
     })
     .catch((err) => {
       return next(normalizeError(err))

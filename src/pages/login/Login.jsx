@@ -1,5 +1,5 @@
 import './Login.css'
-import React, { useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../../components/common/inputs/Inputs'
 import Button from '../../components/common/buttons/Buttons'
@@ -120,7 +120,7 @@ function Login() {
         <Button
           type="button"
           variant="link"
-          text="Do you have an account?"
+          text="Create account"
           onClick={() => navigate('/register')}
         ></Button>
         <div className="login__container-rememberme-container">
