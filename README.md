@@ -1,13 +1,59 @@
-# React + Vite
+# MealMatch Backend API
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the backend API for the MealMatch project. It provides RESTful endpoints for user authentication, profile management, and meal sharing/claiming.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [User Controllers](#user-controllers)
+- [Meal Controllers](#meal-controllers)
+- [General Usage](#general-usage)
+- [Authentication](#authentication)
+- [CORS](#cors)
+- [Contact](#contact)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# mealmatch
+## User Controllers
+
+- `registerUser` — Register a new user account.
+- `loginUser` — Log in and receive a JWT token.
+- `updateUserProfile` — Update user profile information.
+- `getUserProfile` — Get current user's profile.
+- `changePassword` — Change user password.
+- `deleteUser` — Delete current user account.
+- `updateAvatar` — Update user avatar image.
+- `upload` — General upload endpoint.
+
+---
+
+## Meal Controllers
+
+- `createMeal` — Create a new meal donation.
+- `deleteMeal` — Delete a meal.
+- `getMyDonations` — Get all donations by the current user.
+- `updateMyDonation` — Update your own donation.
+- `getExploreMeals` — Explore available meals for claiming.
+- `claimMeal` — Claim an available meal.
+- `unclaimMeal` — Unclaim a meal you have claimed.
+- `completeMealPickUp` — Mark a meal as picked up.
+
+---
+
+## General Usage
+
+- All endpoints are RESTful and return JSON.
+- Protected endpoints require a JWT token in the `Authorization` header (`Bearer <token>`).
+- CORS is enabled for all origins.
+
+## Authentication
+
+- Register and login endpoints are public.
+- All other user and meal endpoints require authentication.
+
+## CORS
+
+- CORS is enabled globally with `app.use(cors())`.
+
+## Contact
+
+For questions or issues, open an issue on [GitHub](https://github.com/kedycatsudo/mealmatch).
