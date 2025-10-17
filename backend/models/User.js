@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema(
   {
     avatar: { type: String, required: false }, // 'required: false' is optional, default is not required
-    printName: { type: String, required: true },
+    printName: { type: String },
     userName: { type: String, required: true, unique: true },
     email: {
       type: String,
@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'],
     },
-    isKarmDonor: { type: Boolean, required: true },
+    isKarmDonor: { type: Boolean },
     phone: { type: String },
     country: { type: String },
     city: { type: String },

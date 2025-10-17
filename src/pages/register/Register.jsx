@@ -5,10 +5,11 @@ import Button from '../../components/common/buttons/Buttons'
 import Checkbox from '../../components/common/checbox/Checkbox'
 import { ParticipantContext } from '../../context/ParticipantContext'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { apiRequest } from '../../api'
 
 function Register() {
   const navigate = useNavigate()
-  const { users, setCurrentUser, loading } = useContext(ParticipantContext)
+  const { loading, error, setError } = useContext(ParticipantContext)
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
@@ -16,8 +17,8 @@ function Register() {
     zipCode: '',
     termsCheckbox: false,
   })
-  const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [localLoading, setLocalLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -27,43 +28,52 @@ function Register() {
     }))
   }
 
+  if (loading) {
+    return (
+      <div className="register__container">
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
     setSuccess('')
 
-    // Simulate registration logic for MVP
-    // Check if username or email already exists
-    const userExists = users.some(
-      (u) => u.userName === formData.userName || u.email === formData.email
-    )
-    if (userExists) {
-      setError('Username or email already registered.')
-      return
-    }
     if (!formData.termsCheckbox) {
-      setError('You must accept the terms and conditions.')
+      setError('You must accept the terms and conditions')
       return
     }
-    // For MVP, just add user to context
-    const newUser = {
-      _id: Date.now().toString(),
+    setLocalLoading(true)
+
+    // Backend expects "zipcode", not "zipCode"
+
+    const payload = {
       userName: formData.userName,
-      printName: formData.userName,
       email: formData.email,
-      zipCode: formData.zipCode,
-      // password is not stored for MVP
+      password: formData.password,
+      zipcode: formData.zipCode,
     }
-    users.push(newUser) // This won't persist; for MVP only
-    setCurrentUser(newUser)
-    setSuccess('Registration successful! You are now logged in.')
-    setFormData({
-      userName: '',
-      password: '',
-      email: '',
-      zipCode: '',
-      termsCheckbox: false,
+    apiRequest('/api/users/register', {
+      method: 'POST',
+      body: JSON.stringify(payload),
     })
+      .then((data) => {
+        setSuccess('Registration succesful! Please log in')
+        setFormData({
+          userName: '',
+          password: '',
+          email: '',
+          zipCode: '',
+          termsCheckbox: false,
+        })
+        setTimeout(() => navigate('/login'), 1500)
+      })
+      .catch((err) => {
+        setError(err.message)
+      })
+      .finally(() => setLocalLoading(false))
   }
 
   if (loading) {

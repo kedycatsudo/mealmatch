@@ -204,8 +204,8 @@ const registerUser = (req, res, next) => {
     })
     .then((user) => {
       if (!user) return
-      const userObjNoPasswd = user.toObject
-      delete userObj.password
+      const userObjNoPasswd = user.toObject()
+      delete userObjNoPasswd.password
       return res.status(success.CREATED_SUCCESS_CODE).json({
         message: 'User registered succesfully.',
         user: userObjNoPasswd,
