@@ -40,7 +40,10 @@ function errorHandlerMiddleware(err, req, res, next) {
   }
 
   // Prepare client-facing message
-  let clientMessage = err && err.message ? err.message : 'Internal Server Error'
+  let clientMessage =
+    err && typeof err.message === 'string' && err.message
+      ? err.message
+      : 'Internal Server Error'
 
   // For production server errors, avoid exposing internals; provide a friendly message
   if (isServerError && process.env.NODE_ENV !== 'development') {

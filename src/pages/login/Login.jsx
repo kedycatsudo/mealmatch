@@ -6,18 +6,20 @@ import Button from '../../components/common/buttons/Buttons'
 import Checkbox from '../../components/common/checbox/Checkbox'
 import { ParticipantContext } from '../../context/ParticipantContext'
 import InformationModal from '../../components/common/modals/informationModals/InformationModal'
+import { apiRequest } from '../../api'
 
 function Login() {
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [showForgotUsername, setShowForgotUsername] = useState(false)
   const navigate = useNavigate()
-  const { users, setCurrentUser, loading } = useContext(ParticipantContext)
+  const { login, loading, error, setError } = useContext(ParticipantContext)
+  const [localLoading, setLocalLoading] = useState('')
+
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
     rememberMe: false,
   })
-  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -29,23 +31,40 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (loading) return // Prevent submit during loading
-    // Find user in context
-    const foundUser = users.find((u) => u.userName === formData.userName)
-    if (foundUser) {
-      setCurrentUser(foundUser)
-      setFormData({ userName: '', password: '', rememberMe: false })
-      setError('')
-      navigate('/menu')
-    } else {
-      setError('Invalid username or password')
-    }
-  }
+    if (loading || localLoading) return //prevent submit during loading
+    setError('')
+    setLocalLoading(true)
 
+    //backend expects userName and password
+    const payload = { userName: formData.userName, password: formData.password }
+    apiRequest('/api/users/login', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+      .then((data) => {
+        //backend should return {user,token}
+        if (data && data.user && data.token) {
+          login(data.user, data.token)
+          setFormData({ userName: '', password: '', rememberMe: false })
+          setError('')
+          navigate('/menu')
+        } else {
+          setError('Login failed. Please try again ')
+        }
+      })
+      .catch((err) => {
+        setError(
+          err.message && err.message !== 'API error: 401'
+            ? err.message
+            : 'Invalid username or password'
+        )
+      })
+      .finally(() => setLocalLoading(false))
+  }
   if (loading) {
     return (
       <div className="login__container">
-        <div>Loading users...</div>
+        <div>Loading...</div>
       </div>
     )
   }

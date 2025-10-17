@@ -95,7 +95,7 @@ const loginUser = (req, res, next) => {
   User.findOne({ userName })
     .then((user) => {
       if (!user) {
-        return next(new BadRequestError('Invalid Credentials'))
+        return next(new UnauthorizedError('Invalid Credentials'))
       }
       //compare the password
       return bcrypt.compare(password, user.password).then((isMatch) => {
