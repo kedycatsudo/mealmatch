@@ -11,7 +11,7 @@ import {
 import Button from '../../../common/buttons/Buttons'
 import { useContext } from 'react'
 const HowItWorksContainer = () => {
-  const { users, currentUser, loading } = useContext(ParticipantContext)
+  const { currentUser, loading } = useContext(ParticipantContext)
 
   const navigate = useNavigate()
   return (
@@ -91,7 +91,7 @@ const HowItWorksContainer = () => {
             text="Join as a Karm Donor"
             variant="secondary"
             onClick={() => {
-              currentUser ? navigate('/register') : navigate('/login')
+              navigate('/register')
             }}
             disabled={loading}
           />
