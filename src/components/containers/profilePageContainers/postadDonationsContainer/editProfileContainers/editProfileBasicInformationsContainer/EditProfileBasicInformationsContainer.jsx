@@ -7,16 +7,16 @@ import ChangePasswordModal from '../../../../../common/modals/editProfileModal/c
 import useEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
 
 const EditProfileBasicInformationsContainer = ({
-  setCurrentUser,
+  draftProfile,
+  setDraftProfile,
   currentUser,
 }) => {
   const fileInputRef = useRef()
 
   const [showModal, setShowModal] = useState(false)
-
-  if (!currentUser) return null
-
   useEffectShowModal(showModal)
+
+  if (!draftProfile) return null
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -29,8 +29,7 @@ const EditProfileBasicInformationsContainer = ({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setCurrentUser({ ...currentUser, [name]: value })
-    // TODO: Save to backend after editing or on submit!
+    setDraftProfile({ ...draftProfile, [name]: value })
   }
 
   return (
@@ -70,8 +69,7 @@ const EditProfileBasicInformationsContainer = ({
         {showModal && (
           <div className="modal-overlay">
             <ChangePasswordModal
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+              currentUser={draftProfile}
               onClose={() => setShowModal(false)}
             ></ChangePasswordModal>
           </div>
@@ -79,7 +77,7 @@ const EditProfileBasicInformationsContainer = ({
       </div>
       <Input
         name="printName"
-        value={currentUser.printName}
+        value={draftProfile.printName || ''}
         onChange={handleInputChange}
         variant="text"
         text={'Print Name'}
@@ -88,7 +86,7 @@ const EditProfileBasicInformationsContainer = ({
       ></Input>
       <Input
         name="userName"
-        value={currentUser.userName || ''}
+        value={draftProfile.userName || ''}
         onChange={handleInputChange}
         variant="text"
         text="User Name"

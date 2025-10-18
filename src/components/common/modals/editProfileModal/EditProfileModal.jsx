@@ -8,12 +8,19 @@ import EditProfileAddressesContainer from '../../../containers/profilePageContai
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
 import { useState, useEffect } from 'react'
 import InformationModal from '../informationModals/InformationModal'
+import { updateUserProfileApi } from '../../../../api'
 
 const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [shouldNavigate, setShouldNavigate] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [draftProfile, setDraftProfile] = useState(null)
+
+  useEffect(() => {
+    setDraftProfile(currentUser) // initialize draft on modal open
+  }, [currentUser])
+
   const navigate = useNavigate()
   useEffect(() => {
     if (!showModal && shouldNavigate) {
@@ -30,12 +37,15 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
     setIsSaving(true)
-
-    //Todo: save changes to backend or context
-    setTimeout(() => {
-      setIsSaving(false)
-      setShowModal(true)
-    }, 1200)
+    updateUserProfileApi(draftProfile)
+      .then((data) => {
+        setCurrentUser(data.user) // update context/global state
+        setShowModal(true)
+      })
+      .catch((err) => {
+        alert(err.message || 'Could not update Profile')
+      })
+      .finally(() => setIsSaving(false))
   }
 
   return (
@@ -47,22 +57,23 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
         <ContainerSeperation text={'Basic Informations'}></ContainerSeperation>
         <div className="edit__modal-basic">
           <EditProfileBasicInformationsContainer
-            setCurrentUser={setCurrentUser}
             currentUser={currentUser}
+            draftProfile={draftProfile}
+            setDraftProfile={setDraftProfile}
           ></EditProfileBasicInformationsContainer>
         </div>
         <ContainerSeperation text={'Contacts'}></ContainerSeperation>
         <div className="edit__modal-contacts">
           <EditProfileContactsContainer
-            setCurrentUser={setCurrentUser}
-            currentUser={currentUser}
+            draftProfile={draftProfile}
+            setDraftProfile={setDraftProfile}
           ></EditProfileContactsContainer>
         </div>
         <ContainerSeperation text={'Address'}></ContainerSeperation>
         <div className="edit__modal-address">
           <EditProfileAddressesContainer
-            setCurrentUser={setCurrentUser}
-            currentUser={currentUser}
+            draftProfile={draftProfile}
+            setDraftProfile={setDraftProfile}
           ></EditProfileAddressesContainer>
         </div>
         <Button

@@ -1,18 +1,18 @@
 import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileContactsContainer.css'
 
-const EditProfileContactsContainer = ({ currentUser, setCurrentUser }) => {
-  if (!currentUser) return null
+const EditProfileContactsContainer = ({ draftProfile, setDraftProfile }) => {
+  if (!draftProfile) return null
 
   const handleContactChange = (e) => {
     const { name, value } = e.target
-    setCurrentUser((prev) => ({ ...prev, [name]: value }))
+    setDraftProfile((prev) => ({ ...prev, [name]: value }))
   }
   return (
     <>
       <Input
         name="phone"
-        value={currentUser.phone}
+        value={draftProfile.phone || ''}
         type="tel"
         onChange={handleContactChange}
         variant="text"
@@ -22,7 +22,7 @@ const EditProfileContactsContainer = ({ currentUser, setCurrentUser }) => {
       ></Input>
       <Input
         name="email"
-        value={currentUser.email}
+        value={draftProfile.email || ''}
         type="email"
         onChange={handleContactChange}
         variant="text"

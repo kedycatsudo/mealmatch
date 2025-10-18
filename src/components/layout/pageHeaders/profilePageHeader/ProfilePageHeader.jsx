@@ -30,20 +30,24 @@ const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
       <div className="header__container">
         <img
           className="profile__header-avatar"
-          src={avatar}
-          alt={`${currentUser.userName} avatar`}
+          src={avatarSrc}
+          alt={
+            currentUser && currentUser.userName
+              ? `${currentUser.userName} avatar`
+              : 'User avatar'
+          }
         ></img>
 
-        <p className="header__container-paragraph">{currentUser.userName}</p>
+        <p className="header__container-paragraph">
+          {currentUser && currentUser.userName ? currentUser.userName : 'User'}
+        </p>
       </div>
 
       <Button
         onClick={() => setShowModal(true)}
         text="Edit Profile"
         className="header__container-btn"
-      >
-        <img alt="edit profile" src={MenuIcon}></img>
-      </Button>
+      ></Button>
       {showModal && (
         <div className="modal-overlay">
           <EditProfileModal

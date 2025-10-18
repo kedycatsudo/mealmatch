@@ -14,7 +14,13 @@ dotenv.config()
 const app = express()
 
 //Middleware
-app.use(cors()) // Enable CORS
+// Enable CORS
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // <-- your frontend's URL
+    credentials: true, // <-- allow credentials (cookies, auth headers)
+  })
+)
 
 //MongoDb connection
 
@@ -42,7 +48,7 @@ const mealRoutes = require('./routes/mealRoutes')
 
 app.use('/uploads', express.static('backend/uploads'))
 
-app.use('/api/users/login', loginLimiter)
+// app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
 app.use('/api/meals', mealRoutes)
 

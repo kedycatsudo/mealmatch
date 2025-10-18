@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { ParticipantContext } from '../../context/ParticipantContext'
 import InformationModal from '../../components/common/modals/informationModals/InformationModal'
 const Profile = () => {
-  const { users, setCurrentUser, currentUser, loading } =
+  const { setCurrentUser, currentUser, loading } =
     useContext(ParticipantContext)
   if (loading) {
     return (

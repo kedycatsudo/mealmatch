@@ -292,7 +292,7 @@ const updateUserProfile = (req, res, next) => {
       .then((existing) => {
         if (existing) {
           //email already in use
-          throw new ConflictError('Email alread in use')
+          throw new ConflictError('Email already in use')
         }
         return User.findByIdAndUpdate(userId, fieldsToUpdate, updateOptions)
       })

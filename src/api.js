@@ -34,3 +34,35 @@ export function apiRequest(endpoint, options = {}) {
     }
   )
 }
+export function updateUserProfileApi(updatedProfile) {
+  const token = localStorage.getItem('token')
+  function handleText(res, text) {
+    var data
+    try {
+      data = JSON.parse(text)
+    } catch (e) {
+      data = text
+    }
+    if (!res.ok) {
+      if (typeof data === 'object' && data !== null) {
+        return Promise.reject(data)
+      } else {
+        return Promise.reject({ message: data })
+      }
+    }
+    return data
+  }
+
+  function parseResponse(res) {
+    return res.text().then(handleText.bind(null, res))
+  }
+
+  return fetch(`${API_URL}/api/users/profile`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}), // Only add if token exists
+    },
+    body: JSON.stringify(updatedProfile),
+  }).then(parseResponse)
+}

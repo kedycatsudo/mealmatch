@@ -1,19 +1,20 @@
 import './EditProfileAdressesContainer.css'
 import Input from '../../../../../common/inputs/Inputs'
 
-const EditProfileAddressesContainer = ({ currentUser, setCurrentUser }) => {
-  if (!currentUser) return null
-  const handleContactChange = (e) => {
+const EditProfileAddressesContainer = ({ draftProfile, setDraftProfile }) => {
+  if (!draftProfile) return null
+
+  const handleAddressChange = (e) => {
     const { name, value } = e.target
-    setCurrentUser((prev) => ({ ...prev, [name]: value }))
+    setDraftProfile((prev) => ({ ...prev, [name]: value }))
   }
   return (
     <>
       <Input
         name="country"
-        value={currentUser.country || ''}
+        value={draftProfile.country || ''}
         type="text"
-        onChange={handleContactChange}
+        onChange={handleAddressChange}
         variant="text"
         text="Country"
         className="edit__profile_addresses-input"
@@ -21,9 +22,9 @@ const EditProfileAddressesContainer = ({ currentUser, setCurrentUser }) => {
       ></Input>
       <Input
         name="city"
-        value={currentUser.city || ''}
+        value={draftProfile.city || ''}
         type="text"
-        onChange={handleContactChange}
+        onChange={handleAddressChange}
         variant="text"
         text="City"
         className="edit__profile_addresses-input"
@@ -31,9 +32,9 @@ const EditProfileAddressesContainer = ({ currentUser, setCurrentUser }) => {
       ></Input>
       <Input
         name="state"
-        value={currentUser.state || ''}
+        value={draftProfile.state || ''}
         type="text"
-        onChange={handleContactChange}
+        onChange={handleAddressChange}
         variant="text"
         text="State/Province/area"
         className="edit__profile_addresses-input"
@@ -41,9 +42,9 @@ const EditProfileAddressesContainer = ({ currentUser, setCurrentUser }) => {
       ></Input>
       <Input
         name="address"
-        value={currentUser.address || ''}
+        value={draftProfile.address || ''}
         type="text"
-        onChange={handleContactChange}
+        onChange={handleAddressChange}
         variant="text"
         text="Address"
         className="edit__profile_addresses-input"
@@ -51,9 +52,9 @@ const EditProfileAddressesContainer = ({ currentUser, setCurrentUser }) => {
       ></Input>
       <Input
         name="zipCode"
-        value={currentUser.zipCode || ''}
+        value={draftProfile.zipCode || ''}
         type="number"
-        onChange={handleContactChange}
+        onChange={handleAddressChange}
         variant="text"
         text="Zip Code"
         className="edit__profile_addresses-input"
