@@ -25,9 +25,10 @@ export function apiRequest(endpoint, options = {}) {
               errData.message || `API error: ${response.status}`
             throw new Error(errorMessage)
           })
-          .catch((err) => {
-            console.error(err)
-            throw new Error(`API error: ${response.status}`)
+          .catch((errData) => {
+            const errorMessage =
+              errData.message || `API error: ${response.status}`
+            throw new Error(errorMessage)
           })
       }
       return response.json()
