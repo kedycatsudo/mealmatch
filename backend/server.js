@@ -4,7 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
-
+const path = require('path')
 const errorHandlerMiddleware = require('./middleware/errorHandlerMiddleware')
 
 //Load environment variables from . env file
@@ -46,7 +46,7 @@ const userRoutes = require('./routes/userRoutes')
 
 const mealRoutes = require('./routes/mealRoutes')
 
-app.use('/uploads', express.static('backend/uploads'))
+app.use('/mealmatch/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)

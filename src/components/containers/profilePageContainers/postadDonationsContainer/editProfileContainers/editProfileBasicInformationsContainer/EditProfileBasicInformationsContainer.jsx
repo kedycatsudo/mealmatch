@@ -22,8 +22,11 @@ const EditProfileBasicInformationsContainer = ({
     const file = e.target.files[0]
     if (file) {
       const imageUrl = URL.createObjectURL(file)
-      setCurrentUser({ ...currentUser, avatar: imageUrl })
-      // TODO: Upload to backend if needed!
+      setDraftProfile((prev) => ({
+        ...prev,
+        avatarFile: file,
+        avatar: imageUrl, // for preview
+      }))
     }
   }
 
@@ -50,7 +53,7 @@ const EditProfileBasicInformationsContainer = ({
         ></Input>
         <img
           className="edit__modal-basic-container-avatar"
-          src={currentUser.avatar || logo}
+          src={draftProfile.avatar ? draftProfile.avatar : logo}
           alt="User avatar"
           onError={(e) => {
             e.target.onerror = null

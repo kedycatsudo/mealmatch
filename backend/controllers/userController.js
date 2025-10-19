@@ -63,7 +63,7 @@ const updateAvatar = (req, res, next) => {
     return next(new BadRequestError('No file uploaded.'))
   }
 
-  const avatarPath = '/uploads/avatars/' + req.file.filename
+  const avatarPath = '/mealmatch/uploads/avatars/' + req.file.filename
 
   User.findByIdAndUpdate(userId, { avatar: avatarPath }, { new: true })
     .then((updatedUser) => {

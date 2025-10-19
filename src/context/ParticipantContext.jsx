@@ -17,14 +17,12 @@ export function ParticipantProvider({ children }) {
       .then(() => {
         const storedUser = localStorage.getItem('currentUser')
         const token = localStorage.getItem('token')
-        console.log('Loaded from localStorage:', storedUser, token)
         if (storedUser && token) {
           // Verify token by fetching profile from backend
           return apiRequest('/api/users/profile', { method: 'GET' })
             .then(function (userData) {
               var actualUser = userData.user || userData
 
-              console.log('Fetched user from backend:', userData)
               setCurrentUser(actualUser)
               localStorage.setItem('currentUser', JSON.stringify(actualUser))
             })

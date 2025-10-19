@@ -67,3 +67,20 @@ export function updateUserProfileApi(updatedProfile) {
     body: JSON.stringify(updatedProfile),
   }).then(parseResponse)
 }
+
+export function updateAvatarApi(formData) {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/users/profile/avatar`, {
+    method: 'PATCH',
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      // Do NOT set Content-Type for FormData, browser does it
+    },
+    body: formData,
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      console.error(err)
+      throw new Error('Failed to update avatar', err.message)
+    })
+}

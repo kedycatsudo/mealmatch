@@ -8,18 +8,31 @@ import EditProfileAddressesContainer from '../../../containers/profilePageContai
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
 import { useState, useEffect } from 'react'
 import InformationModal from '../informationModals/InformationModal'
-import { updateUserProfileApi } from '../../../../api'
+import { updateAvatarApi, updateUserProfileApi } from '../../../../api'
 
-const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
+const EditProfileModal = ({
+  setCurrentUser,
+  currentUser,
+  onClose,
+  showModal,
+}) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
   const [showInfoModal, setShowInfoModal] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
-  const [draftProfile, setDraftProfile] = useState(null)
+  const [draftProfile, setDraftProfile] = useState(() =>
+    currentUser ? { ...currentUser, avatarFile: undefined } : {}
+  )
   const [shouldNavigate, setShouldNavigate] = useState(false)
 
   useEffect(() => {
-    setDraftProfile(currentUser) // initialize draft on modal open
-  }, [currentUser])
+    if (showModal) {
+      setDraftProfile({
+        ...currentUser,
+        avatarFile: undefined,
+        avatar: currentUser.avatar,
+      })
+    }
+  }, [showModal, currentUser])
 
   const navigate = useNavigate()
 
@@ -40,11 +53,31 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
     setIsSaving(true)
-    updateUserProfileApi(draftProfile)
+
+    let avatarPromise = Promise.resolve()
+    // 1. If a new avatar is seleceted, upload it first
+
+    if (draftProfile.avatarFile) {
+      const avatarForm = new FormData()
+      avatarForm.append('avatar', draftProfile.avatarFile)
+      avatarPromise = updateAvatarApi(avatarForm)
+    }
+    avatarPromise
+      .then(() => {
+        // 2.Update profile fields (exlucding avatarFile and avatar preview url)
+        const { avatarFile, avatar, ...profileFields } = draftProfile
+        return updateUserProfileApi(profileFields)
+      })
       .then((data) => {
-        setCurrentUser(data.user) // update context/global state
-        setShowInfoModal(true) // show success modal
-        setShouldNavigate(true) // will navigate after info modal closed
+        setCurrentUser(data.user) //update context/global state
+        setDraftProfile({
+          ...data.user,
+          avatarFile: undefined,
+          avatar: data.user.avatar,
+        })
+        setShowInfoModal(true)
+        setShouldNavigate(true)
+        console.log(draftProfile.avatar)
       })
       .catch((err) => {
         alert(err.message || 'Could not update Profile')

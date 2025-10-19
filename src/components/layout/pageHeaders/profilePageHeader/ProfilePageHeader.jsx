@@ -14,8 +14,14 @@ const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
   const [showModal, setShowModal] = useState(false)
   UseEffectShowModal(showModal)
 
+  const API_URL = import.meta.env.VITE_API_URL
+
   const avatarSrc =
-    currentUser && currentUser.avatar ? currentUser.avatar : logo
+    currentUser && currentUser.avatar
+      ? currentUser.avatar.startsWith('http')
+        ? currentUser.avatar
+        : `${API_URL}${currentUser.avatar}`
+      : logo
 
   return (
     <header className="profile__page-header">
@@ -51,6 +57,7 @@ const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
       {showModal && (
         <div className="modal-overlay">
           <EditProfileModal
+            showModal={showModal}
             setCurrentUser={setCurrentUser}
             currentUser={currentUser}
             onClose={() => setShowModal(false)}
