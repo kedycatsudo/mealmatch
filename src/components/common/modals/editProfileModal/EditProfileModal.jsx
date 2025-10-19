@@ -12,35 +12,39 @@ import { updateUserProfileApi } from '../../../../api'
 
 const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [shouldNavigate, setShouldNavigate] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [draftProfile, setDraftProfile] = useState(null)
+  const [shouldNavigate, setShouldNavigate] = useState(false)
 
   useEffect(() => {
     setDraftProfile(currentUser) // initialize draft on modal open
   }, [currentUser])
 
   const navigate = useNavigate()
+
+  // Navigation happens ONLY after info modal is closed and shouldNavigate is true
   useEffect(() => {
-    if (!showModal && shouldNavigate) {
-      console.log('Navigating now!')
+    if (!showInfoModal && shouldNavigate) {
       navigate('/profile')
       setShouldNavigate(false) // reset the flag
+      onClose() // close the EditProfileModal parent
     }
-  }, [showModal, shouldNavigate, navigate])
+  }, [showInfoModal, shouldNavigate, navigate, onClose])
+
   const deleteAccount = ({}) => {
     // TODO: Implement account deletion logic
-
-    navigatePages('home')
+    navigate('home')
   }
+
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
     setIsSaving(true)
     updateUserProfileApi(draftProfile)
       .then((data) => {
         setCurrentUser(data.user) // update context/global state
-        setShowModal(true)
+        setShowInfoModal(true) // show success modal
+        setShouldNavigate(true) // will navigate after info modal closed
       })
       .catch((err) => {
         alert(err.message || 'Could not update Profile')
@@ -54,39 +58,39 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
 
       <form onSubmit={handleSubmitEditForm} className="edit__modal-form">
         <h1 className="edit__modal-header"> Edit Profile</h1>
-        <ContainerSeperation text={'Basic Informations'}></ContainerSeperation>
+        <ContainerSeperation text={'Basic Informations'} />
         <div className="edit__modal-basic">
           <EditProfileBasicInformationsContainer
             currentUser={currentUser}
             draftProfile={draftProfile}
             setDraftProfile={setDraftProfile}
-          ></EditProfileBasicInformationsContainer>
+          />
         </div>
-        <ContainerSeperation text={'Contacts'}></ContainerSeperation>
+        <ContainerSeperation text={'Contacts'} />
         <div className="edit__modal-contacts">
           <EditProfileContactsContainer
             draftProfile={draftProfile}
             setDraftProfile={setDraftProfile}
-          ></EditProfileContactsContainer>
+          />
         </div>
-        <ContainerSeperation text={'Address'}></ContainerSeperation>
+        <ContainerSeperation text={'Address'} />
         <div className="edit__modal-address">
           <EditProfileAddressesContainer
             draftProfile={draftProfile}
             setDraftProfile={setDraftProfile}
-          ></EditProfileAddressesContainer>
+          />
         </div>
         <Button
           type="submit"
           variant="login__button-container-submit"
           text={isSaving ? 'Saving...' : 'Save Changes'}
-        ></Button>
-        {showModal && (
+        />
+        {showInfoModal && (
           <div className="modal-overlay">
             <InformationModal
               text={'Changes saved succesfully.'}
-              onClose={() => onClose()}
-            ></InformationModal>
+              onClose={() => setShowInfoModal(false)} // closes info modal only
+            />
           </div>
         )}
         <Button
@@ -94,7 +98,7 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
           onClick={() => setShowModalDelete(true)}
           variant="login__button-container-submit"
           text="Delete Account"
-        ></Button>
+        />
         {showModalDelete && (
           <div className="modal-overlay">
             <ConfirmationModal
@@ -106,11 +110,12 @@ const EditProfileModal = ({ setCurrentUser, currentUser, onClose }) => {
                 setShowModalDelete(false)
                 navigate('/home')
               }}
-            ></ConfirmationModal>
+            />
           </div>
         )}
       </form>
     </div>
   )
 }
+
 export default EditProfileModal
