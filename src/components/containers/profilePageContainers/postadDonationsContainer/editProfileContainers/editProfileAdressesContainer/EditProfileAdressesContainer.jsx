@@ -53,7 +53,7 @@ const EditProfileAddressesContainer = ({ draftProfile, setDraftProfile }) => {
       <Input
         name="zipCode"
         value={draftProfile.zipCode || ''}
-        type="number"
+        type="text"
         onChange={handleAddressChange}
         variant="text"
         text="Zip Code"

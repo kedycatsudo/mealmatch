@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
+import { apiRequest } from '../api'
 
 export const ParticipantContext = createContext()
 
@@ -15,8 +16,26 @@ export function ParticipantProvider({ children }) {
     Promise.resolve()
       .then(() => {
         const storedUser = localStorage.getItem('currentUser')
-        if (storedUser) {
-          setCurrentUser(JSON.parse(storedUser))
+        const token = localStorage.getItem('token')
+        console.log('Loaded from localStorage:', storedUser, token)
+        if (storedUser && token) {
+          // Verify token by fetching profile from backend
+          return apiRequest('/api/users/profile', { method: 'GET' })
+            .then(function (userData) {
+              var actualUser = userData.user || userData
+
+              console.log('Fetched user from backend:', userData)
+              setCurrentUser(actualUser)
+              localStorage.setItem('currentUser', JSON.stringify(actualUser))
+            })
+            .catch(function (err) {
+              setError('Session expired or invalid. Please log in again')
+              localStorage.removeItem(`currentUser`)
+              localStorage.removeItem('token')
+              setCurrentUser(null)
+            })
+        } else {
+          setCurrentUser(null)
         }
       })
       .catch(() => {

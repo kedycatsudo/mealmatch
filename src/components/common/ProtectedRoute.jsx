@@ -3,11 +3,15 @@ import { ParticipantContext } from '../../context/ParticipantContext'
 import { Navigate } from 'react-router-dom'
 
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useContext(ParticipantContext)
+  const { currentUser, loading } = useContext(ParticipantContext)
 
-  // If currentUser is null, redirect to /login (or /home)
+  // Wait for loading to finish before deciding
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  // If currentUser is null after loading, redirect to login
   if (currentUser === null) {
-    // You may want to show a loading spinner here if users are still being fetched
     return <Navigate to="/login" replace />
   }
 
