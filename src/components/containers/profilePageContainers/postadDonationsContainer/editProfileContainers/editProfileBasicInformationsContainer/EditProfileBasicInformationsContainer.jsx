@@ -11,6 +11,7 @@ const EditProfileBasicInformationsContainer = ({
   setDraftProfile,
   currentUser,
 }) => {
+  const API_URL = import.meta.env.VITE_API_URL
   const fileInputRef = useRef()
 
   const [showModal, setShowModal] = useState(false)
@@ -34,6 +35,12 @@ const EditProfileBasicInformationsContainer = ({
     const { name, value } = e.target
     setDraftProfile({ ...draftProfile, [name]: value })
   }
+  const getAvatarSrc = () => {
+    if (!draftProfile.avatar) return logo
+    if (draftProfile.avatar.startsWith('blob:')) return draftProfile.avatar
+    if (draftProfile.avatar.startsWith('http')) return draftProfile.avatar
+    return `${API_URL}${draftProfile.avatar}`
+  }
 
   return (
     <>
@@ -53,7 +60,7 @@ const EditProfileBasicInformationsContainer = ({
         ></Input>
         <img
           className="edit__modal-basic-container-avatar"
-          src={draftProfile.avatar ? draftProfile.avatar : logo}
+          src={getAvatarSrc()}
           alt="User avatar"
           onError={(e) => {
             e.target.onerror = null
