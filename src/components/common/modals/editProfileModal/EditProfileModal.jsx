@@ -8,7 +8,11 @@ import EditProfileAddressesContainer from '../../../containers/profilePageContai
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
 import { useState, useEffect } from 'react'
 import InformationModal from '../informationModals/InformationModal'
-import { updateAvatarApi, updateUserProfileApi } from '../../../../api'
+import {
+  updateAvatarApi,
+  updateUserProfileApi,
+  deleteAccountApi,
+} from '../../../../api'
 
 const EditProfileModal = ({
   setCurrentUser,
@@ -39,15 +43,31 @@ const EditProfileModal = ({
   // Navigation happens ONLY after info modal is closed and shouldNavigate is true
   useEffect(() => {
     if (!showInfoModal && shouldNavigate) {
-      navigate('/profile')
+      setCurrentUser(null)
+      navigate('/register')
       setShouldNavigate(false) // reset the flag
       onClose() // close the EditProfileModal parent
     }
   }, [showInfoModal, shouldNavigate, navigate, onClose])
 
-  const deleteAccount = ({}) => {
-    // TODO: Implement account deletion logic
-    navigate('home')
+  const handleDeleteAccount = () => {
+    setIsSaving(true)
+    deleteAccountApi()
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Could not delete account')
+        }
+        setShowModalDelete(false)
+        setShowInfoModal(true)
+        setShouldNavigate(true)
+      })
+      .catch((err) => {
+        alert(err.message || 'Could not delete account.')
+        setShowModalDelete(false)
+      })
+      .finally(() => {
+        setIsSaving(false)
+      })
   }
 
   const handleSubmitEditForm = (e) => {
@@ -139,11 +159,16 @@ const EditProfileModal = ({
                 'Confirm that your Meal Match Account will be deleted.'
               }
               onClose={() => setShowModalDelete(false)}
-              onClick={() => {
-                setShowModalDelete(false)
-                navigate('/home')
-              }}
+              onClick={handleDeleteAccount}
             />
+          </div>
+        )}
+        {showInfoModal && (
+          <div className="modal-overlay">
+            <InformationModal
+              text={'Account deleted with the meals.'}
+              onClose={() => setShowInfoModal(false)}
+            ></InformationModal>
           </div>
         )}
       </form>

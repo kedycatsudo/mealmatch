@@ -84,3 +84,14 @@ export function updateAvatarApi(formData) {
       throw new Error('Failed to update avatar', err.message)
     })
 }
+
+export const deleteAccountApi = () => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/users/profile/deleteAccount`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
