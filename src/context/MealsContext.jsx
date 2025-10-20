@@ -22,8 +22,7 @@ export function MealsProvider({ children }) {
       isBlank(meal.useBy) ||
       isBlank(meal.pickUpLoc)
     ) {
-      alert('Meal Name, Use By, and Pick Up Location are required!')
-      return
+      return { error: 'Meal Name, Use By, and Pick Up Location are required!' }
     }
     setMeals((prev) => [...prev, meal])
   }

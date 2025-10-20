@@ -3,7 +3,7 @@ import DonationsListTitle from './postedDonationsListContainer/DonationListTitle
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
-
+import { getDonationsApi } from '../../../../api.js'
 import { useState, useEffect } from 'react'
 
 const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
@@ -14,26 +14,37 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   const [sortSize, setSortSize] = useState('')
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+  const [fetchError, setFetchError] = useState('')
 
   const currentUserId = currentUser?._id || ''
 
-  // 2. Simulate backend fetch (replace with API call later)
-
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/meals.json`)
+    if (!currentUserId) return
+    setIsLoading(true)
+    setFetchError('')
+    getDonationsApi()
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch meals data')
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data.message || 'Failed to fetch meals')
+          })
+        }
         return res.json()
       })
       .then((meals) => {
+        console.log('Raw API meals:', meals) // <-- See what the API returns!
         const userMeals = Array.isArray(meals)
           ? meals.filter((meal) => meal.ownerId === currentUserId)
           : []
+        console.log('currentUserId:', currentUserId)
+        console.log('User meals after filtering:', userMeals)
         setDonations(userMeals)
       })
       .catch((error) => {
-        console.error(error)
+        setFetchError(error.message)
       })
+      .finally(() => setIsLoading(false))
   }, [currentUserId])
 
   const handleDelete = (mealId) => {
@@ -134,11 +145,11 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
                   onClick={() => {
                     setSelectedMeal(sortedMeal)
                   }}
-                  key={sortedMeal.id || idx}
+                  key={sortedMeal._id || idx}
                   meal={sortedMeal}
                 />
               ))
-            : null}
+            : !isLoading && <li>No meals found.</li>}
         </ul>
         <PostedDonationCardDisplay
           onToggleLive={handleToggleLive}

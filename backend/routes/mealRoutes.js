@@ -24,7 +24,7 @@ const {
 const authenticate = require('../middleware/authMiddleware')
 
 router.post(
-  '/',
+  '/createMeal',
   express.json(),
   express.urlencoded({ extended: true }),
   mealLimiter,

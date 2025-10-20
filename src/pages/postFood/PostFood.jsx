@@ -3,7 +3,7 @@ import './PostFood.css'
 import ContainerSeperation from '../../components/common/containerSeperation/ContainerSeperation'
 import ShareFoodHeader from '../../components/layout/pageHeaders/shareFoodHeader/ShareFoodHeader'
 import ShareFoodBody from '../../components/layout/pageBodies/donationForm/ShareFoodBody'
-import { ParticipantContext } from '../../context/ParticipantContext' // Adjust path if needed
+import { ParticipantContext } from '../../context/ParticipantContext'
 
 const PostFood = () => {
   const { currentUser } = useContext(ParticipantContext)

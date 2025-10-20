@@ -6,6 +6,7 @@ import { useState, useContext } from 'react'
 import Input from '../../common/inputs/Inputs'
 import Button from '../../common/buttons/Buttons'
 import InformationModal from '../../common/modals/informationModals/InformationModal'
+import { createMealApi } from '../../../api'
 
 const initialDonation = {
   mealName: '',
@@ -63,7 +64,7 @@ const ShareFoodForm = ({ currentUser }) => {
       : []
     const newDonation = {
       ...donation,
-      _id: Date.now().toString(),
+      servings: Number(donation.servings),
       ownerId: currentUser._id,
       postDate: new Date().toISOString(),
       live: true,
@@ -73,11 +74,28 @@ const ShareFoodForm = ({ currentUser }) => {
       claimedUpAt: null,
       allergens: allergensArray,
     }
-    addMeal(newDonation)
-    addRecentDonation(newDonation)
-    setShowModal(true)
-    setDonation(initialDonation)
-    setError('')
+
+    //API CALL
+    createMealApi(newDonation)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            console.error('Backend error:', data)
+            throw new Error(data.message || 'Could not create meal')
+          })
+        }
+        return res.json()
+      })
+      .then((meal) => {
+        addMeal(meal)
+        addRecentDonation(meal)
+        setShowModal(true)
+        setDonation(initialDonation)
+        setError('')
+      })
+      .catch((err) => {
+        setError(err.message)
+      })
   }
 
   const navigateTo = (path) => navigate(`/${path}`)

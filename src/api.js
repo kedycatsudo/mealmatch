@@ -35,6 +35,7 @@ export function apiRequest(endpoint, options = {}) {
     }
   )
 }
+//updateUserProfileAPI
 export function updateUserProfileApi(updatedProfile) {
   const token = localStorage.getItem('token')
   function handleText(res, text) {
@@ -67,7 +68,7 @@ export function updateUserProfileApi(updatedProfile) {
     body: JSON.stringify(updatedProfile),
   }).then(parseResponse)
 }
-
+//updateAvatar
 export function updateAvatarApi(formData) {
   const token = localStorage.getItem('token')
   return fetch(`${API_URL}/api/users/profile/avatar`, {
@@ -84,7 +85,7 @@ export function updateAvatarApi(formData) {
       throw new Error('Failed to update avatar', err.message)
     })
 }
-
+//delete account
 export const deleteAccountApi = () => {
   const token = localStorage.getItem('token')
   return fetch(`${API_URL}/api/users/profile/deleteAccount`, {
@@ -96,6 +97,7 @@ export const deleteAccountApi = () => {
   })
 }
 
+//change password
 export const changePasswordApi = ({ currentPassword, newPassword }) => {
   const token = localStorage.getItem('token')
   return fetch(`${API_URL}/api/users/profile/changePassword`, {
@@ -105,5 +107,29 @@ export const changePasswordApi = ({ currentPassword, newPassword }) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ currentPassword, newPassword }),
+  })
+}
+
+//CreateMael
+export const createMealApi = (meal) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/createMeal`, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(meal),
+  })
+}
+//Get user`s meals to profile
+export const getDonationsApi = () => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/profile`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   })
 }
