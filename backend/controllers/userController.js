@@ -363,7 +363,18 @@ const changePassword = (req, res, next) => {
       new BadRequestError('Both current and new password is required to fill.')
     )
   }
-
+  if (
+    !newPassword ||
+    newPassword.length < 8 ||
+    !/[A-Za-z]/.test(newPassword) ||
+    !/\d/.test(newPassword)
+  ) {
+    return next(
+      new ValidationError(
+        'Password must be at least 8 characters and contain at least one letter and one number'
+      )
+    )
+  }
   User.findById(userId)
     .then((user) => {
       if (!user) {

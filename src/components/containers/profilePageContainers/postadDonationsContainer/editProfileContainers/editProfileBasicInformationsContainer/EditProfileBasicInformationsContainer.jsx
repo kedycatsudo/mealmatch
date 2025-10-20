@@ -13,7 +13,7 @@ const EditProfileBasicInformationsContainer = ({
 }) => {
   const API_URL = import.meta.env.VITE_API_URL
   const fileInputRef = useRef()
-
+  const [showChangePasswdModal, setShowChangePasswdModal] = useState(false)
   const [showModal, setShowModal] = useState(false)
   useEffectShowModal(showModal)
 
@@ -73,14 +73,13 @@ const EditProfileBasicInformationsContainer = ({
           variant="edit__modal-change-password"
           text="Change Password"
           onClick={() => {
-            setShowModal(true)
+            setShowChangePasswdModal(true)
           }}
         ></Button>
-        {showModal && (
+        {showChangePasswdModal && (
           <div className="modal-overlay">
             <ChangePasswordModal
-              currentUser={draftProfile}
-              onClose={() => setShowModal(false)}
+              onClose={() => setShowChangePasswdModal(false)}
             ></ChangePasswordModal>
           </div>
         )}

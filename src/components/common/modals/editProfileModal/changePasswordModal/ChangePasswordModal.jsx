@@ -4,28 +4,46 @@ import Button from '../../../buttons/Buttons'
 import { useState } from 'react'
 import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
 import InformationModal from '../../informationModals/InformationModal'
+import { changePasswordApi } from '../../../../../api'
 
-const ChangePasswordModal = ({ currentUser, setCurrentUser, onClose }) => {
+const ChangePasswordModal = ({ onClose }) => {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [showModal, setShowModal] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
   const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  UseEffectShowModal(showModal)
+  UseEffectShowModal(showSuccessModal || showErrorModal)
 
   const handleChangePassword = ({}) => {
     setError('')
-
     if (newPassword !== confirmPassword) {
-      setError('Password do not match!')
+      setError('New password do not match with confirm password')
+      setShowErrorModal(true)
       return
     }
     if (!currentPassword) {
-      setError('Please enter your current password')
+      setError('Please Enter your current password')
+      setShowErrorModal(true)
       return
     }
-    setShowModal(true)
+    setIsLoading(true)
+    changePasswordApi({ currentPassword, newPassword })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data.message || 'Password change failed.')
+          })
+        }
+        setShowSuccessModal(true)
+      })
+      .catch((err) => {
+        setError(err.message)
+        setShowErrorModal(true)
+      })
+      .finally(() => setIsLoading(false))
   }
   return (
     <div className="change__password-container">
@@ -64,17 +82,6 @@ const ChangePasswordModal = ({ currentUser, setCurrentUser, onClose }) => {
         className="change__password-container-input"
         text="New Password"
       ></Input>
-      {error && (
-        <div className="modal__overlay">
-          <InformationModal
-            text={error}
-            onClose={() => {
-              setShowModal(false)
-              onClose()
-            }}
-          ></InformationModal>
-        </div>
-      )}
 
       <div className="change__password-container-buttons">
         <Button
@@ -84,15 +91,23 @@ const ChangePasswordModal = ({ currentUser, setCurrentUser, onClose }) => {
           text="Save Changes"
         ></Button>
       </div>
-      {showModal && (
+      {showErrorModal && (
+        <div className="modal__overlay">
+          <InformationModal
+            text={error}
+            onClose={() => setShowErrorModal(false)}
+          ></InformationModal>
+        </div>
+      )}
+      {showSuccessModal && (
         <div className="modal-overlay">
           <InformationModal
-            text={'Password changed succesfully'}
+            text={'Password changed successfully'}
             onClose={() => {
-              setShowModal(false)
+              setShowSuccessModal(false)
               onClose()
             }}
-          ></InformationModal>
+          />
         </div>
       )}
     </div>

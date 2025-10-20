@@ -95,3 +95,15 @@ export const deleteAccountApi = () => {
     },
   })
 }
+
+export const changePasswordApi = ({ currentPassword, newPassword }) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/users/profile/changePassword`, {
+    method: 'PATCH',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  })
+}
