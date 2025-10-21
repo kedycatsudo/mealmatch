@@ -38,6 +38,7 @@ function sendDonationToKarm({ to, subject, meal }) {
     html,
     text:
       `New KARM Food Donation\n` +
+      `Donor: ${meal.ownerName}\n` +
       `Meal: ${meal.mealName}\n` +
       `Servings: ${meal.servings}\n` +
       `Pick up: ${meal.pickUpLoc}\n` +

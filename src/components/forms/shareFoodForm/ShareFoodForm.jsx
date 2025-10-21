@@ -23,6 +23,7 @@ const requiredFields = ['mealName', 'useBy', 'pickUpLoc']
 const ShareFoodForm = ({ currentUser }) => {
   const { addMeal } = useContext(MealsContext)
   const { addRecentDonation } = useRecentDonation()
+  const [modalText, setModalText] = useState('')
   const [donation, setDonation] = useState(initialDonation)
   const [showModal, setShowModal] = useState(false)
   const [error, setError] = useState('')
@@ -86,14 +87,17 @@ const ShareFoodForm = ({ currentUser }) => {
         }
         return res.json()
       })
-      .then((meal) => {
-        addMeal(meal)
-        addRecentDonation(meal)
+      .then((data) => {
+        //show modal with backend message
+        setModalText(data.message || 'Donation shared succesfully.')
         setShowModal(true)
+        addMeal(data.meal)
+        addRecentDonation(data.meal)
         setDonation(initialDonation)
         setError('')
+        //refetch updated donations list
+        return getDonationsApi()
       })
-      .then(() => getDonationsApi())
       .catch((err) => {
         setError(err.message)
       })
@@ -199,7 +203,7 @@ const ShareFoodForm = ({ currentUser }) => {
       {showModal && (
         <div className="modal-overlay">
           <InformationModal
-            text={'Donation shared successfully.'}
+            text={modalText}
             onClose={() => {
               setShowModal(false)
               navigateTo('profile')

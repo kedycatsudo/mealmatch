@@ -38,9 +38,9 @@ const createMeal = (req, res, next) => {
   } = req.body
 
   const ownerId = req.user.userId
-  const ownerName = req.userDoc.printName
+  const ownerName = req.userDoc.userName
   let allergens = req.body.allergens
-
+  console.log('req.userDoc:', req.userDoc)
   function isBlank(str) {
     return typeof str !== 'string' || str.trim() === ''
   }
@@ -108,14 +108,16 @@ const createMeal = (req, res, next) => {
       if (!meal) return //already handled conflict
       //If karm is true, send email to karm
       if (meal.karm) {
+        console.log('donor:', ownerName)
         const mealForEmail = {
-          ownerName,
+          ownerName: ownerName,
           mealName: meal.mealName,
           servings: meal.servings,
           pickUpLoc: meal.pickUpLoc,
           contactPhone: meal.contactPhone,
           useBy: meal.useBy,
         }
+        console.log('meal for email:', mealForEmail)
         return sendDonationToKarm({
           to: process.env.KARM_ADMIN_EMAIL,
           subject: 'New KARM Food Donation',
