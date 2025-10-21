@@ -332,6 +332,7 @@ const getUserProfile = (req, res, next) => {
       if (!user) throw new NotFoundError('User not found.')
       // Send only the fields the UI needs
       const payload = {
+        _id: user._id,
         printName: user.printName,
         userName: user.userName,
         avatar: user.avatar,

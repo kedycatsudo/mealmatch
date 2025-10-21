@@ -20,7 +20,6 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   const currentUserId = currentUser?._id || ''
 
   useEffect(() => {
-    if (!currentUserId) return
     setIsLoading(true)
     setFetchError('')
     getDonationsApi()
@@ -32,13 +31,11 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
         }
         return res.json()
       })
-      .then((meals) => {
-        console.log('Raw API meals:', meals) // <-- See what the API returns!
-        const userMeals = Array.isArray(meals)
-          ? meals.filter((meal) => meal.ownerId === currentUserId)
-          : []
-        console.log('currentUserId:', currentUserId)
-        console.log('User meals after filtering:', userMeals)
+      .then((data) => {
+        const mealsArray = Array.isArray(data.meals) ? data.meals : []
+        const userMeals = mealsArray.filter(
+          (meal) => meal.ownerId === currentUserId
+        )
         setDonations(userMeals)
       })
       .catch((error) => {
@@ -119,9 +116,9 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
     } else if (sortSelection === 'SortByUseBy') {
       const useByA = new Date(a.useBy)
       const useByB = new Date(b.useBy)
+
       return sortOrderUseBy === 'asc' ? useByA - useByB : useByB - useByA
     }
-    return 0
   })
 
   return (

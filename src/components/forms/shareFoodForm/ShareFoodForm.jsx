@@ -6,7 +6,7 @@ import { useState, useContext } from 'react'
 import Input from '../../common/inputs/Inputs'
 import Button from '../../common/buttons/Buttons'
 import InformationModal from '../../common/modals/informationModals/InformationModal'
-import { createMealApi } from '../../../api'
+import { createMealApi, getDonationsApi } from '../../../api'
 
 const initialDonation = {
   mealName: '',
@@ -93,6 +93,7 @@ const ShareFoodForm = ({ currentUser }) => {
         setDonation(initialDonation)
         setError('')
       })
+      .then(() => getDonationsApi())
       .catch((err) => {
         setError(err.message)
       })
