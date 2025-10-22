@@ -3,7 +3,11 @@ import DonationsListTitle from './postedDonationsListContainer/DonationListTitle
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
-import { getDonationsApi, updateMealApi } from '../../../../api.js'
+import {
+  deleteMealApi,
+  getDonationsApi,
+  updateMealApi,
+} from '../../../../api.js'
 import { useState, useEffect } from 'react'
 
 const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
@@ -45,8 +49,22 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   }, [currentUserId, selectedMeal])
 
   const handleDelete = (mealId) => {
-    setDonations((prev) => prev.filter((meal) => meal._id !== mealId))
-    if (selectedMeal?._id === mealId) setSelectedMeal({})
+    deleteMealApi(mealId)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data.message || 'Could not delete meal.')
+          })
+        }
+        setDonations((prev) => prev.filter((meal) => meal._id !== mealId))
+        if (selectedMeal?._id === mealId) setSelectedMeal({})
+        //show succes/modal here
+      })
+      .catch((err) => {
+        //show error message/modal here
+        console.error('Delete failed:', err)
+        //setError(err.message)
+      })
   }
 
   //Toggle live status

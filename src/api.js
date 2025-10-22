@@ -146,3 +146,16 @@ export const updateMealApi = (mealId, updatedMeal) => {
     body: JSON.stringify(updatedMeal),
   })
 }
+
+// delete the selected meal
+
+export const deleteMealApi = (mealId, selectedMeal) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/profile/${mealId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

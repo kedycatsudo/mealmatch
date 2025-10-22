@@ -51,7 +51,6 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log(`onSubmit called`)
     if (!allFieldsFilled) {
       setError('Please fill all required fields: Meal Name, Use By.')
       return
