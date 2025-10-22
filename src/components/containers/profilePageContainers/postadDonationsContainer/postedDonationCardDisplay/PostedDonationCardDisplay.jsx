@@ -11,6 +11,7 @@ const PostedDonationCardDisplay = ({
   onDelete,
   onToggleLive,
   currentUserId,
+  triggerDonationStatusRefresh,
 }) => {
   const [showEditMealCardModal, setShowEditMealCardModal] = useState(false)
   const [showDeleteCardModal, setShowDeleteCardModal] = useState(false)
@@ -32,7 +33,10 @@ const PostedDonationCardDisplay = ({
     if (!selectedMeal?._id) return
     setIsDeleting(true)
     Promise.resolve(onDelete(selectedMeal._id))
-      .then(() => setShowDeleteCardModal(false))
+      .then(() => {
+        setShowDeleteCardModal(false)
+        triggerDonationStatusRefresh()
+      })
       .catch((err) => {
         console.error('Delete failed', err)
         alert('Failed to delete. Please try again.')

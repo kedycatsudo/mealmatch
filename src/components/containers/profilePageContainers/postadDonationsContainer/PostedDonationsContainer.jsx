@@ -15,6 +15,7 @@ const PostedDonationsContainer = ({
   currentUser,
   setCurrentUser,
   triggerDonationStatusRefresh,
+  donationStatusRefresh,
 }) => {
   const [donations, setDonations] = useState([])
 
@@ -30,6 +31,8 @@ const PostedDonationsContainer = ({
   const currentUserId = currentUser?._id || ''
 
   useEffect(() => {
+    const currentUserId = currentUser?._id || ''
+
     setIsLoading(true)
     setFetchError('')
     getDonationsApi()
@@ -46,13 +49,14 @@ const PostedDonationsContainer = ({
         const userMeals = mealsArray.filter(
           (meal) => meal.ownerId === currentUserId
         )
+
         setDonations(userMeals)
       })
       .catch((error) => {
         setFetchError(error.message)
       })
       .finally(() => setIsLoading(false))
-  }, [currentUserId, selectedMeal])
+  }, [currentUser, selectedMeal, donationStatusRefresh])
 
   const handleDelete = (mealId) => {
     deleteMealApi(mealId)
@@ -196,6 +200,8 @@ const PostedDonationsContainer = ({
             : !isLoading && <li>No meals found.</li>}
         </ul>
         <PostedDonationCardDisplay
+          triggerDonationStatusRefresh={triggerDonationStatusRefresh}
+          donationStatusRefresh={donationStatusRefresh}
           onToggleLive={handleToggleLive}
           currentUserId={currentUserId}
           onDelete={handleDelete}

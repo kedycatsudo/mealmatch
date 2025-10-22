@@ -17,17 +17,22 @@ import {
 const EditProfileModal = ({
   setCurrentUser,
   currentUser,
-  onClose,
+  onCloseEditModal,
   showModal,
+  triggerDonationStatusRefresh,
 }) => {
   const [showModalDelete, setShowModalDelete] = useState(false)
   const [showInfoModal, setShowInfoModal] = useState(false)
+  const [showInfoDeleteModal, setShowInfoDeleteModal] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [draftProfile, setDraftProfile] = useState(() =>
     currentUser ? { ...currentUser, avatarFile: undefined } : {}
   )
   const [shouldNavigate, setShouldNavigate] = useState(false)
-
+  const onCloseInfoModal = () => {
+    setShowInfoModal(false)
+    onCloseEditModal() // call the function to close edit modal!
+  }
   useEffect(() => {
     if (showModal) {
       setDraftProfile({
@@ -42,13 +47,13 @@ const EditProfileModal = ({
 
   // Navigation happens ONLY after info modal is closed and shouldNavigate is true
   useEffect(() => {
-    if (!showInfoModal && shouldNavigate) {
+    if (!showInfoDeleteModal && shouldNavigate) {
       setCurrentUser(null)
       navigate('/register')
       setShouldNavigate(false) // reset the flag
-      onClose() // close the EditProfileModal parent
+      onCloseEditModal() // close the EditProfileModal parent
     }
-  }, [showInfoModal, shouldNavigate, navigate, onClose])
+  }, [showInfoDeleteModal, shouldNavigate, navigate, onCloseEditModal])
 
   const handleDeleteAccount = () => {
     setIsSaving(true)
@@ -58,7 +63,7 @@ const EditProfileModal = ({
           throw new Error('Could not delete account')
         }
         setShowModalDelete(false)
-        setShowInfoModal(true)
+        setShowInfoDeleteModal(true)
         setShouldNavigate(true)
       })
       .catch((err) => {
@@ -96,18 +101,23 @@ const EditProfileModal = ({
           avatar: data.user.avatar,
         })
         setShowInfoModal(true)
-        setShouldNavigate(true)
-        console.log(draftProfile.avatar)
+        triggerDonationStatusRefresh()
       })
       .catch((err) => {
         alert(err.message || 'Could not update Profile')
       })
-      .finally(() => setIsSaving(false))
+      .finally(() => {
+        setIsSaving(false)
+      })
   }
 
   return (
     <div className="edit__modal">
-      <Button variant="modal__close-btn" text="X" onClick={onClose}></Button>
+      <Button
+        variant="modal__close-btn"
+        text="X"
+        onClick={onCloseEditModal}
+      ></Button>
 
       <form onSubmit={handleSubmitEditForm} className="edit__modal-form">
         <h1 className="edit__modal-header"> Edit Profile</h1>
@@ -142,7 +152,7 @@ const EditProfileModal = ({
           <div className="modal-overlay">
             <InformationModal
               text={'Changes saved succesfully.'}
-              onClose={() => setShowInfoModal(false)} // closes info modal only
+              onClose={onCloseInfoModal} // closes info modal only
             />
           </div>
         )}
@@ -163,7 +173,7 @@ const EditProfileModal = ({
             />
           </div>
         )}
-        {showInfoModal && (
+        {showInfoDeleteModal && (
           <div className="modal-overlay">
             <InformationModal
               text={'Account deleted with the meals.'}

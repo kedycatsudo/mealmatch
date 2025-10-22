@@ -5,10 +5,12 @@ const ProfilePageMain = ({
   currentUser,
   setCurrentUser,
   triggerDonationStatusRefresh,
+  donationStatusRefresh,
 }) => {
   return (
     <main className="body">
       <PostedDonationsContainer
+        donationStatusRefresh={donationStatusRefresh}
         triggerDonationStatusRefresh={triggerDonationStatusRefresh}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}

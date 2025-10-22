@@ -9,9 +9,15 @@ import UseEffectShowModal from '../../../../utils/helpers/useEffectShowModal'
 import { useState } from 'react'
 import Button from '../../../common/buttons/Buttons'
 
-const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
+const ProfilePageHeader = ({
+  showModal,
+  setShowModal,
+  setCurrentUser,
+  currentUser,
+  onCloseEditModal,
+  triggerDonationStatusRefresh,
+}) => {
   const navigate = useNavigate()
-  const [showModal, setShowModal] = useState(false)
   UseEffectShowModal(showModal)
 
   const API_URL = import.meta.env.VITE_API_URL
@@ -57,10 +63,11 @@ const ProfilePageHeader = ({ setCurrentUser, currentUser }) => {
       {showModal && (
         <div className="modal-overlay">
           <EditProfileModal
+            triggerDonationStatusRefresh={triggerDonationStatusRefresh}
             showModal={showModal}
             setCurrentUser={setCurrentUser}
             currentUser={currentUser}
-            onClose={() => setShowModal(false)}
+            onCloseEditModal={onCloseEditModal}
           ></EditProfileModal>
         </div>
       )}

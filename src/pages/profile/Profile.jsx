@@ -9,6 +9,11 @@ const Profile = () => {
   const { setCurrentUser, currentUser, loading } =
     useContext(ParticipantContext)
   const [donationStatusRefresh, setDonationStatusRefresh] = useState(0)
+  const [showModal, setShowModal] = useState(false)
+  const onCloseEditModal = () => {
+    setShowModal(false)
+  }
+
   if (loading) {
     return (
       <div className="page">
@@ -36,11 +41,18 @@ const Profile = () => {
     <div className="page">
       <div className="page__content">
         <ProfilePageHeader
+          triggerDonationStatusRefresh={() =>
+            setDonationStatusRefresh((prev) => prev + 1)
+          }
+          onCloseEditModal={onCloseEditModal}
+          setShowModal={setShowModal}
+          showModal={showModal}
           setCurrentUser={setCurrentUser}
           currentUser={currentUser}
         ></ProfilePageHeader>
         <ContainerSeperation text={'Posted Donations'}></ContainerSeperation>
         <ProfilePageBody
+          donationStatusRefresh={donationStatusRefresh}
           triggerDonationStatusRefresh={() =>
             setDonationStatusRefresh((prev) => prev + 1)
           } // Pass callback down

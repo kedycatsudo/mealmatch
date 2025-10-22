@@ -263,6 +263,7 @@ const updateUserProfile = (req, res, next) => {
 
   function sendUpdatedUser(res, updatedUser) {
     const payload = {
+      _id: updatedUser._id,
       printName: updatedUser.printName,
       userName: updatedUser.userName,
       phone: updatedUser.phone,
@@ -273,6 +274,7 @@ const updateUserProfile = (req, res, next) => {
       address: updatedUser.address,
       zipcode: updatedUser.zipcode,
       avatar: updatedUser.avatar,
+      donationStatus: updatedUser.donationStatus,
     }
     return res
       .status(success.OK_SUCCESS_CODE)
