@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Input from '../../inputs/Inputs'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import Button from '../../buttons/Buttons'
+import { getDonationsApi } from '../../../../api'
 
 const requiredFields = ['mealName', 'useBy']
 
@@ -17,6 +18,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    getDonationsApi()
     if (selectedMeal) {
       setMealData({
         mealName: selectedMeal.mealName || '',
@@ -27,6 +29,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           ? selectedMeal.allergens.join(', ')
           : selectedMeal.allergens || '',
       })
+
       setError('')
     }
   }, [selectedMeal])
@@ -48,6 +51,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+    console.log(`onSubmit called`)
     if (!allFieldsFilled) {
       setError('Please fill all required fields: Meal Name, Use By.')
       return
@@ -67,6 +71,7 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
         useBy: mealData.useBy, // let backend format date if needed
       }
       onSave(merged)
+
       onClose()
     }
   }

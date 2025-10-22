@@ -3,7 +3,7 @@ import DonationsListTitle from './postedDonationsListContainer/DonationListTitle
 import PostedDonationListItem from './postedDonationsListContainer/PostedDonationListItem'
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
-import { getDonationsApi } from '../../../../api.js'
+import { getDonationsApi, updateMealApi } from '../../../../api.js'
 import { useState, useEffect } from 'react'
 
 const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
@@ -42,7 +42,7 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
         setFetchError(error.message)
       })
       .finally(() => setIsLoading(false))
-  }, [currentUserId])
+  }, [currentUserId, selectedMeal])
 
   const handleDelete = (mealId) => {
     setDonations((prev) => prev.filter((meal) => meal._id !== mealId))
@@ -69,12 +69,24 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   // Save changes to meal
 
   const onSave = (updatedMeal) => {
-    setDonations((prev) =>
-      prev.map((meal) =>
-        meal._id === updatedMeal._id ? { ...meal, ...updatedMeal } : meal
-      )
-    )
-    setSelectedMeal(updatedMeal)
+    updateMealApi(updatedMeal._id, updatedMeal)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data.message || 'Could not update the meal.')
+          })
+        }
+        return res.json()
+      })
+      .then((meal) => {
+        setDonations((prev) =>
+          prev.map((m) => (m._id === meal._id ? { ...m, ...meal } : m))
+        )
+        setSelectedMeal(meal)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
   // Sorting handlers
 

@@ -133,4 +133,16 @@ export const getDonationsApi = () => {
     },
   })
 }
-//every refresh needs to render.
+
+//update the selected meal
+export const updateMealApi = (mealId, updatedMeal) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/profile/${mealId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(updatedMeal),
+  })
+}
