@@ -159,3 +159,16 @@ export const deleteMealApi = (mealId, selectedMeal) => {
     },
   })
 }
+
+// mark the selected meal as pick up
+export const completeMealPickUpApi = (mealId) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/${mealId}/completePickup`, {
+    method: 'PATCH',
+    headers: {
+      'Content-type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ pickedUp: true }),
+  })
+}

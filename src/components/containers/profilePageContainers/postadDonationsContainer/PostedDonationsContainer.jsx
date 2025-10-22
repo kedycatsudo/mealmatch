@@ -4,14 +4,20 @@ import PostedDonationListItem from './postedDonationsListContainer/PostedDonatio
 import PostedDonationCardDisplay from './postedDonationCardDisplay/PostedDonationCardDisplay'
 import SearchBox from '../../../common/searchBox/SearchBox'
 import {
+  completeMealPickUpApi,
   deleteMealApi,
   getDonationsApi,
   updateMealApi,
 } from '../../../../api.js'
 import { useState, useEffect } from 'react'
 
-const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
+const PostedDonationsContainer = ({
+  currentUser,
+  setCurrentUser,
+  triggerDonationStatusRefresh,
+}) => {
   const [donations, setDonations] = useState([])
+
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMeal, setSelectedMeal] = useState({})
   const [sortOrder, setSortOrder] = useState('')
@@ -70,18 +76,28 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
   //Toggle live status
 
   const handleToggleLive = (mealId, liveStatus) => {
-    return new Promise((resolve) => {
-      setDonations((prev) => {
-        const updatedMeal = prev.map((meal) =>
-          meal._id === mealId ? { ...meal, live: liveStatus } : meal
-        )
-        if (selectedMeal?._id === mealId) {
-          setSelectedMeal((prevMeal) => ({ ...prevMeal, live: liveStatus }))
+    return completeMealPickUpApi(mealId, liveStatus)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data.message || 'Could not update live status')
+          })
         }
-        resolve()
+        return res.json()
+      })
+      .then((updatedMeal) => {
+        setDonations((prev) =>
+          prev.map((meal) =>
+            meal._id === updatedMeal._id ? updatedMeal : meal
+          )
+        )
+        triggerDonationStatusRefresh()
+        if (selectedMeal?._id === updatedMeal._id) {
+          setSelectedMeal(updatedMeal)
+        }
+        setSelectedMeal(updatedMeal)
         return updatedMeal
       })
-    })
   }
 
   // Save changes to meal
@@ -106,6 +122,7 @@ const PostedDonationsContainer = ({ currentUser, setCurrentUser }) => {
         console.error(err)
       })
   }
+
   // Sorting handlers
 
   const handleSortByPostedDate = () => {

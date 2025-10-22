@@ -2,12 +2,13 @@ import ContainerSeperation from '../../components/common/containerSeperation/Con
 import ProfilePageHeader from '../../components/layout/pageHeaders/profilePageHeader/ProfilePageHeader'
 import ProfilePageFooter from '../../components/layout/pageFooters/homePageFooter/profilePageFooter/ProfilePageFooter'
 import ProfilePageBody from '../../components/layout/pageBodies/profilePageBody/ProfilePageBody'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { ParticipantContext } from '../../context/ParticipantContext'
 import InformationModal from '../../components/common/modals/informationModals/InformationModal'
 const Profile = () => {
   const { setCurrentUser, currentUser, loading } =
     useContext(ParticipantContext)
+  const [donationStatusRefresh, setDonationStatusRefresh] = useState(0)
   if (loading) {
     return (
       <div className="page">
@@ -40,10 +41,16 @@ const Profile = () => {
         ></ProfilePageHeader>
         <ContainerSeperation text={'Posted Donations'}></ContainerSeperation>
         <ProfilePageBody
+          triggerDonationStatusRefresh={() =>
+            setDonationStatusRefresh((prev) => prev + 1)
+          } // Pass callback down
           setCurrentUser={setCurrentUser}
           currentUser={currentUser}
         ></ProfilePageBody>
-        <ProfilePageFooter currentUser={currentUser}></ProfilePageFooter>
+        <ProfilePageFooter
+          donationStatusRefresh={donationStatusRefresh}
+          currentUser={currentUser}
+        ></ProfilePageFooter>
       </div>
     </div>
   )
