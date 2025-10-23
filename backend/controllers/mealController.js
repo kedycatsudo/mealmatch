@@ -40,7 +40,6 @@ const createMeal = (req, res, next) => {
   const ownerId = req.user.userId
   const ownerName = req.userDoc.userName
   let allergens = req.body.allergens
-  console.log('req.userDoc:', req.userDoc)
   function isBlank(str) {
     return typeof str !== 'string' || str.trim() === ''
   }
@@ -138,6 +137,7 @@ const createMeal = (req, res, next) => {
             })
           })
       } else {
+        console.error(meal)
         //karm false no email to karm, donation shared at the public list
         return res
           .status(success.CREATED_SUCCESS_CODE)
@@ -261,7 +261,7 @@ const updateMyDonation = (req, res, next) => {
 
 const getExploreMeals = (req, res, next) => {
   Meal.find({ karm: false, live: true })
-    .select('mealName useBy servings postDate allergens')
+    .select('mealName useBy servings postDate allergens pickUpLoc')
     .sort({ postDate: -1 })
     .then((meals) => {
       if (meals.length === 0) {
@@ -269,8 +269,10 @@ const getExploreMeals = (req, res, next) => {
           .status(success.OK_SUCCESS_CODE)
           .json({ message: 'There is no donation yet.' })
       }
+      console.error(meals)
       return res.status(success.OK_SUCCESS_CODE).json({ meals })
     })
+
     .catch((err) => {
       return next(normalizeError(err))
     })
