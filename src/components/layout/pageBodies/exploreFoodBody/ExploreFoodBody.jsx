@@ -7,7 +7,6 @@ import ExploreFoodDonationCardDisplay from '../../../containers/exploreFoodConta
 import { ParticipantContext } from '../../../../context/ParticipantContext'
 import { useState, useRef, useEffect, useContext } from 'react'
 
-import buildAddress from '../../../../utils/helpers/buildAddress'
 const ExploreFoodBody = ({ liveMeals }) => {
   const [showMapModal, setShowMapModal] = useState(false)
   const [donations, setDonations] = useState(

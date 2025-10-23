@@ -172,3 +172,14 @@ export const completeMealPickUpApi = (mealId) => {
     body: JSON.stringify({ pickedUp: true }),
   })
 }
+
+//get donations for explore food
+export const getDonationsExplorePageApi = () => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/exploreFood`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

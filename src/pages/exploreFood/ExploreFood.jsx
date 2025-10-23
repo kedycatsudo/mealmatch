@@ -3,30 +3,29 @@ import { useEffect, useState } from 'react'
 import ContainerSeperation from '../../components/common/containerSeperation/ContainerSeperation'
 import ExploreFoodHeader from '../../components/layout/pageHeaders/exploreFoodHeader/ExploreFoodHeader'
 import ExploreFoodBody from '../../components/layout/pageBodies/exploreFoodBody/ExploreFoodBody'
-
+import { getDonationsExplorePageApi } from '../../api'
 const ExploreFood = () => {
   const [liveMeals, setLiveMeals] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/meals.json`)
+    setLoading(true)
+    setError(null)
+    getDonationsExplorePageApi()
       .then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch meals data`)
+        if (!res.ok) throw new Error('Failed to fetch meals data.')
         return res.json()
       })
-      .then((meals) => {
-        const filteredMeals = Array.isArray(meals)
-          ? meals.filter((meal) => meal.live)
-          : []
-        setLiveMeals(filteredMeals)
+      .then((data) => {
+        setLiveMeals(Array.isArray(data.meals) ? data.meals : [])
       })
       .catch((err) => {
-        console.log(err)
+        console.error(err)
         setError(err.message)
       })
       .finally(() => setLoading(false))
-  })
+  }, [])
 
   return (
     <div className="page">

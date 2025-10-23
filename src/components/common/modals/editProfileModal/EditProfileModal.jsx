@@ -177,7 +177,7 @@ const EditProfileModal = ({
           <div className="modal-overlay">
             <InformationModal
               text={'Account deleted with the meals.'}
-              onClose={() => setShowInfoModal(false)}
+              onClose={() => setShowInfoDeleteModal(false)}
             ></InformationModal>
           </div>
         )}
