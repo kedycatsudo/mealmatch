@@ -107,7 +107,6 @@ const createMeal = (req, res, next) => {
       if (!meal) return //already handled conflict
       //If karm is true, send email to karm
       if (meal.karm) {
-        console.log('donor:', ownerName)
         const mealForEmail = {
           ownerName: ownerName,
           mealName: meal.mealName,
@@ -116,7 +115,6 @@ const createMeal = (req, res, next) => {
           contactPhone: meal.contactPhone,
           useBy: meal.useBy,
         }
-        console.log('meal for email:', mealForEmail)
         return sendDonationToKarm({
           to: process.env.KARM_ADMIN_EMAIL,
           subject: 'New KARM Food Donation',
@@ -261,7 +259,9 @@ const updateMyDonation = (req, res, next) => {
 
 const getExploreMeals = (req, res, next) => {
   Meal.find({ karm: false, live: true })
-    .select('mealName useBy servings postDate allergens pickUpLoc')
+    .select(
+      'mealName useBy servings postDate allergens pickUpLoc hold claimedUpBy claimedUpAt pickedUp'
+    )
     .sort({ postDate: -1 })
     .then((meals) => {
       if (meals.length === 0) {
@@ -269,7 +269,7 @@ const getExploreMeals = (req, res, next) => {
           .status(success.OK_SUCCESS_CODE)
           .json({ message: 'There is no donation yet.' })
       }
-      console.error(meals)
+
       return res.status(success.OK_SUCCESS_CODE).json({ meals })
     })
 

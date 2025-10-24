@@ -27,7 +27,7 @@ router.post(
   '/createMeal',
   express.json(),
   express.urlencoded({ extended: true }),
-  mealLimiter,
+  //mealLimiter,
   authenticate,
   createMeal
 )

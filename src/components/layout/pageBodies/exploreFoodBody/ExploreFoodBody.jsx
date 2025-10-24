@@ -6,8 +6,12 @@ import SearchBox from '../../../common/searchBox/SearchBox'
 import ExploreFoodDonationCardDisplay from '../../../containers/exploreFoodContainers/exploreFoodDonationCardDisplay/ExploreFoodDonationCardDisplay'
 import { ParticipantContext } from '../../../../context/ParticipantContext'
 import { useState, useRef, useEffect, useContext } from 'react'
+import {
+  claimDonationExplorePageApi,
+  unclaimDonationExplorePageApi,
+} from '../../../../api'
 
-const ExploreFoodBody = ({ liveMeals }) => {
+const ExploreFoodBody = ({ liveMeals, currentUser }) => {
   const [showMapModal, setShowMapModal] = useState(false)
   const [donations, setDonations] = useState(
     Array.isArray(liveMeals) ? liveMeals : []
@@ -20,10 +24,6 @@ const ExploreFoodBody = ({ liveMeals }) => {
   const [sortSize, setSortSize] = useState('')
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
-  const { users } = useContext(ParticipantContext)
-
-  const getOwner = (ownerId) =>
-    Array.isArray(users) ? users.find((u) => u._id === ownerId) : null
 
   // Sorting handlers
   const handleSortByPostedDate = () => {
@@ -56,11 +56,29 @@ const ExploreFoodBody = ({ liveMeals }) => {
   // Modal focus effect
 
   useEffect(() => {
-    if (showMapModal && modalRef.current) {
-      modalRef.current.focus()
-      modalRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    if (!currentUser || !Array.isArray(donations)) return
+
+    //Auto select and open modal for calimed meal
+    const claimedMeal = donations.find(
+      (d) => d.hold && d.claimedUpBy === currentUser._id
+    )
+    if (claimedMeal) {
+      setSelectedMeal(claimedMeal)
+      setShowMapModal(true)
+      //accessiblty: focus and scroll to modal
+      setTimeout(() => {
+        if (modalRef.current) {
+          modalRef.current.focus()
+          modalRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          })
+        }
+      }, 50) // small delay to ensure modal is in DOM
+    } else {
+      setShowMapModal(false)
     }
-  }, [showMapModal])
+  }, [donations, currentUser])
 
   // Filter and sort logic
 
@@ -100,18 +118,67 @@ const ExploreFoodBody = ({ liveMeals }) => {
     )
   }
   const handleAcceptDonation = (donationId) => {
-    setDonations((prevDonations) =>
-      prevDonations.map((d) =>
-        d._id === donationId ? { ...d, hold: true } : d
-      )
-    )
+    claimDonationExplorePageApi(donationId)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            alert(err.message || 'Failed to claim donation')
+            //handle the error UI here
+          })
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (data) {
+          //success: update state
+          setDonations((prevDonations) =>
+            prevDonations.map((d) =>
+              d._id === donationId
+                ? { ...d, hold: true, claimedUpBy: data.meal.claimedUpBy }
+                : d
+            )
+          )
+          alert(data.message || 'Donation claimed succesfully!')
+          handleOpenModal()
+          //update UI, show modal etc.
+        }
+      })
+      .catch((err) => {
+        alert('Network error: could not claim donation.')
+        console.error(err)
+      })
   }
   const handleCancelDonation = (donationId) => {
-    setDonations((prevDonations) =>
-      prevDonations.map((d) =>
-        d._id === donationId ? { ...d, hold: false } : d
-      )
-    )
+    unclaimDonationExplorePageApi(donationId)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            alert(err.message || 'Failed to cancel claim')
+          })
+        }
+        return res.json()
+      })
+      .then((data) => {
+        if (data && data.meal) {
+          setDonations((prevDonations) =>
+            prevDonations.map((d) =>
+              d._id === donationId
+                ? {
+                    ...d,
+                    hold: false,
+                    claimedUpBy: data.meal.claimedUpBy,
+                    claimedUpAt: data.meal.claimedUpAt,
+                  }
+                : d
+            )
+          )
+          alert(data.message || 'Claim cancelled successfully!')
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        alert('Network error: could not cancel claim')
+      })
   }
   return (
     <div className="posted__donations-container">
@@ -129,7 +196,6 @@ const ExploreFoodBody = ({ liveMeals }) => {
           <ExploreDonationListTitle />
           {sortedDonations && sortedDonations.length > 0
             ? sortedDonations.map((sortedDonation, idx) => {
-                const owner = getOwner(sortedDonation.ownerId)
                 return (
                   <ExploreDonationsListItem
                     onClick={() => {
@@ -137,15 +203,7 @@ const ExploreFoodBody = ({ liveMeals }) => {
                     }}
                     key={sortedDonation._id || idx}
                     donation={sortedDonation}
-                    selectedMeal={selectedMeal}
-                    owner={owner}
                     donationHold={sortedDonation.hold}
-                    setDonationHold={(holdValue) =>
-                      handleSetDonationHold(sortedDonation._id, holdValue)
-                    }
-                    cancelDonation={() =>
-                      handleCancelDonation(selectedMeal._id)
-                    }
                   />
                 )
               })
@@ -159,7 +217,7 @@ const ExploreFoodBody = ({ liveMeals }) => {
           }
           onConfirmAccept={handleOpenModal}
           selectedMeal={selectedMeal}
-          onClick={() => handleAcceptDonation(selectedMeal._id)}
+          onAcceptDonation={handleAcceptDonation}
         />
       </div>
       {showMapModal && (

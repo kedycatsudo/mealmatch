@@ -7,19 +7,27 @@ const ExploreFoodDonationCardDisplay = ({
   selectedMeal,
   donationHold,
   onConfirmAccept,
-  onClick,
+  onAcceptDonation,
+  cancelDonation,
+  setDonationHold,
 }) => {
   const [showModalAcceptDonation, setShowModalAcceptDonation] = useState(false)
 
   const onClose = () => setShowModalAcceptDonation(false)
 
   const handleAcceptConfirm = () => {
-    if (onConfirmAccept) onConfirmAccept()
+    if (onAcceptDonation && selectedMeal._id) {
+      onAcceptDonation(selectedMeal._id) // <--- call parent's handler with ID
+    }
     setShowModalAcceptDonation(false)
-    if (onClick) onClick()
-    // If you want to call a backend API, you can do so here in future!
+    // Any additional UI logic
   }
-
+  const handleCancelConfirm = () => {
+    if (cancelDonation && selectedMeal._id) {
+      cancelDonation(selectedMeal._id)
+    }
+    // Optionally, close modal or update UI here
+  }
   return (
     <div className="explore__donation_card_display-container">
       <h3 className="explore__donation_card_display-container-title">
@@ -32,7 +40,7 @@ const ExploreFoodDonationCardDisplay = ({
             type="button"
             onClick={() => setShowModalAcceptDonation(true)}
             variant="card__edit"
-            text="Accept"
+            text="Accept Donation"
           />
         )}
 

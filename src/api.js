@@ -183,3 +183,26 @@ export const getDonationsExplorePageApi = () => {
     },
   })
 }
+
+//claim donation for explore food
+
+export const claimDonationExplorePageApi = (mealId) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/${mealId}/claim`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
+//uncalim donation for explore food
+export const unclaimDonationExplorePageApi = (mealId) => {
+  const token = localStorage.getItem('token')
+  return fetch(`${API_URL}/api/meals/${mealId}/unclaim`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

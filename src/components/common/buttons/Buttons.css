@@ -86,7 +86,7 @@
   width: 150px;
 }
 .btn-card__edit {
-  width: 100px;
+  width: fit-content;
 }
 
 .btn-modal__close-btn {
