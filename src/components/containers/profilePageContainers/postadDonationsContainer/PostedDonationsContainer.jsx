@@ -27,7 +27,7 @@ const PostedDonationsContainer = ({
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [fetchError, setFetchError] = useState('')
-
+  const [pendingUpdatedMeal, setPendingUpdatedMeal] = useState(null)
   const currentUserId = currentUser?._id || ''
 
   useEffect(() => {
@@ -120,7 +120,7 @@ const PostedDonationsContainer = ({
         setDonations((prev) =>
           prev.map((m) => (m._id === meal._id ? { ...m, ...meal } : m))
         )
-        setSelectedMeal(meal)
+        setPendingUpdatedMeal(meal)
       })
       .catch((err) => {
         console.error(err)
@@ -200,14 +200,14 @@ const PostedDonationsContainer = ({
             : !isLoading && <li>No meals found.</li>}
         </ul>
         <PostedDonationCardDisplay
+          setSelectedMeal={setSelectedMeal}
           triggerDonationStatusRefresh={triggerDonationStatusRefresh}
-          donationStatusRefresh={donationStatusRefresh}
           onToggleLive={handleToggleLive}
           currentUserId={currentUserId}
           onDelete={handleDelete}
-          setSelectedMeal={setSelectedMeal}
           selectedMeal={selectedMeal}
           onSave={onSave}
+          pendingUpdatedMeal={pendingUpdatedMeal}
         />
       </div>
     </div>

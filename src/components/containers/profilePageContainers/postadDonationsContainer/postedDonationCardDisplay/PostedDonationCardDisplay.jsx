@@ -12,6 +12,8 @@ const PostedDonationCardDisplay = ({
   onToggleLive,
   currentUserId,
   triggerDonationStatusRefresh,
+  pendingUpdatedMeal,
+  setSelectedMeal,
 }) => {
   const [showEditMealCardModal, setShowEditMealCardModal] = useState(false)
   const [showDeleteCardModal, setShowDeleteCardModal] = useState(false)
@@ -61,6 +63,8 @@ const PostedDonationCardDisplay = ({
               {showEditMealCardModal && (
                 <div className="modal__overlay">
                   <EditMealCardModalForm
+                    setSelectedMeal={setSelectedMeal}
+                    pendingUpdatedMeal={pendingUpdatedMeal}
                     onClose={() => setShowEditMealCardModal(false)}
                     onSave={onSave}
                     selectedMeal={selectedMeal}

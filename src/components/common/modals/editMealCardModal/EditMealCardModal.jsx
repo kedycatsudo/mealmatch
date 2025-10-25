@@ -4,10 +4,15 @@ import Input from '../../inputs/Inputs'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import Button from '../../buttons/Buttons'
 import { getDonationsApi } from '../../../../api'
+import InformationModal from '../informationModals/InformationModal'
 
-const requiredFields = ['mealName', 'useBy']
-
-const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
+const EditMealCardModalForm = ({
+  selectedMeal,
+  onSave,
+  onClose,
+  pendingUpdatedMeal,
+  setSelectedMeal,
+}) => {
   const [mealData, setMealData] = useState({
     mealName: '',
     useBy: '',
@@ -16,6 +21,8 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
     allergens: '',
   })
   const [error, setError] = useState('')
+  const [editMealInfoModal, setEditMealInfoModal] = useState(false)
+  const requiredFields = ['mealName', 'useBy']
 
   useEffect(() => {
     getDonationsApi()
@@ -69,9 +76,8 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           : [],
         useBy: mealData.useBy, // let backend format date if needed
       }
+      setEditMealInfoModal(true)
       onSave(merged)
-
-      onClose()
     }
   }
 
@@ -137,7 +143,8 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           </div>
         )}
         <Button
-          type="submit"
+          onClick={onSubmit}
+          type="button"
           className="edit__modal_save-changes-btn"
           text="Save Changes"
           variant="login__button-container-submit"
@@ -155,6 +162,18 @@ const EditMealCardModalForm = ({ selectedMeal, onSave, onClose }) => {
           >
             Please fill all required fields: Meal Name, Use By, Pick Up
             Location.
+          </div>
+        )}
+        {editMealInfoModal && (
+          <div className="modal-overlay">
+            <InformationModal
+              text={'Meal changed succesfully'}
+              onClose={() => {
+                setSelectedMeal(pendingUpdatedMeal)
+                setEditMealInfoModal(false)
+                onClose()
+              }}
+            ></InformationModal>
           </div>
         )}
       </form>
