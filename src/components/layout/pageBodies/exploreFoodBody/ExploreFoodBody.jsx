@@ -24,7 +24,8 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
   const [sortSize, setSortSize] = useState('')
   const [sortSelection, setSortSelection] = useState('')
   const [sortOrderUseBy, setSortOrderUseBy] = useState('')
-
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [infoText, setInfoText] = useState('')
   // Sorting handlers
   const handleSortByPostedDate = () => {
     setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'))
@@ -138,7 +139,8 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
                 : d
             )
           )
-          alert(data.message || 'Donation claimed succesfully!')
+          setInfoText(data.message || 'Donation claimed succesfully!')
+          setShowInfoModal(true)
           handleOpenModal()
           //update UI, show modal etc.
         }
@@ -210,6 +212,9 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
             : null}
         </ul>
         <ExploreFoodDonationCardDisplay
+          infoText={infoText}
+          showInfoModal={showInfoModal}
+          setShowInfoModal={setShowInfoModal}
           cancelDonation={() => handleCancelDonation(selectedMeal._id)}
           donationHold={selectedMeal.hold}
           setDonationHold={(holdValue) =>

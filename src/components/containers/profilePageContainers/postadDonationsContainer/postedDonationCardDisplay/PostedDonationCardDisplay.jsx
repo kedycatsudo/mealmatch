@@ -5,6 +5,7 @@ import EditMealCardModalForm from '../../../../common/modals/editMealCardModal/E
 import PostedDonationCardDisplayFooter from './postedDonationCardDisplayFooter/PostedDonationCardDisplayFooter'
 import { useState } from 'react'
 import ConfirmationModal from '../../../../common/modals/confirmationModal/ConfirmationModal'
+import InformationModal from '../../../../common/modals/informationModals/InformationModal'
 const PostedDonationCardDisplay = ({
   selectedMeal,
   onSave,
@@ -21,22 +22,34 @@ const PostedDonationCardDisplay = ({
   const [isToggling, setIsToggling] = useState(false)
   const [showPickedUpCardModal, setShowPickedUpCardModal] = useState(false)
   const isOwner = selectedMeal.ownerId === currentUserId
-
+  const [showDeleteMealInfoModal, setShowDeleteMealInfoModal] = useState(false)
+  const [showPickedUpInfoModal, setShowPickedUpInfoModal] = useState(false)
+  const [error, setError] = useState('')
   const handlePickedUp = () => {
     if (!selectedMeal?._id) return
     setIsToggling(true)
     Promise.resolve(onToggleLive(selectedMeal._id, false))
-      .then(() => setShowPickedUpCardModal(false))
-      .catch(() => alert('Failed to mark as picked up. Please try again.'))
+      .then(() => {
+        setShowPickedUpInfoModal(true)
+        setShowPickedUpCardModal(false)
+      })
+      .catch(() => {
+        setError('Meal could not marked as picked up, try again later.')
+        setShowPickedUpInfoModal(true)
+      })
       .finally(() => setIsToggling(false))
   }
 
   const handleConfirmDelete = () => {
+    console.log(showDeleteMealInfoModal)
     if (!selectedMeal?._id) return
     setIsDeleting(true)
     Promise.resolve(onDelete(selectedMeal._id))
       .then(() => {
         setShowDeleteCardModal(false)
+        setShowDeleteMealInfoModal(true)
+        console.log(`info modal`)
+        console.log(showDeleteMealInfoModal)
         triggerDonationStatusRefresh()
       })
       .catch((err) => {
@@ -116,7 +129,9 @@ const PostedDonationCardDisplay = ({
               {showDeleteCardModal && (
                 <div className="modal__overlay">
                   <ConfirmationModal
-                    onClick={handleConfirmDelete}
+                    /*onClick={() => {
+                      setShowDeleteMealInfoModal(true)
+                    }}*/
                     onClose={() => setShowDeleteCardModal(false)}
                     confirmation={'Do you want to delete the meal?'}
                     isLoading={isDeleting}
@@ -127,7 +142,34 @@ const PostedDonationCardDisplay = ({
           )}
         </div>
       )}
-
+      {showDeleteMealInfoModal && (
+        <div className="modal-overlay">
+          <InformationModal
+            onClose={() => setShowDeleteMealInfoModal(false)}
+            text={'Meal deleted succesfully.'}
+          ></InformationModal>
+        </div>
+      )}
+      {showPickedUpInfoModal && (
+        <div className="modal-overlay">
+          <InformationModal
+            onClose={() => setShowPickedUpInfoModal(false)}
+            text={'Meal picked up succesfully, and removed from public list.'}
+          ></InformationModal>
+        </div>
+      )}
+      {showPickedUpInfoModal && (
+        <div className="modal-overlay">
+          <InformationModal
+            onClose={() => setShowPickedUpInfoModal(false)}
+            text={
+              error === ''
+                ? 'Meal picked up succesfully, and removed from public list.'
+                : error
+            }
+          ></InformationModal>
+        </div>
+      )}
       <div className="posted__donation-card-infos">
         <PostedDonationCardInfo
           selectedMeal={selectedMeal}

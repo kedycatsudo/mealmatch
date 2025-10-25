@@ -28,6 +28,7 @@ const EditProfileModal = ({
   const [draftProfile, setDraftProfile] = useState(() =>
     currentUser ? { ...currentUser, avatarFile: undefined } : {}
   )
+  const [error, setError] = useState('')
   const [shouldNavigate, setShouldNavigate] = useState(false)
   const onCloseInfoModal = () => {
     setShowInfoModal(false)
@@ -67,7 +68,7 @@ const EditProfileModal = ({
         setShouldNavigate(true)
       })
       .catch((err) => {
-        alert(err.message || 'Could not delete account.')
+        setError(err.message || 'Could not delete account.')
         setShowModalDelete(false)
       })
       .finally(() => {
@@ -151,7 +152,7 @@ const EditProfileModal = ({
         {showInfoModal && (
           <div className="modal-overlay">
             <InformationModal
-              text={'Changes saved succesfully.'}
+              text={error === '' ? 'Changes saved succesfully.' : error}
               onClose={onCloseInfoModal} // closes info modal only
             />
           </div>

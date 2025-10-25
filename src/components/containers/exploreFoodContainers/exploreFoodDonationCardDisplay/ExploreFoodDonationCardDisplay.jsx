@@ -3,13 +3,14 @@ import ConfirmationModal from '../../../common/modals/confirmationModal/Confirma
 import './ExploreFoodDonationCardDisplay.css'
 import ExploreFoodDonationCardInfo from './exploreFoodDonationCardInfo/ExploreFoodDonationCardInfo'
 import { useState } from 'react'
+import InformationModal from '../../../common/modals/informationModals/InformationModal'
 const ExploreFoodDonationCardDisplay = ({
   selectedMeal,
   donationHold,
-  onConfirmAccept,
   onAcceptDonation,
-  cancelDonation,
-  setDonationHold,
+  infoText,
+  showInfoModal,
+  setShowInfoModal,
 }) => {
   const [showModalAcceptDonation, setShowModalAcceptDonation] = useState(false)
 
@@ -22,12 +23,7 @@ const ExploreFoodDonationCardDisplay = ({
     setShowModalAcceptDonation(false)
     // Any additional UI logic
   }
-  const handleCancelConfirm = () => {
-    if (cancelDonation && selectedMeal._id) {
-      cancelDonation(selectedMeal._id)
-    }
-    // Optionally, close modal or update UI here
-  }
+
   return (
     <div className="explore__donation_card_display-container">
       <h3 className="explore__donation_card_display-container-title">
@@ -53,6 +49,16 @@ const ExploreFoodDonationCardDisplay = ({
               }
               onClose={onClose}
             ></ConfirmationModal>
+          </div>
+        )}
+        {showInfoModal && (
+          <div style={{ zIndex: 111111 }} className="modal-overlay">
+            <InformationModal
+              text={infoText}
+              onClose={() => {
+                setShowInfoModal(false)
+              }}
+            ></InformationModal>
           </div>
         )}
       </div>

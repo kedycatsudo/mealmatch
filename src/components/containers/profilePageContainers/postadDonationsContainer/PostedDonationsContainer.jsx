@@ -197,7 +197,7 @@ const PostedDonationsContainer = ({
                   meal={sortedMeal}
                 />
               ))
-            : !isLoading && <li>No meals found.</li>}
+            : !isLoading && <li>.There is no meal in your profile</li>}
         </ul>
         <PostedDonationCardDisplay
           setSelectedMeal={setSelectedMeal}
