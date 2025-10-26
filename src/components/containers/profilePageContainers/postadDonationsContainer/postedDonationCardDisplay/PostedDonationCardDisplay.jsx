@@ -48,8 +48,6 @@ const PostedDonationCardDisplay = ({
       .then(() => {
         setShowDeleteCardModal(false)
         setShowDeleteMealInfoModal(true)
-        console.log(`info modal`)
-        console.log(showDeleteMealInfoModal)
         triggerDonationStatusRefresh()
       })
       .catch((err) => {
@@ -129,9 +127,7 @@ const PostedDonationCardDisplay = ({
               {showDeleteCardModal && (
                 <div className="modal__overlay">
                   <ConfirmationModal
-                    /*onClick={() => {
-                      setShowDeleteMealInfoModal(true)
-                    }}*/
+                    onClick={handleConfirmDelete}
                     onClose={() => setShowDeleteCardModal(false)}
                     confirmation={'Do you want to delete the meal?'}
                     isLoading={isDeleting}

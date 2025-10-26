@@ -119,12 +119,13 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
     )
   }
   const handleAcceptDonation = (donationId) => {
+    setInfoText('')
     claimDonationExplorePageApi(donationId)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
-            alert(err.message || 'Failed to claim donation')
-            //handle the error UI here
+            setInfoText('Failed to claim donation')
+            showInfoModal(true)
           })
         }
         return res.json()
@@ -146,16 +147,18 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
         }
       })
       .catch((err) => {
-        alert('Network error: could not claim donation.')
-        console.error(err)
+        setInfoText('Network error: could not claim donation.')
+        setShowInfoModal(true)
       })
   }
   const handleCancelDonation = (donationId) => {
+    setInfoText('')
     unclaimDonationExplorePageApi(donationId)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
-            alert(err.message || 'Failed to cancel claim')
+            setInfoText('Failed to cancel claim')
+            setShowInfoModal(true)
           })
         }
         return res.json()
@@ -174,12 +177,13 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
                 : d
             )
           )
-          alert(data.message || 'Claim cancelled successfully!')
+          setInfoText('Claim cancelled successfully!')
+          setShowInfoModal(true)
         }
       })
       .catch((err) => {
-        console.error(err)
-        alert('Network error: could not cancel claim')
+        setInfoText('Network error: could not cancel claim')
+        setShowInfoModal(true)
       })
   }
   return (

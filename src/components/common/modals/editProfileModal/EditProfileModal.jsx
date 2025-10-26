@@ -28,6 +28,7 @@ const EditProfileModal = ({
   const [draftProfile, setDraftProfile] = useState(() =>
     currentUser ? { ...currentUser, avatarFile: undefined } : {}
   )
+
   const [error, setError] = useState('')
   const [shouldNavigate, setShouldNavigate] = useState(false)
   const onCloseInfoModal = () => {
@@ -57,6 +58,7 @@ const EditProfileModal = ({
   }, [showInfoDeleteModal, shouldNavigate, navigate, onCloseEditModal])
 
   const handleDeleteAccount = () => {
+    setError('')
     setIsSaving(true)
     deleteAccountApi()
       .then((res) => {
@@ -79,7 +81,7 @@ const EditProfileModal = ({
   const handleSubmitEditForm = (e) => {
     e.preventDefault()
     setIsSaving(true)
-
+    setError('')
     let avatarPromise = Promise.resolve()
     // 1. If a new avatar is seleceted, upload it first
 

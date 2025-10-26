@@ -27,6 +27,7 @@ const ShareFoodForm = ({ currentUser }) => {
   const [donation, setDonation] = useState(initialDonation)
   const [showModal, setShowModal] = useState(false)
   const [error, setError] = useState('')
+  const [errorModal, setErrorModal] = useState(false)
   const navigate = useNavigate()
 
   // Helper: Check if all required fields are filled
@@ -47,6 +48,7 @@ const ShareFoodForm = ({ currentUser }) => {
 
   // Handle submit
   const handleSubmitForm = (e) => {
+    setModalText('')
     e.preventDefault()
     if (!currentUser) return
 
@@ -82,7 +84,8 @@ const ShareFoodForm = ({ currentUser }) => {
         if (!res.ok) {
           return res.json().then((data) => {
             console.error('Backend error:', data)
-            throw new Error(data.message || 'Could not create meal')
+            setModalText(data.message || 'Could not create the meal.')
+            setErrorModal(true)
           })
         }
         return res.json()
@@ -98,9 +101,7 @@ const ShareFoodForm = ({ currentUser }) => {
         //refetch updated donations list
         return getDonationsApi()
       })
-      .catch((err) => {
-        setError(err.message)
-      })
+      .catch((err) => {})
   }
 
   const navigateTo = (path) => navigate(`/${path}`)
@@ -209,6 +210,16 @@ const ShareFoodForm = ({ currentUser }) => {
               navigateTo('profile')
             }}
           />
+        </div>
+      )}
+      {errorModal && (
+        <div className="modal-overlay">
+          <InformationModal
+            text={modalText}
+            onClose={() => {
+              setErrorModal(false)
+            }}
+          ></InformationModal>
         </div>
       )}
     </form>
