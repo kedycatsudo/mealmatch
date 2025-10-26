@@ -124,8 +124,8 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
-            setInfoText('Failed to claim donation')
-            showInfoModal(true)
+            setInfoText(err.message || 'Failed to claim donation')
+            setShowInfoModal(true)
           })
         }
         return res.json()
@@ -147,7 +147,8 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
         }
       })
       .catch((err) => {
-        setInfoText('Network error: could not claim donation.')
+        console.error(err)
+        setInfoText(err.message || 'Network error: could not claim donation.')
         setShowInfoModal(true)
       })
   }

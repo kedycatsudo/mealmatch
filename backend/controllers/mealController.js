@@ -288,6 +288,7 @@ const claimMeal = (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(mealId)) {
     return next(new BadRequestError('Invalid meal ID format'))
   }
+
   //Check if the user has already an active claim (not picked up)
   Meal.findOne({ claimedUpBy: userId, pickedUp: false })
     .then((activeClaim) => {
@@ -300,6 +301,11 @@ const claimMeal = (req, res, next) => {
       return Meal.findById(mealId).then((meal) => {
         if (!meal) {
           return next(new NotFoundError('Meal not found'))
+        }
+        if (String(userId) === String(meal.ownerId)) {
+          return next(
+            new BadRequestError('You can not claim your own donations.')
+          )
         }
         if (meal.pickedUp) {
           return next(new ConflictError('Meal already picked up'))
