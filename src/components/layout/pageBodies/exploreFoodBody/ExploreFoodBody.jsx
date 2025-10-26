@@ -18,6 +18,8 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
   )
   const [modalAddress, setModalAddress] = useState('')
   const modalRef = useRef(null)
+  const currentMealIdRef = useRef(null)
+  const [currentUserActiveMeal, setCurrentUserActiveMeal] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedMeal, setSelectedMeal] = useState({})
   const [sortOrder, setSortOrder] = useState('')
@@ -55,7 +57,10 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
   }
 
   // Modal focus effect
-
+  useEffect(() => {
+    const storedMealId = localStorage.getItem('activeMealId')
+    if (storedMealId) setCurrentUserActiveMeal(storedMealId)
+  }, [])
   useEffect(() => {
     if (!currentUser || !Array.isArray(donations)) return
 
@@ -82,7 +87,9 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
   }, [donations, currentUser])
 
   // Filter and sort logic
-
+  const currentClaimedMeal = donations.find(
+    (d) => d._id === currentUserActiveMeal
+  )
   const filteredDonations = Array.isArray(donations)
     ? donations.filter((donation) =>
         Object.values(donation)
@@ -140,25 +147,28 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
                 : d
             )
           )
-          setInfoText(data.message || 'Donation claimed succesfully!')
+          setInfoText(data.message || 'Donation claimed successfully!')
           setShowInfoModal(true)
+          setCurrentUserActiveMeal(donationId)
+          localStorage.setItem('activeMealId', donationId) // <-- persist!
           handleOpenModal()
           //update UI, show modal etc.
         }
       })
       .catch((err) => {
-        console.error(err)
         setInfoText(err.message || 'Network error: could not claim donation.')
         setShowInfoModal(true)
       })
   }
+  console.log(localStorage.getItem('activeMealId'))
+
   const handleCancelDonation = (donationId) => {
-    setInfoText('')
-    unclaimDonationExplorePageApi(donationId)
+    console.log('Cancelling meal with ID:', donationId._id)
+    unclaimDonationExplorePageApi(donationId._id)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((err) => {
-            setInfoText('Failed to cancel claim')
+            setInfoText(err.message || 'Failed to cancel claim')
             setShowInfoModal(true)
           })
         }
@@ -168,7 +178,7 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
         if (data && data.meal) {
           setDonations((prevDonations) =>
             prevDonations.map((d) =>
-              d._id === donationId
+              d._id === donationId._id
                 ? {
                     ...d,
                     hold: false,
@@ -179,14 +189,17 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
             )
           )
           setInfoText('Claim cancelled successfully!')
+          setCurrentUserActiveMeal(null)
+          localStorage.removeItem('activeMealId')
           setShowInfoModal(true)
         }
       })
       .catch((err) => {
-        setInfoText('Network error: could not cancel claim')
+        setInfoText(err.message || 'Network error: could not cancel claim')
         setShowInfoModal(true)
       })
   }
+
   return (
     <div className="posted__donations-container">
       <SearchBox
@@ -220,7 +233,6 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
           infoText={infoText}
           showInfoModal={showInfoModal}
           setShowInfoModal={setShowInfoModal}
-          cancelDonation={() => handleCancelDonation(selectedMeal._id)}
           donationHold={selectedMeal.hold}
           setDonationHold={(holdValue) =>
             handleSetDonationHold(selectedMeal._id, holdValue)
@@ -232,12 +244,12 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
       </div>
       {showMapModal && (
         <ExploreFoodDonationMapModal
-          cancelDonation={() => handleCancelDonation(selectedMeal._id)}
+          cancelDonation={() => handleCancelDonation(currentClaimedMeal)}
           showMapModal={showMapModal}
           onClose={() => setShowMapModal(false)}
           ref={modalRef}
           apiKey={'AIzaSyBOIRdskona5zw-Lv_0MN2cUQseN_m557A'} // or process.env.REACT_APP...
-          address={selectedMeal.pickUpLoc}
+          address={currentClaimedMeal.pickUpLoc}
           tabIndex={-1} // Make it focusable
           confirmation={
             'Confirm that you are requesting to pick up the donation.'

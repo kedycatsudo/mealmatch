@@ -27,7 +27,12 @@ function loadGoogleMaps(apiKey) {
 }
 
 const ExploreFoodDonationMapModal = forwardRef(
-  ({ address, apiKey, onClose, cancelDonation }, ref) => {
+  (
+    { address, apiKey, onClose, cancelDonation, donationHold, setShowMapModal },
+    ref
+  ) => {
+    const currentMealAddressRef = useRef(address)
+    const currentMealAddress = currentMealAddressRef.curr
     const mapRef = useRef(null)
     const containerRef = useRef(null)
     const [statusMessage, setStatusMessage] = useState('')
@@ -41,6 +46,7 @@ const ExploreFoodDonationMapModal = forwardRef(
     }, [showConfirmationModal])
 
     useEffect(() => {
+      //if (donationHold === true) return setShowMapModal(false)
       if (!address) return
       let mapsInstance = null
       let marker = null
@@ -93,7 +99,7 @@ const ExploreFoodDonationMapModal = forwardRef(
           // no explicit mapsInstance.destroy(), but remove DOM children if needed
         }
       }
-    }, [address, apiKey])
+    }, [apiKey])
 
     // fallback embed url for when geocode or JS API fails
     const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
