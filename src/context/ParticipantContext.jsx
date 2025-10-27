@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import { apiRequest } from '../api'
+import { replace, useNavigate } from 'react-router-dom'
 
 export const ParticipantContext = createContext()
 
@@ -7,7 +8,7 @@ export function ParticipantProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
+  const navigate = useNavigate
   // On mount, check localStorage for user info (for persistent login)
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export function ParticipantProvider({ children }) {
               setError('Session expired or invalid. Please log in again')
               localStorage.removeItem(`currentUser`)
               localStorage.removeItem('token')
+              navigate('/login', { replace: true })
               setCurrentUser(null)
             })
         } else {

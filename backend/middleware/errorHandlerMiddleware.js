@@ -12,7 +12,7 @@ const { v4: uuidv4 } = require('uuid')
  * - For client (4xx) errors: returns the error message as-is
  * - In development: includes stack and name in the JSON response
  */
-function errorHandlerMiddleware(err, req, res, next) {
+function errorHandlerMiddleware(err, res) {
   const statusCode =
     err && err.statusCode ? err.statusCode : errors.INTERNAL_SERVER_ERROR_CODE
   const isServerError = statusCode >= 500

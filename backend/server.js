@@ -48,7 +48,7 @@ const mealRoutes = require('./routes/mealRoutes')
 
 app.use('/mealmatch/uploads', express.static(path.join(__dirname, 'uploads')))
 
-// app.use('/api/users/login', loginLimiter)
+app.use('/api/users/login', loginLimiter)
 app.use('/api/users', userRoutes)
 app.use('/api/meals', mealRoutes)
 

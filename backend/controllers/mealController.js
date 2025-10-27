@@ -8,12 +8,9 @@ const success = require(`../utils/succesStatuses`)
 
 //error classes
 const {
-  AppError,
   BadRequestError,
   NotFoundError,
   ConflictError,
-  InternalServerError,
-  UnauthorizedError,
   ForbiddenError,
 } = require('../utils/errors/errorClasses')
 

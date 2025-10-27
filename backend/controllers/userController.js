@@ -12,7 +12,6 @@ const normalizeError = require('../utils/errors/normalizeError')
 const multer = require('multer')
 const path = require('path')
 const {
-  AppError,
   ValidationError,
   BadRequestError,
   NotFoundError,
@@ -105,10 +104,10 @@ const loginUser = (req, res, next) => {
         const token = jwt.sign(
           { userId: user._id, isAdmin: user.isAdmin },
           process.env.JWT_SECRET,
-          { expiresIn: '1d' }
+          { expiresIn: '2h' }
         )
         // Respond with token and user info (omit password)
-        const { password, ...userData } = user.toObject()
+        const { ...userData } = user.toObject()
         return res.json({
           token,
           user: userData,
