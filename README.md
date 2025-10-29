@@ -57,3 +57,5 @@ This is the backend API for the MealMatch project. It provides RESTful endpoints
 ## Contact
 
 For questions or issues, open an issue on [GitHub](https://github.com/kedycatsudo/mealmatch).
+
+amplify app
