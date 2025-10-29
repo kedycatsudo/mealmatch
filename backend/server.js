@@ -25,7 +25,7 @@ app.use(
 //MongoDb connection
 
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/mealmatch'
-
+app.get('/favicon.ico', (req, res) => res.status(204).end())
 mongoose
   .connect(mongoURI)
   .then(() => console.log(`MongoDB Connected`))
@@ -63,7 +63,7 @@ app.use((err, req, res, next) => {
 app.use(errorHandlerMiddleware)
 //Start server
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

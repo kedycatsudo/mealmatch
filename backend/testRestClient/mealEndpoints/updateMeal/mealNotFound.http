@@ -1,7 +1,0 @@
-PATCH http://localhost:5000/api/meals/profile/000000000000000000000000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGQ0ODdkNTZhNjhiM2ZjOWFkNmI5YTIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3NTg3NzA4NDQsImV4cCI6MTc1ODg1NzI0NH0.6XSY7Io7n8Pa_wrvzMpN_Lxdn-rUoNAEu2nbAx5SkIE
-Content-Type: application/json
-
-{
-  "mealName": "Anything"
-}

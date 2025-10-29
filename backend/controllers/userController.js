@@ -217,6 +217,7 @@ const registerUser = (req, res, next) => {
         return next(new BadRequestError(`${field} already exists.`))
       }
       // Normalize unknown errors and forward
+      console.error('Unknown registration error:', err) // <-- Add this!
       return next(normalizeError(err))
     })
 }

@@ -23,6 +23,10 @@ const {
 
 const authenticate = require('../middleware/authMiddleware')
 
+router.get('/', (req, res) => {
+  res.json({ message: 'Meal route is working!' })
+})
+
 router.post(
   '/createMeal',
   express.json(),

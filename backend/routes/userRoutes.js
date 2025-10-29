@@ -16,7 +16,9 @@ const {
 } = require('../controllers/userController')
 
 // Route : POST /api/users/register
-
+router.get('/', (req, res) => {
+  res.json({ message: 'User route is working!' })
+})
 router.post(
   '/register',
   express.json(),

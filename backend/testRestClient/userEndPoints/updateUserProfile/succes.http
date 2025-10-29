@@ -1,7 +1,0 @@
-PATCH http://localhost:5000/api/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGViZDgyYTk0MzdjNGRlZmE4N2E4NDAiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYwMjkzNzg0LCJleHAiOjE3NjAzODAxODR9.QjlnM88xOZco5GWMovhPrJYIXyNcPw8bCl8zlX2SRUg
-Content-Type: application/json
-
-{"username":"asdasd",
-"password": "asdasd"
-}

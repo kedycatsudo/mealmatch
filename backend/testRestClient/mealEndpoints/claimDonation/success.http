@@ -1,2 +1,0 @@
-PATCH http://localhost:5000/api/meals/68edcb54f64f5e23faceb694/claim
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGVkY2JiMWY2NGY1ZTIzZmFjZWI2OWIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzYwNDE0NjY3LCJleHAiOjE3NjA1MDEwNjd9.21le8bSNCJnvUfsrEeArU-oyRWurluVNv6FktQv_Xks

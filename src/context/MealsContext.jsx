@@ -5,13 +5,6 @@ export const MealsContext = createContext()
 export function MealsProvider({ children }) {
   const [meals, setMeals] = useState([])
 
-  useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/meals.json`)
-      .then((res) => res.json())
-      .then((data) => setMeals(data))
-    // TODO: Swap fetch for backend API when ready
-  }, [])
-
   // Example: Add a new meal (for MVP, local only)
   const addMeal = (meal) => {
     function isBlank(str) {
