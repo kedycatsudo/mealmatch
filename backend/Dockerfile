@@ -13,6 +13,9 @@ RUN npm install --production
 # Copy the rest of the app code
 COPY . .
 
+# Copy .env file for environment variables
+COPY .env .env
+
 # Expose the port your app runs on (change if needed)
 EXPOSE 3001
 

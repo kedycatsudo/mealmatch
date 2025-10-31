@@ -7,9 +7,7 @@ const normalizeError = require('../utils/errors/normalizeError')
 const User = require('../models/User')
 
 const authenticate = (req, res, next) => {
-  console.log('Middleware hit')
   const authHeader = req.headers.authorization
-  console.log('Auth Header:', authHeader) // <-- Add this
   //check for "Bearer <token>"
 
   if (!authHeader || !authHeader.startsWith(`Bearer `)) {
@@ -27,12 +25,9 @@ const authenticate = (req, res, next) => {
 
   Promise.resolve()
     .then(() => {
-      console.log('authHeader:', req.headers.authorization)
-      console.log('Extracted token:', token)
       return jwt.verify(token, process.env.JWT_SECRET)
     })
     .then((decoded) => {
-      console.log('Decoded JWT:', decoded)
       if (!decoded || !decoded.userId) {
         throw { name: 'InvalidPayload', message: 'Invalid token payload' }
       }

@@ -41,7 +41,6 @@ const PostedDonationCardDisplay = ({
   }
 
   const handleConfirmDelete = () => {
-    console.log(showDeleteMealInfoModal)
     if (!selectedMeal?._id) return
     setIsDeleting(true)
     Promise.resolve(onDelete(selectedMeal._id))

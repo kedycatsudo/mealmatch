@@ -160,10 +160,8 @@ const ExploreFoodBody = ({ liveMeals, currentUser }) => {
         setShowInfoModal(true)
       })
   }
-  console.log(localStorage.getItem('activeMealId'))
 
   const handleCancelDonation = (donationId) => {
-    console.log('Cancelling meal with ID:', donationId._id)
     unclaimDonationExplorePageApi(donationId._id)
       .then((res) => {
         if (!res.ok) {
