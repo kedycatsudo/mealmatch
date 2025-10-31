@@ -17,8 +17,8 @@ const app = express()
 // Enable CORS
 app.use(
   cors({
-    origin: 'http://localhost:5173', // <-- your frontend's URL
-    credentials: true, // <-- allow credentials (cookies, auth headers)
+    origin: 'https://mealmatch.online', // or ['https://mealmatch.online']
+    credentials: true, // if you use cookies/sessions
   })
 )
 
