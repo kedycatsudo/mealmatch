@@ -1,6 +1,6 @@
 # MealMatch Backend API
 
-This is the backend API for the MealMatch project. It provides RESTful endpoints for user authentication, profile management, and meal sharing/claiming.
+This is the FUll Stack Web Application for the MealMatch project. It provides RESTful endpoints for user authentication, profile management, and meal sharing/claiming.
 
 ## Table of Contents
 
@@ -53,6 +53,9 @@ This is the backend API for the MealMatch project. It provides RESTful endpoints
 ## CORS
 
 - CORS is enabled globally with `app.use(cors())`.
+
+  ## Frontend is under src
+- Frontend application is under the src folder.
 
 ## Contact
 
