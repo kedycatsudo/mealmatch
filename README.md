@@ -9,6 +9,7 @@ This is the FUll Stack Web Application for the MealMatch project. It provides RE
 - [General Usage](#general-usage)
 - [Authentication](#authentication)
 - [CORS](#cors)
+- [Frontend (src)](#frontend-src)
 - [Contact](#contact)
 
 ---
@@ -54,11 +55,58 @@ This is the FUll Stack Web Application for the MealMatch project. It provides RE
 
 - CORS is enabled globally with `app.use(cors())`.
 
-  ## Frontend is under src
-- Frontend application is under the src folder.
+## Frontend (src)
+
+The frontend lives in the `src/` folder and is a React single-page application.
+
+### Routing
+
+Routes are defined in `src/App.jsx` using `react-router-dom`:
+
+- `/` and `/home` — Home page
+- `/login` — Login page
+- `/register` — Register page
+- `/menu` — Main menu (protected)
+- `/profile` — Profile (protected)
+- `/shareFood` — Post/share a meal donation (protected)
+- `/exploreFood` — Explore available meals to claim (protected)
+
+Protected routes are wrapped with `ProtectedRoute`.
+
+### API communication
+
+The frontend calls the backend via `src/api.js`.
+
+- Base URL is read from `VITE_API_URL` (Vite environment variable).
+- JWT token is stored in `localStorage` under `token` and sent as `Authorization: Bearer <token>` for authenticated requests.
+
+### State management
+
+The app uses React Context providers (see `src/context/`) and they are mounted in `src/App.jsx`:
+
+- `ParticipantProvider` — authentication / current user state
+- `MealsProvider` — meals / donations data
+- `RecentDonationProvider` — recent donation state
+
+### Styling
+
+Styling is plain CSS and lives alongside components/pages (e.g. `src/pages/**`) as well as global styles in `src/index.css` and `src/App.css`.
+
+### Running the frontend locally
+
+1. Install dependencies
+   ```bash
+   npm install
+   ```
+2. Create a `.env` file and set the backend URL
+   ```bash
+   VITE_API_URL=http://localhost:5000
+   ```
+3. Start the dev server
+   ```bash
+   npm run dev
+   ```
 
 ## Contact
 
 For questions or issues, open an issue on [GitHub](https://github.com/kedycatsudo/mealmatch).
-
-amplify app
