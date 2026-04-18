@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from '../../buttons/Buttons'
 import './InformationModal.css'
 const InformationModal = ({ onClose, text }) => {

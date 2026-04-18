@@ -9,7 +9,7 @@ import {
   ChefSvg,
 } from '../../../../assets/icons/index'
 import Button from '../../../common/buttons/Buttons'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 const HowItWorksContainer = () => {
   const { currentUser, loading } = useContext(ParticipantContext)
 

@@ -1,7 +1,7 @@
 import './ProfilePageFooter.css'
 import ContainerSeperation from '../../../../common/containerSeperation/ContainerSeperation'
 import DonationStatusListItem from './donationStatusListItem/DonationStatusListItem'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getDonationsApi } from '../../../../../api'
 
 const ProfilePageFooter = ({ currentUser, donationStatusRefresh }) => {

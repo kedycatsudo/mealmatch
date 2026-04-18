@@ -1,3 +1,4 @@
+import React from 'react'
 import './ShareFoodHeader.css'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../../common/buttons/Buttons'

@@ -5,7 +5,7 @@ import ExploreDonationListTitle from '../../../containers/exploreFoodContainers/
 import SearchBox from '../../../common/searchBox/SearchBox'
 import ExploreFoodDonationCardDisplay from '../../../containers/exploreFoodContainers/exploreFoodDonationCardDisplay/ExploreFoodDonationCardDisplay'
 import { ParticipantContext } from '../../../../context/ParticipantContext'
-import { useState, useRef, useEffect, useContext } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import {
   claimDonationExplorePageApi,
   unclaimDonationExplorePageApi,

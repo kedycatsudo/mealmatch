@@ -6,7 +6,7 @@ import Checkbox from '../../components/common/checbox/Checkbox'
 import { ParticipantContext } from '../../context/ParticipantContext'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { apiRequest } from '../../api'
-
+import React from 'react'
 function Register() {
   const navigate = useNavigate()
   const { loading, error, setError } = useContext(ParticipantContext)

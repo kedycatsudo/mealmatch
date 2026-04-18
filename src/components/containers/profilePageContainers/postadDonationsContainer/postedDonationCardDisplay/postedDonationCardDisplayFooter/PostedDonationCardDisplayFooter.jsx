@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from '../../../../../common/buttons/Buttons'
 import './PostedDonationCardDisplayFooter.css'
 

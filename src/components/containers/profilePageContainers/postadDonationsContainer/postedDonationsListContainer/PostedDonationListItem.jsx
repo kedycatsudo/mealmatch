@@ -1,3 +1,4 @@
+import React from 'react'
 import PostedDonationsListItemSpan from './postedDonationsListItemSpan/PostedDonationsListItemSpan'
 import './PostedDonationListItem.css'
 

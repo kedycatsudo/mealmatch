@@ -1,3 +1,4 @@
+import React from 'react'
 import { participants } from '../../../../utils/constants/participantsConstants'
 import { useRecentDonation } from '../../../../context/RecentDonationsContext'
 

@@ -1,3 +1,4 @@
+import React from 'react'
 import './ConfirmationModal.css'
 import Button from '../../buttons/Buttons'
 

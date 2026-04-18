@@ -1,5 +1,5 @@
 import './ParticipantsContainer.css'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { ParticipantContext } from '../../../../context/ParticipantContext'
 import ParticipantContainerItem from './ParticipantsContainerItem'
 

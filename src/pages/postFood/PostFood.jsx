@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import './PostFood.css'
 import ContainerSeperation from '../../components/common/containerSeperation/ContainerSeperation'
 import ShareFoodHeader from '../../components/layout/pageHeaders/shareFoodHeader/ShareFoodHeader'

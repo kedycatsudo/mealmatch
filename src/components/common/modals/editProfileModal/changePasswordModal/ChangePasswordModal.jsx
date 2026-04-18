@@ -1,7 +1,7 @@
 import './ChangePasswordModal.css'
 import Input from '../../../inputs/Inputs'
 import Button from '../../../buttons/Buttons'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import UseEffectShowModal from '../../../../../utils/helpers/useEffectShowModal'
 import InformationModal from '../../informationModals/InformationModal'
 import { changePasswordApi } from '../../../../../api'

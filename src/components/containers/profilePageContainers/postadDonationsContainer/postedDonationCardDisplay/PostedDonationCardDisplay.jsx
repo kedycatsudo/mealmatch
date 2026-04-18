@@ -3,7 +3,7 @@ import PostedDonationCardInfo from './postedDonationCardInfo/PostedDonationCardI
 import './PostedDonationCardDisplay.css'
 import EditMealCardModalForm from '../../../../common/modals/editMealCardModal/EditMealCardModal'
 import PostedDonationCardDisplayFooter from './postedDonationCardDisplayFooter/PostedDonationCardDisplayFooter'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ConfirmationModal from '../../../../common/modals/confirmationModal/ConfirmationModal'
 import InformationModal from '../../../../common/modals/informationModals/InformationModal'
 const PostedDonationCardDisplay = ({

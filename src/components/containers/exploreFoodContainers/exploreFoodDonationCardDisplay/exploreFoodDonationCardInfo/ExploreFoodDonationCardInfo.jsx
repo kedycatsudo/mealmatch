@@ -1,3 +1,4 @@
+import React from 'react'
 import './ExploreFoodDonationCardInfo.css'
 const ExploreFoodDonationCardInfo = ({ selectedMeal }) => {
   // Format dates for better readability

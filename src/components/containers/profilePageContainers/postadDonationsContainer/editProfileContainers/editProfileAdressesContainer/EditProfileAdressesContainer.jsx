@@ -1,3 +1,4 @@
+import React from 'react'
 import './EditProfileAdressesContainer.css'
 import Input from '../../../../../common/inputs/Inputs'
 

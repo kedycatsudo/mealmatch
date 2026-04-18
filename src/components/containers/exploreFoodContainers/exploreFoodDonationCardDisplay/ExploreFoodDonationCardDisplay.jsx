@@ -2,7 +2,7 @@ import Button from '../../../common/buttons/Buttons'
 import ConfirmationModal from '../../../common/modals/confirmationModal/ConfirmationModal'
 import './ExploreFoodDonationCardDisplay.css'
 import ExploreFoodDonationCardInfo from './exploreFoodDonationCardInfo/ExploreFoodDonationCardInfo'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import InformationModal from '../../../common/modals/informationModals/InformationModal'
 const ExploreFoodDonationCardDisplay = ({
   selectedMeal,

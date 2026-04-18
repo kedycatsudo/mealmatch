@@ -1,5 +1,5 @@
 import './ExploreFood.css'
-import { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import ContainerSeperation from '../../components/common/containerSeperation/ContainerSeperation'
 import ExploreFoodHeader from '../../components/layout/pageHeaders/exploreFoodHeader/ExploreFoodHeader'
 import ExploreFoodBody from '../../components/layout/pageBodies/exploreFoodBody/ExploreFoodBody'

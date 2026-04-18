@@ -1,3 +1,4 @@
+import React from 'react'
 import './DonationListTitle.css'
 const DonationListTitle = ({}) => (
   <div className="posted__donations-list-title">

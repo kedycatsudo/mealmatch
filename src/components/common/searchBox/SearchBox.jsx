@@ -1,3 +1,4 @@
+import React from 'react'
 import './SearchBox.css'
 import Input from '../inputs/Inputs'
 import Button from '../buttons/Buttons'

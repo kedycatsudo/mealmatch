@@ -4,6 +4,7 @@ import ProfilePageFooter from '../../components/layout/pageFooters/homePageFoote
 import ProfilePageBody from '../../components/layout/pageBodies/profilePageBody/ProfilePageBody'
 import { useContext, useState } from 'react'
 import { ParticipantContext } from '../../context/ParticipantContext'
+import React from 'react'
 import InformationModal from '../../components/common/modals/informationModals/InformationModal'
 const Profile = () => {
   const { setCurrentUser, currentUser, loading } =

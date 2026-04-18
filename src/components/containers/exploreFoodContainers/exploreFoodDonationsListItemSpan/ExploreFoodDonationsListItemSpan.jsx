@@ -1,3 +1,4 @@
+import React from 'react'
 const ExploreFoodDonationsListItemSpan = ({ donationsData }) => {
   // Format allergens array
   const allergens = Array.isArray(donationsData.allergens)

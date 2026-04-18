@@ -1,3 +1,4 @@
+import React from 'react'
 import ExploreFoodDonationsListItemSpan from '../exploreFoodDonationsListItemSpan/ExploreFoodDonationsListItemSpan'
 import './ExploreDonationsListItem.css'
 

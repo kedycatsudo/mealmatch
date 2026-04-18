@@ -2,7 +2,7 @@ import Button from '../../../../../common/buttons/Buttons'
 import logo from '../../../../../../assets/logos/logo.png'
 import Input from '../../../../../common/inputs/Inputs'
 import './EditProfileBasicInformationsContainer.css'
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import ChangePasswordModal from '../../../../../common/modals/editProfileModal/changePasswordModal/ChangePasswordModal'
 import useEffectShowModal from '../../../../../../utils/helpers/useEffectShowModal'
 

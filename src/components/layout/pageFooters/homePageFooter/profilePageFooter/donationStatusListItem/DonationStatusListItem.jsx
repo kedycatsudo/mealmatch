@@ -1,3 +1,4 @@
+import React from 'react'
 const DonationStatusListItem = ({ text, participantsDataCategory, icon }) => {
   return (
     <li className="profile__footer-status-list-item">

@@ -1,3 +1,4 @@
+import React from 'react'
 import './ExploreFoodHeader.css'
 import Logo from '../../../../assets/logos/logo.png'
 import Button from '../../../common/buttons/Buttons'

@@ -1,3 +1,4 @@
+import React from 'react'
 import './TestimonialListItem.css'
 import donationsData from '../../../../../constants/donationsData'
 const TestimonialListItem = ({ participant }) => {

@@ -1,3 +1,4 @@
+import React from 'react'
 import './TestimonialPageFooterListItemContainer.css'
 const TestimonialPageFooterListItemContainer = ({ participant }) => {
   return (

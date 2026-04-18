@@ -29,7 +29,7 @@ Production link: https://mealmatch.online/
 
 ## Meal Controllers
 
-- `createMeal` — Create a new meal donation.
+- `createMeal` — Create a new meal donation.s
 - `deleteMeal` — Delete a meal.
 - `getMyDonations` — Get all donations by the current user.
 - `updateMyDonation` — Update your own donation.
@@ -72,6 +72,8 @@ Routes are defined in `src/App.jsx` using `react-router-dom`:
 - `/exploreFood` — Explore available meals to claim (protected)
 
 Protected routes are wrapped with `ProtectedRoute`.
+### CI test starts
+Fronent runs CI on every push or pull request.
 
 ### API communication
 

@@ -1,3 +1,4 @@
+import React from 'react'
 import './ParticipantsContainer.css'
 const ParticipantContainerItem = ({ participantName }) => (
   <li className="participantsContainer__container_list-item">

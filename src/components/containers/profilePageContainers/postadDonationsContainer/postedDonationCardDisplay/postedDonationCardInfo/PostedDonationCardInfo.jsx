@@ -1,3 +1,4 @@
+import React from 'react'
 import './PostedDonationCardInfo.css'
 
 const PostedDonationCardInfo = ({ selectedMeal }) => {

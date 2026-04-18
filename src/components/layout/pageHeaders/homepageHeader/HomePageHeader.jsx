@@ -1,3 +1,4 @@
+import React from 'react'
 import './HomePageHeader.css'
 import Button from '../../../common/buttons/Buttons'
 import logo from '../../../../assets/logos/logo.png'

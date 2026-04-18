@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from '../../components/common/buttons/Buttons'
 export const menuButtons = [
   {

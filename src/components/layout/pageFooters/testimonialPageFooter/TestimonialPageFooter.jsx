@@ -1,3 +1,4 @@
+import React from 'react'
 import './TestimonialPageFooter.css'
 import { useParticipant } from '../../../../context/ParticipantContext'
 import TestimonialPageFooterListItemContainer from '../../../containers/testimonialPageFooterListContainer/TestimonialPageFooterListItemContainer'

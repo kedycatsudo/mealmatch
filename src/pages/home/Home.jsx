@@ -1,3 +1,4 @@
+import React from 'react'
 import HomePageMain from '../../components/layout/pageBodies/homePageBody/HomePageMain'
 import HomePageHeader from '../../components/layout/pageHeaders/homepageHeader/HomePageHeader'
 import './Home.css'

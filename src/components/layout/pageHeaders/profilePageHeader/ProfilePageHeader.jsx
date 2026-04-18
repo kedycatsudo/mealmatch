@@ -6,7 +6,7 @@ import { ParticipantContext } from '../../../../context/ParticipantContext' // A
 import EditProfileModal from '../../../common/modals/editProfileModal/EditProfileModal'
 import { useNavigate } from 'react-router-dom'
 import UseEffectShowModal from '../../../../utils/helpers/useEffectShowModal'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Button from '../../../common/buttons/Buttons'
 
 const ProfilePageHeader = ({

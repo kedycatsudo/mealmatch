@@ -1,3 +1,4 @@
+import React from 'react'
 import './TestimonialBody.css'
 import { useParticipant } from '../../../../context/ParticipantContext'
 import TestimonialListItem from './testimonialListItem/TestimonialListItem'

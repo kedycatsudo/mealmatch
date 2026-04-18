@@ -1,3 +1,4 @@
+import React from 'react'
 import mmLogo from '../../../../assets/logos/logo.png'
 import karmLogo from '../../../../assets/logos/karmLogo.svg'
 import './HomePageFooter.css'

@@ -6,7 +6,7 @@ import EditProfileBasicInformationsContainer from '../../../containers/profilePa
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import EditProfileAddressesContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileAdressesContainer/EditProfileAdressesContainer'
 import EditProfileContactsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/editProfileContainers/editProfileContactsContainer/EditProfileContactsContainer'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import InformationModal from '../informationModals/InformationModal'
 import {
   updateAvatarApi,

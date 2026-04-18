@@ -1,5 +1,5 @@
 import './EditMealCardModal.css'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Input from '../../inputs/Inputs'
 import ContainerSeperation from '../../containerSeperation/ContainerSeperation'
 import Button from '../../buttons/Buttons'

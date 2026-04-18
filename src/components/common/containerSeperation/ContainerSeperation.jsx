@@ -1,3 +1,4 @@
+import React from 'react'
 import './ContainerSeperation.css'
 const ContainerSeperation = ({ text }) => (
   <div className="container__seperation">

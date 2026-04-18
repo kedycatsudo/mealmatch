@@ -1,3 +1,4 @@
+import React from 'react'
 import '../../../common/searchBox/SearchBox.css'
 import './ProfilePageBody.css'
 import PostedDonationsContainer from '../../../containers/profilePageContainers/postadDonationsContainer/PostedDonationsContainer'

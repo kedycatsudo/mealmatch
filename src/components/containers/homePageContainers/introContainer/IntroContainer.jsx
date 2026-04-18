@@ -1,7 +1,7 @@
 import Button from '../../../common/buttons/Buttons'
 import { ParticipantContext } from '../../../../context/ParticipantContext'
 import './IntroContainer.css'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const IntroContainer = () => {

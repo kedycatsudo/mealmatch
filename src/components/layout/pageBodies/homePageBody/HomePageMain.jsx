@@ -1,3 +1,4 @@
+import React from 'react'
 import ContainerSeperation from '../../../common/containerSeperation/ContainerSeperation'
 import HowItWorkContainer from '../../../containers/homePageContainers/howItWorksContainer/HowItWorksContainer'
 import IntroContainer from '../../../containers/homePageContainers/introContainer/IntroContainer'

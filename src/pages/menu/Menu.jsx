@@ -4,7 +4,7 @@ import './Menu.css'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { ParticipantContext } from '../../context/ParticipantContext'
-
+import React from 'react'
 const Menu = ({}) => {
   const navigate = useNavigate()
   const navigatePages = (index) => navigate(`/${index}`)

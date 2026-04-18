@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { ParticipantContext } from '../../context/ParticipantContext'
 import { Navigate } from 'react-router-dom'
 

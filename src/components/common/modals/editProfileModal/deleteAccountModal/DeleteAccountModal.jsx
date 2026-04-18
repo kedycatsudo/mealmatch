@@ -1,3 +1,4 @@
+import React from 'react'
 import './DeleteAccountModal.css'
 import Button from '../../../buttons/Buttons'
 import { useNavigate, Navigate } from 'react-router-dom'

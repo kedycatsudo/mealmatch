@@ -1,3 +1,4 @@
+import React from 'react'
 import './ShareFoodBody.css'
 import ShareFoodForm from '../../../forms/shareFoodForm/ShareFoodForm'
 const ShareFoodBody = ({ currentUser }) => {

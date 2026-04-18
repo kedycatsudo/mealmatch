@@ -1,3 +1,4 @@
+import React from 'react'
 import './ExploreFoodDonationsListTitle.css'
 const ExploreDonationListTitle = ({}) => (
   <div className="explore__donations-list-title">
