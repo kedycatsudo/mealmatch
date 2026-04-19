@@ -32,7 +32,7 @@ jobs:
     needs: frontend
     defaults:
       run:
-        working-directory: MealMatch/backend
+        working-directory: backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
