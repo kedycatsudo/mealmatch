@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react'
-
+//deneme
 export const MealsContext = createContext()
 
 export function MealsProvider({ children }) {

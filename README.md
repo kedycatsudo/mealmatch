@@ -73,8 +73,7 @@ Routes are defined in `src/App.jsx` using `react-router-dom`:
 
 Protected routes are wrapped with `ProtectedRoute`.
 ### CI test starts
-Fronent runs CI on every push or pull request.
-currently status is Queued 
+Fronent and backend CI is ready working correctly
 
 ### API communication
 
