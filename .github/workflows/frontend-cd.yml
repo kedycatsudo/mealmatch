@@ -25,6 +25,12 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+          
+      - name: Check GH_TOKEN
+        run: '[ -n "$GH_TOKEN" ] && echo GH_TOKEN set || echo GH_TOKEN MISSING'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and deploy
         env:
           CI: false
