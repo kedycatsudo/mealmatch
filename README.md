@@ -74,7 +74,7 @@ Routes are defined in `src/App.jsx` using `react-router-dom`:
 Protected routes are wrapped with `ProtectedRoute`.
 ### CI test starts
 Fronent and backend CI is ready working correctly
-
+CD trying again
 ### API communication
 
 The frontend calls the backend via `src/api.js`.
